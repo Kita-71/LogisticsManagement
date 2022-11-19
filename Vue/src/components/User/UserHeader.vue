@@ -8,11 +8,11 @@
         background-color="rgba(0,0,0,0)"
         text-color="#000"
         active-text-color="#f2ee8d">
-      <el-menu-item index="1">主页</el-menu-item>
+      <el-menu-item index="1" @click.native="toHome">主页</el-menu-item>
       <el-submenu index="2">
         <template slot="title">我的物流</template>
-        <el-menu-item index="2-1">物流订单管理</el-menu-item>
-        <el-menu-item index="2-2">预约发货</el-menu-item>
+        <el-menu-item index="2-1" @click.native="toOrderManager">物流订单管理</el-menu-item>
+        <el-menu-item index="2-2" @click.native="toBook">预约发货</el-menu-item>
       </el-submenu>
     </el-menu>
     <div class="logo" >
@@ -22,9 +22,9 @@
       <el-dropdown >
         <i class="el-icon-setting" ></i>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>个人信息</el-dropdown-item>
-          <el-dropdown-item>加盟</el-dropdown-item>
-          <el-dropdown-item>退出</el-dropdown-item>
+          <el-dropdown-item @click.native="lookUserInfo">个人信息</el-dropdown-item>
+          <el-dropdown-item @click.native="Join">加盟</el-dropdown-item>
+          <el-dropdown-item  @click.native="Exit">退出</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <span>登录人名称</span>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import {resetRouter} from "@/router";
 export default {
   name: "UserHeader",
   data(){
@@ -44,6 +45,24 @@ export default {
   methods:{
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
+    },
+    toHome(){
+      this.$router.push({path:'/UserHome'});
+    },
+    toOrderManager(){
+      this.$router.push({path:'/UserOrder'});
+    },
+    toBook(){
+      this.$router.push({path:'/UserBook'});
+    },
+    lookUserInfo(){
+      this.$router.push({path:'/UserInfo'});
+    },
+    Join(){
+      this.$router.push({path:'/UserJoin'});
+    },
+    Exit(){
+      this.$router.push({path:'/'});
     }
   }
 }

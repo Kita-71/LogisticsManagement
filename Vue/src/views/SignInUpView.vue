@@ -1,5 +1,32 @@
 <template>
   <div class="login_view_container">
+    <el-dialog
+        title="提示"
+        :visible.sync="DialogA"
+        width="30%">
+      <span>密码错误</span>
+      <span slot="footer" class="dialog-footer">
+    <el-button type="primary" @click="DialogA = false">确 定</el-button>
+  </span>
+    </el-dialog>
+      <el-dialog
+          title="提示"
+          :visible.sync="DialogB"
+          width="30%">
+        <span>该用户不存在</span>
+        <span slot="footer" class="dialog-footer">
+    <el-button type="primary" @click="DialogB = false">确 定</el-button>
+  </span>
+      </el-dialog>
+        <el-dialog
+            title="提示"
+            :visible.sync="DialogC"
+            width="30%">
+          <span>请按指定操作进行注册</span>
+          <span slot="footer" class="dialog-footer">
+    <el-button type="primary" @click="DialogC = false">确 定</el-button>
+  </span>
+        </el-dialog>
     <div class="login_container">
       <div class="picture_box">
         <img src ="../assets/truck.jpg" alt="" style="height: 100%">
@@ -16,10 +43,10 @@
           <br>
           <b>BabyQ物流平台</b>
           <!-- 登陆表单区域 -->
-          <el-form ref="loginFormRef"  :model="LoginForm" :rules="LoginfromRules"   class="login_form">
+          <el-form ref="loginFormRef"  :model="LoginForm" :rules="LoginFromRules"   class="login_form">
             <!-- 用戶名 -->
             <el-form-item prop="username">
-              <el-input v-model="LoginForm.username" placeholder="Email/Phone/ID" size="medium">
+              <el-input v-model="LoginForm.username" placeholder="请输入手机号或邮箱" size="medium">
               </el-input>
             </el-form-item>
             <!-- 密碼 -->
@@ -28,8 +55,8 @@
               </el-input>
             </el-form-item>
             <!-- 按鈕 -->
-            <el-form-item  class="btns">
-              <el-button type="primary" round>登录</el-button>
+            <el-form-item  class="btns" >
+              <el-button type="primary" @click="signIn" round>登录</el-button>
             </el-form-item>
           </el-form>
         </el-tab-pane>
@@ -38,14 +65,14 @@
           <br>
           <b>BabyQ物流平台</b>
           <!-- 登陆表单区域 -->
-          <el-form ref="loginFormRef"  :model="RegisterForm" :rules="RegisterfromRules"   class="login_form">
+          <el-form ref="loginFormRef"  :model="RegisterForm" :rules="RegisterFromRules"   class="login_form">
             <!-- 手机号 -->
-            <el-form-item prop="username">
+            <el-form-item prop="phone">
               <el-input v-model="RegisterForm.phone" placeholder="Phone Number" size="medium">
               </el-input>
             </el-form-item>
             <!-- 邮箱 -->
-            <el-form-item prop="username">
+            <el-form-item prop="email">
               <el-input v-model="RegisterForm.email" placeholder="Email" size="medium">
               </el-input>
             </el-form-item>
@@ -56,7 +83,7 @@
             </el-form-item>
             <!-- 按鈕 -->
             <el-form-item  class="btns">
-              <el-button type="primary" round>注册</el-button>
+              <el-button type="primary" round @click.native="signUp">注册</el-button>
             </el-form-item>
           </el-form>
 
@@ -77,11 +104,10 @@ export default {
         username: "",
         password:""
       },
-      LoginfromRules:{
+      LoginFromRules:{
         // 验证用户名是否合法
         username: [
-          { required: true, message: '请输入登录名称', trigger: 'blur' },
-          { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
+          { required: true, message: '请输入用户手机号或邮箱', trigger: 'blur' }
         ],
         // 验证密码是否合法
         password: [
@@ -94,7 +120,7 @@ export default {
         email:"",
         password:""
       },
-      RegisterfromRules:{
+      RegisterFromRules:{
         // 验证用户名是否合法
         phone: [
           { required: true, message: '请输入手机号', trigger: 'blur' },
@@ -107,13 +133,23 @@ export default {
         password: [
       { required: true, message: '请输入登录密码', trigger: 'blur' },
       { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
-    ]
-      }
+      ]
+      },
+      DialogA:false,
+      DialogB:false,
+      DialogC:false
     }
   },
   methods:{
-    resetLoginForm(){
-      this.$refs.loginFormRef.resetFields();
+    signIn()
+    {
+      this.DialogA=true;
+      this.DialogB=true;
+      this.$router.replace({path: '/UserHome'});
+    },
+    signUp()
+    {
+      this.DialogC=true;
     },
     handleClick(){}
   }
