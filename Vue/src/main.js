@@ -7,6 +7,7 @@ import router from './router'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import store from './store'
+import axios from 'axios';
 
 Vue.config.productionTip = false
 Vue.use(ElementUI,{size:"medium"});
@@ -30,5 +31,6 @@ router.beforeEach((to, from, next) => {
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
 }).$mount('#app')
+Vue.prototype.$axios = axios;
