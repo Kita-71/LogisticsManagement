@@ -7,12 +7,11 @@ import router from './router'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import store from './store'
-import axios from 'axios';
+import request from './utils/request'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI,{size:"medium"});
-Vue.use(iView);
-
+Vue.prototype.request=request;
 router.beforeEach((to, from, next) => {
       if (to.meta.requireAuth) {
         if (store.state.user.username) {
@@ -33,4 +32,3 @@ new Vue({
   store,
   render: h => h(App),
 }).$mount('#app')
-Vue.prototype.$axios = axios;
