@@ -11,7 +11,7 @@
       <el-menu-item index="1" @click.native="toHome">主页</el-menu-item>
       <el-submenu index="2">
         <template slot="title">我的物流</template>
-        <el-menu-item index="2-1" @click.native="toOrderManager">物流订单管理</el-menu-item>
+        <el-menu-item index="2-1" @click.native="toOrderManager">我的订单</el-menu-item>
         <el-menu-item index="2-2" @click.native="toBook">预约发货</el-menu-item>
       </el-submenu>
     </el-menu>

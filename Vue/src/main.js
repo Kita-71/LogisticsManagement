@@ -4,8 +4,6 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import "../src/assets/global.css"
 import router from './router'
-import iView from 'iview';
-import 'iview/dist/styles/iview.css';
 import store from './store'
 import request from './utils/request'
 
@@ -18,7 +16,7 @@ router.beforeEach((to, from, next) => {
           next()
         } else {
           next({
-            path: '/',
+            path: '/Sign',
             query: {redirect: to.fullPath}
           })
         }

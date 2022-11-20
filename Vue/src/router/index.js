@@ -8,6 +8,7 @@ import UserChangeInfoView from "@/views/User/UserChangeInfoView";
 import UserJoinView from "@/views/User/UserJoinView";
 import UserBookView from "@/views/User/UserBookView";
 import UserOrderView from "@/views/User/UserOrderView";
+import ManagerHomeView from "@/views/Manager/ManagerHomeView";
 
 Vue.use(VueRouter)
 
@@ -21,37 +22,47 @@ const routes = [
         path: '/UserHome',
         name: 'UserHome' ,
         component: UserHomeView,
+        meta: {requireAuth:true}
     },
     {
         path: '/UserInfo',
         name: 'UserInfo' ,
         component: UserInfoView,
+        meta: {requireAuth:true}
     },
     {
         path: '/UserChangeInfo',
         name: 'UserChangeInfo' ,
         component: UserChangeInfoView,
+        meta: {requireAuth:true}
     },
     {
         path: '/UserJoin',
         name: 'UserJoin' ,
         component: UserJoinView,
+        meta: {requireAuth:true}
     },
     {
-        path: '/',
+        path: '/Sign',
         name: 'Sign' ,
         component: SignInUpView,
-        meta: { isReset: true },
     },
     {
         path: '/UserBook',
         name: 'UserBook' ,
         component: UserBookView,
+        meta: {requireAuth:true}
     },
     {
         path: '/UserOrder',
         name: 'UserOrder' ,
         component: UserOrderView,
+        meta: {requireAuth:true}
+    },
+    {
+        path: '/ManagerHome',
+        name: 'ManagerHome' ,
+        component: ManagerHomeView
     }
 ]
 
@@ -61,10 +72,5 @@ const createRouter = () => new VueRouter({
     routes
 })
 const router = createRouter();
-
-export function resetRouter () {
-    const newRouter = createRouter()
-    router.matcher = newRouter.matcher // the relevant part
-}
 
 export default router
