@@ -97,7 +97,6 @@
 
 <script>
 import request from "@/utils/request";
-
 export default {
   data() {
     return {
@@ -149,35 +148,10 @@ export default {
     // 1.state{0为用户名不存在，1为密码错误，2为用户名及密码正确}
     // 2.permisson{0为普通用户，1为快递点员工用户，2为管理员用户，若state不为2，返回值无所谓}
     signIn() {
-      var _this = this
-      request.get("http://localhost:9090/user/sign", {
-            params: {
-              username: LoginForm.username,
-              passwd: LoginForm.password
-            }
-      }).then(res=> {
-        console.log(res);
-      })
-      if(res.state==0)
-      {
-        this.DialogA = true;
-        return;
-      }
-      else if(res.state==1)
-      {
-        this.DialogB = true;
-        return;
-      }
-      else if(res.state==2)
-      {
-        if(res.permission==0)
-        {
-          this.$router.replace({path: '/UserHome'});
-        }
-        _this.$store.commit('login', _this.LoginForm)
-        var path = this.$route.query.redirect
-        this.$router.replace({path: path === '/Sign' || path === undefined ? '/home' : path})
-      }
+      console.log(this.$store.state.user)
+      this.$store.commit('login',this.LoginForm);
+      const path = this.$route.query.redirect;
+      this.$router.replace({path: path === '/Sign' || path === undefined ? '/UserHome' : path})
     },
     signUp() {
       this.DialogC = true;

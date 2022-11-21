@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import router from "@/router";
 
 Vue.use(Vuex)
-
-
-export default new Vuex.Store({
+const store= new Vuex.Store({
     state: {
         //构建一个用户对象
         user: {
@@ -18,3 +17,4 @@ export default new Vuex.Store({
         }
     }
 })
+export default store
