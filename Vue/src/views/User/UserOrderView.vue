@@ -25,12 +25,20 @@
                 class="orderTable"
                 :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))">
               <el-table-column
-                  label="Date"
-                  prop="date">
+                  label="订单号"
+                  prop="order_id">
               </el-table-column>
               <el-table-column
-                  label="Name"
-                  prop="name">
+                  label="始发地"
+                  prop="origin">
+              </el-table-column>
+              <el-table-column
+                  label="收货地址"
+                  prop="dest">
+              </el-table-column>
+              <el-table-column
+                  label="货物"
+                  prop="goods">
               </el-table-column>
               <el-table-column
                   align="right">
@@ -62,10 +70,10 @@
                   @size-change="handleSizeChange"
                   @current-change="handleCurrentChange"
                   :current-page="currentPage4"
-                  :page-sizes="[100, 200, 300, 400]"
-                  :page-size="100"
+                  :page-sizes="[9, 18, 27, 36]"
+                  :page-size="5"
                   layout="total, sizes, prev, pager, next, jumper"
-                  :total="400">
+                  :total="total">
             </el-pagination>
           </div>
         </el-col>
@@ -82,25 +90,34 @@ export default {
   name: "UserOrderView",
   data() {
     return {
-      tableData: [{
-        date: '2016-05-02',
-        name: 'Go',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }],
-      search: ''
+      // tableData: [{
+      //   date: 1,
+      //   name: 'Go',
+      //   address: '上海市普陀区金沙江路 1518 '
+      // }, {
+      //   date: '2016-05-05',
+      //   name: '王小虎',
+      //   address: '上海市普陀区金沙江路 1517 弄'
+      // }, {
+      //   date: '2016-05-01',
+      //   name: '王小虎',
+      //   address: '上海市普陀区金沙江路 1519 弄'
+      // }, {
+      //   date: '2016-05-03',
+      //   name: '王小虎',
+      //   address: '上海市普陀区金沙江路 1516 弄'
+      // }],
+      tableData: [],
+      search: '',
+      total: 0
     }
+  },
+  created(){
+    fetch("http://localhost:9090/UserOrder/pageget?pageNum=1&pageSize=2").then(res => res.json()).then(res => {
+      console.log(res)
+      this.tableData=res.data
+      this.total=res.total
+    })
   },
   methods: {
     handleEdit(index, row) {

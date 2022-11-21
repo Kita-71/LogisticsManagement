@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SpringBoot/LogesticManagement.iml" filepath="$PROJECT_DIR$/SpringBoot/LogesticManagement.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/LogisticsManagement.iml" filepath="$PROJECT_DIR$/.idea/LogisticsManagement.iml" />
     </modules>
   </component>
