@@ -5,76 +5,78 @@
       <UserHeader></UserHeader>
     </el-header>
     <el-main>
-      <!-- 第一列布局 -->
+      <!-- 第一行布局 -->
       <el-row>
         <el-col :span="24" class="colPageHeader">
           <el-page-header class="pageheader" @back="goBack" content="订单管理">
           </el-page-header>
         </el-col>
       </el-row>
-      <!-- 第二列栅格布局 -->
-      <el-row :gutter="20">
-        <el-col class="colSelect" :span="4">
-          <div class="leftContainer">
-
-          </div>
-        </el-col>
-        <el-col class="colTable" :span="20">
+      <!-- 第二行栅格布局 -->
+      <el-row style="height: 100%;width:80%;left: 10%">
+        <el-col  :span="24" style="height: 100%">
           <div class="rightContainer">
-            <el-table
-                class="orderTable"
-                :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))">
-              <el-table-column
-                  label="订单号"
-                  prop="order_id">
-              </el-table-column>
-              <el-table-column
-                  label="始发地"
-                  prop="origin">
-              </el-table-column>
-              <el-table-column
-                  label="收货地址"
-                  prop="dest">
-              </el-table-column>
-              <el-table-column
-                  label="货物"
-                  prop="goods">
-              </el-table-column>
-              <el-table-column
-                  align="right">
-                <template slot="header" slot-scope="scope">
-                  <el-input
-                      v-model="search"
-                      size="mini"
-                      placeholder="输入关键字搜索"/>
-                </template>
-                <template slot-scope="scope">
-                  <el-button
-                      size="mini"
-                      @click="handleEdit(scope.$index, scope.row)">详细
-                  </el-button>
-                  <el-button
-                      size="mini"
-                      @click="handleEdit(scope.$index, scope.row)">修改
-                  </el-button>
-                  <el-button
-                      size="mini"
-                      type="danger"
-                      @click="handleDelete(scope.$index, scope.row)">删除
-                  </el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-            <el-pagination
-                  class="partitionBlock"
-                  @size-change="handleSizeChange"
-                  @current-change="handleCurrentChange"
-                  :current-page="currentPage4"
-                  :page-sizes="[9, 18, 27, 36]"
-                  :page-size="5"
-                  layout="total, sizes, prev, pager, next, jumper"
-                  :total="total">
-            </el-pagination>
+            <el-row :gutter="20" style="height: 100%">
+              <el-col  :span="4" style="height: 100%">
+                <el-row>
+                  <div class="logo">
+                    <img src="@/assets/logo.png" class="logoimg">
+                  </div>
+                </el-row>
+                <el-row>
+                  <el-switch
+                      class="switch"
+                      style="display: block"
+                      v-model="orderMode"
+                      active-color="#13ce66"
+                      inactive-color="#ff4949"
+                      active-text="寄"
+                      inactive-text="收">
+                  </el-switch>
+                </el-row>
+                <el-row>
+                  <el-select class="options" v-model="value" placeholder="请选择">
+                    <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                    </el-option>
+                  </el-select>
+                </el-row>
+              </el-col>
+              <el-col  :span="20" style="height: 100%">
+                <el-table
+                    class="orderTable">
+                  <el-table-column
+                      label="订单号"
+                      prop="order_id">
+                  </el-table-column>
+                  <el-table-column
+                      label="始发地"
+                      prop="origin">
+                  </el-table-column>
+                  <el-table-column
+                      label="收货地址"
+                      prop="dest">
+                  </el-table-column>
+                  <el-table-column
+                      label="货物"
+                      prop="goods">
+                  </el-table-column>
+                </el-table>
+                <el-pagination
+                    class="partitionBlock"
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage4"
+                    :page-sizes="[9, 18, 27, 36]"
+                    :page-size="5"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+                </el-pagination>
+              </el-col>
+            </el-row>
           </div>
         </el-col>
       </el-row>
@@ -90,26 +92,32 @@ export default {
   name: "UserOrderView",
   data() {
     return {
-      // tableData: [{
-      //   date: 1,
-      //   name: 'Go',
-      //   address: '上海市普陀区金沙江路 1518 '
-      // }, {
-      //   date: '2016-05-05',
-      //   name: '王小虎',
-      //   address: '上海市普陀区金沙江路 1517 弄'
-      // }, {
-      //   date: '2016-05-01',
-      //   name: '王小虎',
-      //   address: '上海市普陀区金沙江路 1519 弄'
-      // }, {
-      //   date: '2016-05-03',
-      //   name: '王小虎',
-      //   address: '上海市普陀区金沙江路 1516 弄'
-      // }],
+      //状态选择框
+      options: [{
+        value: '全部订单',
+        label: '全部订单'
+      },
+        {
+          value: '待寄出',
+          label: '待寄出'
+      },
+        {
+        value: '运输中',
+        label: '运输中'
+      },
+        {
+        value: '派送中',
+        label: '派送中'
+      }, {
+        value: '已签收',
+        label: '已签收'
+      }],
+      value: '全部订单',
+
       tableData: [],
       search: '',
-      total: 0
+      total: 0,
+      orderMode:'1',
     }
   },
   created(){
@@ -125,6 +133,10 @@ export default {
     },
     handleDelete(index, row) {
       console.log(index, row);
+    },
+    goBack()
+    {
+      this.$router.go(-1);
     }
   },
 }
@@ -153,19 +165,19 @@ export default {
   position: relative;
   top: 10%;
   left: 2.5%;
-  background-image: linear-gradient(-225deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.5) 100%);
+  background:transparent;
   border-radius: 30px;
   width: 95%;
   height: 650px;
 }
 .rightContainer {
   position: relative;
-  top: 10%;
+  top: 3%;
   left: 2.5%;
   background-color: #ffffff;
   border-radius: 30px;
   width: 95%;
-  height: 650px;
+  height: 85%;
 }
 .orderTable {
   position: relative;
@@ -177,7 +189,30 @@ export default {
 {
   position: relative;
   left: 3%;
-  top:40%
+  top:75%
 }
-
+.logo
+{
+  position: relative;
+  height: 250px;
+  width: 260px;
+  text-align: center;
+  overflow: hidden;
+}
+.logoimg
+{
+  width: 250px;
+  overflow-x: hidden;
+}
+.switch
+{
+  position: relative;
+  left: 30%;
+}
+.options
+{
+  margin-top: 20px;
+  left: 20%;
+  width: 60%;
+}
 </style>
