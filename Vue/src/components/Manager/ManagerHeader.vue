@@ -12,7 +12,7 @@
 export default {
   data() {
     return {
-      time: "2020年08月31日 10:29"
+      time: ""
     };
   },
   mounted() {
@@ -60,6 +60,7 @@ export default {
   position: absolute;
   left:90%;
   top:2%;
+  color: #ffffff;
 }
 
 </style>

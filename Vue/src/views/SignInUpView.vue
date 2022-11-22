@@ -26,7 +26,15 @@
       <span slot="footer" class="dialog-footer">
     <el-button type="primary" @click="DialogC = false">确 定</el-button>
   </span>
-    </el-dialog>
+    </el-dialog><el-dialog
+      title="提示"
+      :visible.sync="DialogD"
+      width="30%">
+    <span>请按指定操作进行登录</span>
+    <span slot="footer" class="dialog-footer">
+    <el-button type="primary" @click="DialogD = false">确 定</el-button>
+  </span>
+  </el-dialog>
     <div class="login_container">
       <div class="picture_box">
         <img src="../assets/truck.jpg" alt="" style="height: 100%">
@@ -39,19 +47,19 @@
       <div class="login_box">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="登录" name="first">
-            <b>欢迎登录</b>
+            <b class="title">欢迎登录</b>
             <br>
-            <b>BabyQ物流平台</b>
+            <b class="title">BabyQ物流平台</b>
             <!-- 登陆表单区域 -->
             <el-form ref="loginFormRef" :model="LoginForm" :rules="LoginFromRules" class="login_form">
               <!-- 用戶名 -->
-              <el-form-item prop="username">
-                <el-input v-model="LoginForm.username" placeholder="请输入手机号或邮箱" size="medium">
+              <el-form-item prop="username" label="用户名" :required="true">
+                <el-input v-model="LoginForm.username" placeholder="4-6字符长度" size="medium">
                 </el-input>
               </el-form-item>
               <!-- 密碼 -->
-              <el-form-item prop="password">
-                <el-input v-model="LoginForm.password" placeholder="请输入密码" show-password size="medium">
+              <el-form-item prop="password" label="密码" :required="true">
+                <el-input v-model="LoginForm.password" placeholder="8-15位密码" show-password size="medium">
                 </el-input>
               </el-form-item>
               <!-- 按鈕 -->
@@ -59,26 +67,43 @@
                 <el-button type="primary" @click="signIn" round>登录</el-button>
               </el-form-item>
             </el-form>
+            <b class="tip">忘记密码请致电管理员:xxxxxxxx</b>
           </el-tab-pane>
           <el-tab-pane label="注册" name="second">
-            <b>欢迎注册</b>
+            <b class="title">欢迎注册</b>
             <br>
-            <b>BabyQ物流平台</b>
+            <b class="title">BabyQ物流平台</b>
             <!-- 登陆表单区域 -->
-            <el-form ref="loginFormRef" :model="RegisterForm" :rules="RegisterFromRules" class="login_form">
+            <el-form ref="registerFormRef" :model="RegisterForm" :rules="RegisterFromRules" class="login_form">
+              <!-- 用户名 -->
+              <el-form-item prop="username" label="用户名" :required="true">
+                <el-input  v-model="RegisterForm.username" placeholder="4-6个字符" size="medium">
+                </el-input>
+              </el-form-item>
               <!-- 手机号 -->
-              <el-form-item prop="phone">
-                <el-input v-model="RegisterForm.phone" placeholder="Phone Number" size="medium">
+              <el-form-item prop="phone" label="手机号" :required="true">
+                <el-input v-model="RegisterForm.phone" placeholder="11位手机号" size="medium">
                 </el-input>
               </el-form-item>
               <!-- 邮箱 -->
-              <el-form-item prop="email">
-                <el-input v-model="RegisterForm.email" placeholder="Email" size="medium">
+              <el-form-item prop="email" label="邮箱地址" :required="true">
+                <el-input  v-model="RegisterForm.email" placeholder="邮箱" size="medium">
                 </el-input>
               </el-form-item>
               <!-- 密碼 -->
-              <el-form-item prop="password">
-                <el-input v-model="RegisterForm.password" placeholder="password" show-password size="medium">
+              <el-form-item prop="password"  label="密码" :required="true">
+                <el-input v-model="RegisterForm.password" placeholder="长度为 8 - 15位" show-password size="medium"
+                          @paste.native.capture.prevent="handleFalse"
+                          @copy.native.capture.prevent="handleFalse"
+                          @cut.native.capture.prevent="handleFalse">
+                </el-input>
+              </el-form-item>
+              <!-- 确认密碼 -->
+              <el-form-item prop="repassword" label="确认密码" :required="true">
+                <el-input v-model="RegisterForm.repassword" placeholder="长度为 8 - 15位" show-password size="medium"
+                          @paste.native.capture.prevent="handleFalse"
+                          @copy.native.capture.prevent="handleFalse"
+                          @cut.native.capture.prevent="handleFalse">
                 </el-input>
               </el-form-item>
               <!-- 按鈕 -->
@@ -99,6 +124,15 @@
 import request from "@/utils/request";
 export default {
   data() {
+    var validatePass2 = (rule, value, callback) => {
+    if (value === '') {
+      callback(new Error('请再次输入密码'))
+    } else if (value !== this.RegisterForm.password) {
+      callback(new Error('两次输入密码不一致!'))
+    } else {
+      callback()
+    }
+  }
     return {
       activeName: 'first',//默认显示登录页面
       LoginForm: {
@@ -108,37 +142,76 @@ export default {
       LoginFromRules: {
         // 验证用户名是否合法
         username: [
-          {required: true, message: '请输入用户手机号或邮箱', trigger: 'blur'}
+          {required: true, message: '请输入用户名', trigger: 'blur'},
+          {min: 4, max: 8, message: '长度在 4到 8个字符', trigger: 'blur'}
         ],
         // 验证密码是否合法
         password: [
           {required: true, message: '请输入登录密码', trigger: 'blur'},
-          {min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur'}
+          { pattern: /^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\W_]+$)(?![a-z0-9]+$)(?![a-z\W_]+$)(?![0-9\W_]+$)[a-zA-Z0-9\W_]{8,15}$/,
+            message: '至少包含数字、小写字母、大写字母、特殊符号中的三种，长度为 8 - 15位'}
         ]
       },
       RegisterForm: {
+        username:"",
         phone: "",
         email: "",
-        password: ""
+        password: "",
+        repassword:""
       },
       RegisterFromRules: {
         // 验证用户名是否合法
+        username: [
+          {required: true, message: '请输入用户名', trigger: 'blur'},
+          {min: 4, max: 8, message: '长度在 4到 8个字符', trigger: 'blur'}
+        ],
         phone: [
           {required: true, message: '请输入手机号', trigger: 'blur'},
-          {min: 11, max: 11, message: '请输入长度为11位的手机号', trigger: 'blur'}
+          {
+            validator: function(rule, value, callback) {
+              if (/^1[34578]\d{9}$/.test(value) == false) {
+                callback(new Error("手机号格式错误"));
+              } else {
+                callback();
+              }
+            },
+            trigger: "blur"
+          }
         ],
-        // 验证密码是否合法
         email: [
-          {required: true, message: '请输入邮箱', trigger: 'blur'},
+          {
+            required: true,
+            message: "请输入邮箱",
+            trigger: "blur"
+          },
+          {
+            validator: function(rule, value, callback) {
+              if (
+                  /^\w{1,64}@[a-z0-9\-]{1,256}(\.[a-z]{2,6}){1,2}$/i.test(
+                      value
+                  ) == false
+              ) {
+                callback(new Error("邮箱格式错误"));
+              } else {
+                callback();
+              }
+            },
+            trigger: "blur"
+          }
         ],
         password: [
           {required: true, message: '请输入登录密码', trigger: 'blur'},
-          {min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur'}
+          { pattern: /^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\W_]+$)(?![a-z0-9]+$)(?![a-z\W_]+$)(?![0-9\W_]+$)[a-zA-Z0-9\W_]{8,15}$/,
+            message: '密码为数字，小写字母，大写字母，特殊符号 至少包含三种，长度为 8 - 15位'}
+        ],
+        repassword: [
+          { required: true, validator: validatePass2, trigger: 'blur' }
         ]
       },
       DialogA: false,
       DialogB: false,
-      DialogC: false
+      DialogC: false,
+      DialogD: false
     }
   },
   methods: {
@@ -151,10 +224,44 @@ export default {
       console.log(this.$store.state.user)
       this.$store.commit('login',this.LoginForm);
       const path = this.$route.query.redirect;
-      this.$router.replace({path: path === '/Sign' || path === undefined ? '/UserHome' : path})
+      this.$router.replace({path: path === '/Sign' || path === undefined ? '/UserHome' : path});
+      this.$refs["loginFormRef"].validate(valid => {
+        if (valid) {
+          console.log("success submit!!");this.$message({
+            type: 'success',
+            message: '登录成功'
+          });
+        }else{
+          this.DialogD = true;
+          console.log("error submit!!");
+        }
+      });
     },
+
     signUp() {
-      this.DialogC = true;
+      this.$refs["registerFormRef"].validate(valid => {
+        if (valid) {
+          console.log("success submit!!");
+          this.$message({
+            type: 'success',
+            message: '注册成功'
+          });
+          this.LoginForm.username=this.RegisterForm.username;
+          this.LoginForm.password=this.RegisterForm.password;
+          this.activeName='first';
+        }else{
+          this.DialogC = true;
+          console.log("error submit!!");
+        }
+      });
+    },
+    handleFalse() {
+      //终止
+      this.$message({
+        type: 'info',
+        message: '密码框禁止复制粘贴'
+      });
+      return false;
     },
     handleClick() {
     }
@@ -188,7 +295,7 @@ export default {
   transform: translate(-50%, -50%);
   font-size: 40px;
   font-family: 'Times New Roman', "Times New Roman";
-  line-height: 70px;
+  line-height: 50px;
   letter-spacing: 1px;
   color: #000000;
 
@@ -201,7 +308,7 @@ export default {
     margin-left: 20px;
   }
 
-  b {
+  .title{
     position: relative;
     left: 8%;
     top: 5%;
@@ -211,16 +318,19 @@ export default {
     position: relative;
     left: 5%;
     top: 15%;
-
+    text-align: right;
     .el-form-item {
       height: 40px;
       width: 300px;
     }
-
     .el-button {
       margin-right: 150px;
       height: 40px;
       width: 150px;
+    }
+    .el-input
+    {
+      width: 200px;
     }
   }
 }
@@ -240,15 +350,20 @@ export default {
   letter-spacing: 1px;
   color: #f5f7fa;
   text-shadow: 3px 3px 1px black;
-
   b {
     margin-left: 20px
   }
 }
-
+.tip
+{
+  font-size: 15px;
+  color: darkgray;
+  position: absolute;
+  top:80%;
+  left: 20%;
+}
 .login_form {
   position: absolute;
-  bottom: 0;
   width: 100%;
   padding: 0 20px;
   // 元素指定宽度和高度包括了 padding 和 border
@@ -257,8 +372,11 @@ export default {
 }
 
 .btns {
+  position: relative;
+  top: 10px;
   display: flex;
   justify-content: center;
 }
+
 </style>
 
