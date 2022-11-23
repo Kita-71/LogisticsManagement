@@ -46,6 +46,26 @@
                 </el-row>
               </el-col>
               <el-col  :span="20" style="height: 100%">
+                <el-row>
+                  <el-col :span="6">
+                    <el-select v-model="search_value" placeholder="请选择" class="search">
+                      <el-option
+                          v-for="item in search_options"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="6">
+                    <el-input
+                        placeholder= "请输入与选择框对应的查询内容"
+                        v-model="search_input"
+                        class="search2">
+                      <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+                    </el-input>
+                  </el-col>
+                </el-row>
                 <el-table
                     class="orderTable">
                   <el-table-column
@@ -113,11 +133,23 @@ export default {
         label: '已签收'
       }],
       value: '全部订单',
+      //搜索选项
 
+      search_options: [{
+        value: '用户名',
+        label: '用户名'
+      }, {
+        value: '手机号',
+        label: '手机号'
+      }, {
+        value: '邮箱',
+        label: '邮箱'
+      }],
+      search_value:"用户名",
       tableData: [],
-      search: '',
       total: 0,
       orderMode:'1',
+      search_input:''
     }
   },
   created(){
@@ -189,7 +221,7 @@ export default {
 {
   position: relative;
   left: 3%;
-  top:75%
+  top:70%
 }
 .logo
 {
@@ -214,5 +246,14 @@ export default {
   margin-top: 20px;
   left: 20%;
   width: 60%;
+}
+.search
+{
+  margin-top: 20px;
+  left: 20%;
+}
+.search2
+{
+  margin-top: 20px;
 }
 </style>

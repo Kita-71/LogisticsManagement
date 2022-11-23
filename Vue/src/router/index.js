@@ -10,7 +10,7 @@ import UserBookView from "@/views/User/UserBookView";
 import UserOrderView from "@/views/User/UserOrderView";
 import ManagerHomeView from "@/views/Manager/ManagerHomeView";
 import ManagerUserView from "@/views/Manager/ManagerUserView";
-import ManagerBookView from "@/views/Manager/ManagerBookView";
+import ManagerJoinView from "@/views/Manager/ManagerJoinView";
 import ManagerCourierView from "@/views/Manager/ManagerCourierView";
 import ManagerOrderView from "@/views/Manager/ManagerOrderView";
 Vue.use(VueRouter)
@@ -83,9 +83,9 @@ const routes = [
         component: ManagerOrderView
     },
     {
-        path: '/ManagerBook',
-        name: 'ManagerBook' ,
-        component: ManagerBookView
+        path: '/ManagerJoin',
+        name: 'ManagerJoin' ,
+        component: ManagerJoinView
     }
 ]
 
