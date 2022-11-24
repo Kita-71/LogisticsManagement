@@ -325,9 +325,14 @@ export default {
           message: '修改成功'
         });
           console.log("success submit!!");
+          this.PasswdForm.passwd="";
+          this.PasswdForm.repasswd="";
+          this.draw=false;
         }else{
           this.DialogA = true;
           console.log("error submit!!");
+          this.PasswdForm.passwd="";
+          this.PasswdForm.repasswd="";
         }
       });
     },
@@ -337,6 +342,8 @@ export default {
         type: 'info',
         message: '已取消修改'
       });
+      this.PasswdForm.passwd="";
+      this.PasswdForm.repasswd="";
       this.draw=false;
     },
     handleEdit(index, row) {

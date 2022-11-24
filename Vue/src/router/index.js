@@ -17,9 +17,10 @@ Vue.use(VueRouter)
 
 const routes = [
     {
-    path: '/UserOrderInfo',
-    name: 'UserOrderInfo' ,
-    component: UserOrderInfoView,
+        path: '/UserOrderInfo',
+        name: 'UserOrderInfo' ,
+        component: UserOrderInfoView,
+        meta: {requireAuth:true}
     },
     {
         path: '/UserHome',

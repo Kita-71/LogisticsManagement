@@ -8,7 +8,7 @@
       <!-- 第一行布局 -->
       <el-row>
         <el-col :span="24" class="colPageHeader">
-          <el-page-header class="pageheader" @back="goBack" content="订单管理">
+          <el-page-header class="pageheader" @back="goBack" content="我的订单">
           </el-page-header>
         </el-col>
       </el-row>
@@ -132,8 +132,7 @@ export default {
         value: '已签收',
         label: '已签收'
       }],
-      value: '全部订单',
-      //搜索选项
+      value: '全部订单', //显示的选项
 
       search_options: [{
         value: '用户名',
@@ -145,21 +144,20 @@ export default {
         value: '邮箱',
         label: '邮箱'
       }],
-      search_value:"用户名",
       tableData: [],
       total: 0,
-      orderMode:'1',
-      search_input:''
+
+      orderMode:'1',//和[寄/收]的按钮有关，
+
+      search_value:"用户名",//搜索的内容
+      search_input:'',//搜索框的内容
+
+      currentPage4: 10,
     }
   },
-  created(){
-    fetch("http://localhost:9090/UserOrder/pageget?pageNum=1&pageSize=2").then(res => res.json()).then(res => {
-      console.log(res)
-      this.tableData=res.data
-      this.total=res.total
-    })
-  },
   methods: {
+    handleSizeChange(){},
+    handleCurrentChange(){},
     handleEdit(index, row) {
       console.log(index, row);
     },
@@ -169,6 +167,19 @@ export default {
     goBack()
     {
       this.$router.go(-1);
+    },
+
+    //搜索按钮点击事件，在此
+    search()
+    {
+      this.$message({
+        type: 'success',
+        message: '搜索成功'
+      });
+      this.$message({
+        type: 'info',
+        message: '该订单不存在'
+      });
     }
   },
 }

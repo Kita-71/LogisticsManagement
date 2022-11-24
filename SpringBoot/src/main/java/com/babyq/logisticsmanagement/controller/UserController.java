@@ -64,4 +64,14 @@ public class UserController {
         return userService.page(page,queryWrapper);
 
     }
+
+
+    @GetMapping("/get")
+    public User getUser(@RequestParam String username)
+    {
+        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
+        queryWrapper.like("username",username);
+        return userService.getOne(queryWrapper);
+    }
+
 }

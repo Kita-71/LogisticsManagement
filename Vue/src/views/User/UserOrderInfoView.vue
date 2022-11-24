@@ -130,7 +130,7 @@
 <script>
 import UserHeader from "@/components/User/UserHeader";
 export default {
-  components:{UserHeader},
+  components: {UserHeader},
   data() {
     return {
       reverse: true,
@@ -145,6 +145,10 @@ export default {
         timestamp: '2022-04-11'
       }]
     };
+  },
+  goBack()
+  {
+
   }
 }
 </script>
