@@ -13,6 +13,13 @@ import ManagerUserView from "@/views/Manager/ManagerUserView";
 import ManagerJoinView from "@/views/Manager/ManagerJoinView";
 import ManagerCourierView from "@/views/Manager/ManagerCourierView";
 import ManagerOrderView from "@/views/Manager/ManagerOrderView";
+import CourierHelloView from "@/views/Courier/CourierHelloView";
+import CourierHomeView from "@/views/Courier/CourierHomeView";
+import CourierInfoView from "@/views/Courier/CourierInfoView";
+import CourierOrderView from "@/views/Courier/CourierOrderView";
+import CourierOperView from "@/views/Courier/CourierOperView";
+import CourierGoodsView from "@/views/Courier/CourierGoodsView";
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -74,19 +81,44 @@ const routes = [
         component: ManagerHomeView
     },
     {
-        path: '/ManagerCourier',
-        name: 'ManagerCourier' ,
-        component: ManagerCourierView
+        path: '/ywchhhhhh',
+        name: 'order' ,
+        component: UserOrderView
     },
     {
-        path: '/ManagerOrder',
-        name: 'ManagerOrder' ,
-        component: ManagerOrderView
+        path: '/CourierHello',
+        name: 'CourierHello' ,
+        component: CourierHelloView
     },
     {
         path: '/ManagerJoin',
         name: 'ManagerJoin' ,
         component: ManagerJoinView
+    },
+    {
+        path:'/CourierHome',
+        name: 'CourierHome' ,
+        component: CourierHomeView
+    },
+    {
+        path:'/CourierOrder',
+        name: 'CourierOrder' ,
+        component: CourierOrderView
+    },
+    {
+        path:'/CourierInfo',
+        name: 'CourierInfo' ,
+        component: CourierInfoView
+    },
+    {
+        path:'/CourierOper',
+        name: 'CourierOper' ,
+        component: CourierOperView
+    },
+    {
+        path:'/CourierGoods',
+        name: 'CourierGoods' ,
+        component: CourierGoodsView
     }
 ]
 
