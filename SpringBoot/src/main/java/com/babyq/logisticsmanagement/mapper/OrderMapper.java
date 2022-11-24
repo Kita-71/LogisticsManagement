@@ -1,14 +1,15 @@
 package com.babyq.logisticsmanagement.mapper;
 
 import com.babyq.logisticsmanagement.entity.Order;
-import org.apache.ibatis.annotations.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
 
-@Mapper
-public interface OrderMapper {
+// @Mapper
+//要继承BaseMapper
+public interface OrderMapper extends BaseMapper<Order> {
 
     @Select("select count(*) from logistics_order")
     Integer getOrderCount();

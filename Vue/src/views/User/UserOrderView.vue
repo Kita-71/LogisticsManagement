@@ -26,7 +26,7 @@
                 :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))">
               <el-table-column
                   label="订单号"
-                  prop="order_id">
+                  prop="orderId">
               </el-table-column>
               <el-table-column
                   label="始发地"

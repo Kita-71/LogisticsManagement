@@ -15,7 +15,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/UserOrder")
 public class OrderController {
-    @Autowired
+    @Autowired(required = false)
     private OrderMapper orderMapper;
 
     @GetMapping("/pageget")
