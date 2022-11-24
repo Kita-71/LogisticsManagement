@@ -9,7 +9,10 @@ import UserJoinView from "@/views/User/UserJoinView";
 import UserBookView from "@/views/User/UserBookView";
 import UserOrderView from "@/views/User/UserOrderView";
 import ManagerHomeView from "@/views/Manager/ManagerHomeView";
-
+import ManagerUserView from "@/views/Manager/ManagerUserView";
+import ManagerJoinView from "@/views/Manager/ManagerJoinView";
+import ManagerCourierView from "@/views/Manager/ManagerCourierView";
+import ManagerOrderView from "@/views/Manager/ManagerOrderView";
 Vue.use(VueRouter)
 
 const routes = [
@@ -60,9 +63,29 @@ const routes = [
         meta: {requireAuth:true}
     },
     {
+        path: '/ManagerUser',
+        name: 'ManagerUser' ,
+        component: ManagerUserView
+    },
+    {
         path: '/ManagerHome',
         name: 'ManagerHome' ,
         component: ManagerHomeView
+    },
+    {
+        path: '/ManagerCourier',
+        name: 'ManagerCourier' ,
+        component: ManagerCourierView
+    },
+    {
+        path: '/ManagerOrder',
+        name: 'ManagerOrder' ,
+        component: ManagerOrderView
+    },
+    {
+        path: '/ManagerJoin',
+        name: 'ManagerJoin' ,
+        component: ManagerJoinView
     }
 ]
 

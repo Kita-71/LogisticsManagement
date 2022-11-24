@@ -8,6 +8,7 @@
               v-model="search_input">
             <el-button slot="append" icon="el-icon-search" @click="searchOrder"></el-button>
           </el-input>
+          <UserScroll class="scroll"></UserScroll>
         </el-main>
   </div>
 </template>
@@ -48,13 +49,18 @@
       }
     }
   }
-
+  .scroll
+  {
+    position: relative;
+    top: 90%;
+  }
 </style>
 
 <script>
 import UserHeader from "@/components/User/UserHeader";
+import UserScroll from "@/components/User/UserScroll";
 export default {
-  components: {UserHeader},
+  components: {UserHeader,UserScroll},
   data() {
     return {
       search_input: ''
@@ -67,7 +73,14 @@ export default {
     //搜索接口 搜索成功后跳转到订单页
     searchOrder()
     {
-
+      this.$message({
+        type: 'success',
+        message: '搜索成功'
+      });
+      this.$message({
+        type: 'info',
+        message: '该订单不存在'
+      });
     }
   }
 }

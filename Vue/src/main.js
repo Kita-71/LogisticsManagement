@@ -6,9 +6,11 @@ import "../src/assets/global.css"
 import router from './router'
 import store from './store'
 import request from './utils/request'
+import Plugin from 'v-fit-columns';
 
 Vue.config.productionTip = false
 Vue.use(ElementUI,{size:"medium"});
+Vue.use(Plugin);
 Vue.prototype.request=request;
 router.beforeEach((to, from, next) => {
       if (to.meta.requireAuth) {
