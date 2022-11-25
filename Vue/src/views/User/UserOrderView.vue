@@ -2,18 +2,18 @@
   <el-container class="container1">
     <!-- 顶栏 -->
     <el-header height="60px">
-      <UserHeader></UserHeader>
+      <UserHeader ref="header"></UserHeader>
     </el-header>
     <el-main>
       <!-- 第一行布局 -->
-      <el-row>
+      <el-row style="height: 5%">
         <el-col :span="24" class="colPageHeader">
           <el-page-header class="pageheader" @back="goBack" content="我的订单">
           </el-page-header>
         </el-col>
       </el-row>
       <!-- 第二行栅格布局 -->
-      <el-row style="height: 100%;width:80%;left: 10%">
+      <el-row style="height: 95%;width:80%;left: 10%">
         <el-col  :span="24" style="height: 100%">
           <div class="rightContainer">
             <el-row :gutter="20" style="height: 100%">
@@ -31,16 +31,18 @@
                       active-color="#13ce66"
                       inactive-color="#ff4949"
                       active-text="寄"
-                      inactive-text="收">
+                      inactive-text="收"
+                      @change="this.getDataTotal">
                   </el-switch>
                 </el-row>
                 <el-row>
-                  <el-select class="options" v-model="value" placeholder="请选择">
+                  <el-select class="options" v-model="value" placeholder="请选择" @change="this.getDataTotal">
                     <el-option
                         v-for="item in options"
                         :key="item.value"
                         :label="item.label"
-                        :value="item.value">
+                        :value="item.value"
+                        >
                     </el-option>
                   </el-select>
                 </el-row>
@@ -66,11 +68,16 @@
                     </el-input>
                   </el-col>
                 </el-row>
+                <el-row style="height: 80%">
                 <el-table
-                    class="orderTable">
+                    class="orderTable"
+                    :data="orderData"
+                    height="100%"
+                    border
+                >
                   <el-table-column
                       label="订单号"
-                      prop="order_id">
+                      prop="orderId">
                   </el-table-column>
                   <el-table-column
                       label="始发地"
@@ -85,16 +92,19 @@
                       prop="goods">
                   </el-table-column>
                 </el-table>
+                </el-row>
+                <el-row  style="height: 10%">
                 <el-pagination
                     class="partitionBlock"
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
                     :current-page="currentPage4"
                     :page-sizes="[9, 18, 27, 36]"
-                    :page-size="5"
+                    :page-size= "page_size"
                     layout="total, sizes, prev, pager, next, jumper"
                     :total="total">
                 </el-pagination>
+                </el-row>
               </el-col>
             </el-row>
           </div>
@@ -106,6 +116,7 @@
 
 <script>
 import UserHeader from "@/components/User/UserHeader";
+import request from "@/utils/request";
 
 export default {
   components: {UserHeader},
@@ -113,51 +124,76 @@ export default {
   data() {
     return {
       //状态选择框
+      orderData:[],
       options: [{
-        value: '全部订单',
+        value: "all",
         label: '全部订单'
       },
         {
-          value: '待寄出',
+          value: "reserve",
           label: '待寄出'
       },
         {
-        value: '运输中',
+        value: "in_transport",
         label: '运输中'
       },
         {
-        value: '派送中',
+        value: "pending_pickup",
         label: '派送中'
       }, {
-        value: '已签收',
+        value: "done",
         label: '已签收'
       }],
-      value: '全部订单', //显示的选项
+      value: "all", //显示的选项
 
       search_options: [{
-        value: '用户名',
-        label: '用户名'
+        value: 'origin',
+        label: '始发地'
       }, {
-        value: '手机号',
-        label: '手机号'
+        value: 'dest',
+        label: '目的地'
       }, {
-        value: '邮箱',
-        label: '邮箱'
+        value: 'time',
+        label: '时间'
       }],
       tableData: [],
       total: 0,
-
-      orderMode:'1',//和[寄/收]的按钮有关，
-
-      search_value:"用户名",//搜索的内容
+      orderMode: false,//和[寄/收]的按钮有关，
+      search_value:"origin",//搜索的内容
       search_input:'',//搜索框的内容
-
-      currentPage4: 10,
+      page_size:9,
+      currentPage4: 1,
     }
   },
+  created(){
+    this.getDataTotal();
+  },
   methods: {
-    handleSizeChange(){},
-    handleCurrentChange(){},
+    getDataTotal()
+    {
+      this.request.get("http://localhost:9090/user/get",{params:{username:this.$store.state.user.username}})
+          .then(res=>
+          {
+            var userdata=res;
+            console.log(this.currentPage4);
+            console.log(this.page_size);
+            request.get("http://localhost:9090/order/pageGetByPhone",{params:
+                  {pageNum:this.currentPage4,pageSize:this.page_size,phone:userdata.phone,orderMode:this.orderMode,state:this.value,searchMode:this.search_value,search_input:this.search_input}})
+                .then(res=>{
+                  this.orderData=res.records;
+                  this.total=res.total;
+                });
+          })
+
+    },
+    handleSizeChange(val){
+      this.page_size=val;
+      this.getDataTotal();
+      },
+    handleCurrentChange(val){
+      this.currentPage4=val;
+      this.getDataTotal();
+    },
     handleEdit(index, row) {
       console.log(index, row);
     },
@@ -172,13 +208,10 @@ export default {
     //搜索按钮点击事件，在此
     search()
     {
+      this.getDataTotal();
       this.$message({
         type: 'success',
         message: '搜索成功'
-      });
-      this.$message({
-        type: 'info',
-        message: '该订单不存在'
       });
     }
   },
@@ -197,7 +230,7 @@ export default {
 
 .el-main {
   background-image: linear-gradient(0deg, rgb(245, 247, 250, 0.1) 0%, rgba(195, 207, 226, 0.1) 70%), linear-gradient(-225deg, #5271C4 0%, #B19FFF 48%, #ECA1FE 100%);
-  height: 100%;
+  height: 70%;
 }
 
 .colPageHeader {
@@ -220,19 +253,19 @@ export default {
   background-color: #ffffff;
   border-radius: 30px;
   width: 95%;
-  height: 85%;
+  height: 95%;
 }
 .orderTable {
   position: relative;
   left: 3%;
-  top: 10%;
+  top: 5%;
   width: 94%;
 }
 .partitionBlock
 {
   position: relative;
-  left: 3%;
-  top:70%
+  top:50%;
+  left:30%;
 }
 .logo
 {

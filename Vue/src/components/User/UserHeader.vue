@@ -24,7 +24,6 @@
         <i class="el-icon-setting" ></i>
         <el-dropdown-menu slot="dropdown"  >
           <el-dropdown-item @click.native="lookUserInfo">个人信息</el-dropdown-item>
-          <el-dropdown-item @click.native="Join">加盟</el-dropdown-item>
           <el-dropdown-item  @click.native="Exit">退出</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -61,7 +60,8 @@ export default {
       this.$router.push({path:'/UserJoin'});
     },
     Exit(){
-      this.$router.push({path:'/'});
+      this.$store.commit("exit");
+      this.$router.replace({path:'/Sign'});
     }
   }
 }

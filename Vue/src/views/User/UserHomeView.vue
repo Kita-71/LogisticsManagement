@@ -59,11 +59,12 @@
 <script>
 import UserHeader from "@/components/User/UserHeader";
 import UserScroll from "@/components/User/UserScroll";
+import request from "@/utils/request";
 export default {
   components: {UserHeader,UserScroll},
   data() {
     return {
-      search_input: ''
+      search_input: '',
     }
   },
   methods:{
@@ -73,14 +74,27 @@ export default {
     //搜索接口 搜索成功后跳转到订单页
     searchOrder()
     {
-      this.$message({
-        type: 'success',
-        message: '搜索成功'
-      });
-      this.$message({
-        type: 'info',
-        message: '该订单不存在'
-      });
+      request.get("http://localhost:9090/order/getorder",{params:{orderId:this.search_input}}).then(res=>{
+        if(res)
+        {
+          this.$message({
+            type: 'success',
+            message: '搜索成功'
+          });
+          this.$router.push({
+            name:"UserOrderInfo",//这个name就是你刚刚配置在router里边的name
+            query:{
+              orderId:this.search_input
+            }})
+        }
+        else
+        {
+          this.$message({
+            type: 'info',
+            message: '该订单不存在'
+          });
+        }
+      })
     }
   }
 }

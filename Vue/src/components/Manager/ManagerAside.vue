@@ -19,14 +19,15 @@
         <img src="@/assets/Menu4.svg" class="MenuIcon">
         <span slot="title">物流订单管理</span>
       </el-menu-item>
-      <el-menu-item index="/ManagerJoin" class="mainMenu" >
-        <img src="@/assets/Menu1.svg" class="MenuIcon">
-        <span slot="title">加盟处理</span>
-      </el-menu-item>
     </el-menu>
 </template>
 
 <script>
+/*
+      <el-menu-item index="/ManagerJoin" class="mainMenu" >
+        <img src="@/assets/Menu1.svg" class="MenuIcon">
+        <span slot="title">加盟处理</span>
+      </el-menu-item>*/
 export default {
   name: "ManagerAside",
   data(){

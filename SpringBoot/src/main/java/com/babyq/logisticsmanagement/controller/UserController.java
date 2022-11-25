@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -21,12 +22,17 @@ public class UserController {
     private UserService userService;
 
 
-    @PostMapping
+    @PostMapping("/changeInfo")
     //新增或更新
-    public boolean sava(@RequestBody User user) {
+    public boolean changeInfo(@RequestBody User user) {
         return userService.saveUser(user);
     }
-
+    @PostMapping("/checkPasswd")
+    public boolean checkPasswd(@RequestBody Map<String, String> userMap){
+        String username=  userMap.get("username");
+        String passwd=  userMap.get("passwd");
+        return userService.checkPasswd(username,passwd);
+    }
     //    @GetMapping
 //    public List<User> findAll(){
 //        List<User> all = userMapper.findAll();
