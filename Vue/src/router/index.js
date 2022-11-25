@@ -119,6 +119,16 @@ const routes = [
         path:'/CourierGoods',
         name: 'CourierGoods' ,
         component: CourierGoodsView
+    },
+    {
+        path:'/ManagerCourier',
+        name: 'ManagerCourier',
+        component: ManagerCourierView
+    },
+    {
+        path:'/ManagerOrder',
+        name: 'ManagerOrder',
+        component: ManagerOrderView
     }
 ]
 
