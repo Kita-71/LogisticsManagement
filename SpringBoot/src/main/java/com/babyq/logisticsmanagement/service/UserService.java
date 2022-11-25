@@ -20,4 +20,5 @@ public class UserService extends ServiceImpl <UserMapper, User>{
     public boolean deleteUser(Integer id) {
         return removeById(id);
     }
+
 }

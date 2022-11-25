@@ -2,7 +2,6 @@ package com.babyq.logisticsmanagement.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data
@@ -12,7 +11,7 @@ public class User {
     @TableId(value = "id")
     private Integer userid;//若此使用注解指定id，postman指定的就应该是idhaha而不是id
     private String username;
-    @JsonIgnore
+
     private String password;
     private String nickname;
     private String email;

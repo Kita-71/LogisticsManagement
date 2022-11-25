@@ -70,7 +70,7 @@
                     class="orderTable">
                   <el-table-column
                       label="订单号"
-                      prop="order_id">
+                      prop="orderId">
                   </el-table-column>
                   <el-table-column
                       label="始发地"
@@ -106,6 +106,7 @@
 
 <script>
 import UserHeader from "@/components/User/UserHeader";
+import request from "@/utils/request";
 
 export default {
   components: {UserHeader},
@@ -153,11 +154,16 @@ export default {
     }
   },
   created(){
-    fetch("http://localhost:9090/UserOrder/pageget?pageNum=1&pageSize=2").then(res => res.json()).then(res => {
+    request.get("http://localhost:9090/UserOrder/pageget",{params:{pageNum:1,pageSize:2}}).then(res => {
       console.log(res)
       this.tableData=res.data
       this.total=res.total
     })
+    // fetch("http://localhost:9090/UserOrder/pageget?pageNum=1&pageSize=2").then(res => res.json()).then(res => {
+    //   console.log(res)
+    //   this.tableData=res.data
+    //   this.total=res.total
+    // })
   },
   methods: {
     handleEdit(index, row) {

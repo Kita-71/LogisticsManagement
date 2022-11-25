@@ -19,7 +19,16 @@ public class UserController {
     private UserMapper userMapper;
     @Autowired
     private UserService userService;
-
+//    @PostMapping
+//    //登录
+//    public boolean login(@RequestBody UserDTO userDTO) {
+//        String username = userDTO.getUsername();
+//        String password = userDTO.getPassword();
+//        if(StrUtil.isBlank(username)||StrUtil.isBlank(password)){
+//            return false;
+//        }
+//        return userService.login(userDTO);
+//    }
 
     @PostMapping
     //新增或更新
@@ -63,5 +72,13 @@ public class UserController {
         queryWrapper.like("nickname",nickname);
         return userService.page(page,queryWrapper);
 
+    }
+
+    @GetMapping("/get")
+    public User getUser(@RequestParam String username)
+    {
+        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
+        queryWrapper.like("username",username);
+        return userService.getOne(queryWrapper);
     }
 }
