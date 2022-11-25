@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -19,23 +20,19 @@ public class UserController {
     private UserMapper userMapper;
     @Autowired
     private UserService userService;
-//    @PostMapping
-//    //登录
-//    public boolean login(@RequestBody UserDTO userDTO) {
-//        String username = userDTO.getUsername();
-//        String password = userDTO.getPassword();
-//        if(StrUtil.isBlank(username)||StrUtil.isBlank(password)){
-//            return false;
-//        }
-//        return userService.login(userDTO);
-//    }
 
-    @PostMapping
+
+    @PostMapping("/changeInfo")
     //新增或更新
-    public boolean sava(@RequestBody User user) {
+    public boolean changeInfo(@RequestBody User user) {
         return userService.saveUser(user);
     }
-
+    @PostMapping("/checkPasswd")
+    public boolean checkPasswd(@RequestBody Map<String, String> userMap){
+        String username=  userMap.get("username");
+        String passwd=  userMap.get("passwd");
+        return userService.checkPasswd(username,passwd);
+    }
     //    @GetMapping
 //    public List<User> findAll(){
 //        List<User> all = userMapper.findAll();
@@ -74,6 +71,7 @@ public class UserController {
 
     }
 
+
     @GetMapping("/get")
     public User getUser(@RequestParam String username)
     {
@@ -81,4 +79,5 @@ public class UserController {
         queryWrapper.like("username",username);
         return userService.getOne(queryWrapper);
     }
+
 }

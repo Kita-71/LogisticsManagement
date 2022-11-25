@@ -8,12 +8,17 @@ const store= new Vuex.Store({
         //构建一个用户对象
         user: {
             username: window.localStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('user' || '[]')).username
-        }
+        },
     },
     mutations: {
         login (state, user) {
             state.user = user
             window.localStorage.setItem('user', JSON.stringify(user))
+        },
+        exit(state)
+        {
+          state.user="";
+          window.localStorage.clear();
         }
     }
 })

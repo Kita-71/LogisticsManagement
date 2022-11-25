@@ -1,18 +1,19 @@
 <template>
   <div class="header">
     <el-menu
-        :default-active="activeIndex2"
         class="el-menu-demo"
         mode="horizontal"
         @select="handleSelect"
         background-color="rgba(0,0,0,0)"
         text-color="#000"
-        active-text-color="#f2ee8d">
-      <el-menu-item index="1" @click.native="toHome">主页</el-menu-item>
-      <el-submenu index="2">
-        <template slot="title">我的物流</template>
-        <el-menu-item index="2-1" @click.native="toOrderManager">我的订单</el-menu-item>
-        <el-menu-item index="2-2" @click.native="toBook">预约发货</el-menu-item>
+        active-text-color="#f2ee8d"
+        :default-active="$route.path"
+        :router="true">
+      <el-menu-item index="/UserHome" >主页</el-menu-item>
+      <el-submenu index="/UserOrder">
+        <template slot="title" >我的物流</template>
+        <el-menu-item index="/UserOrder" >我的订单</el-menu-item>
+        <el-menu-item index="/UserBook">预约发货</el-menu-item>
       </el-submenu>
     </el-menu>
     <div class="logo" >
@@ -21,39 +22,36 @@
     <div class="user">
       <el-dropdown >
         <i class="el-icon-setting" ></i>
-        <el-dropdown-menu slot="dropdown">
+        <el-dropdown-menu slot="dropdown"  >
           <el-dropdown-item @click.native="lookUserInfo">个人信息</el-dropdown-item>
-          <el-dropdown-item @click.native="Join">加盟</el-dropdown-item>
           <el-dropdown-item  @click.native="Exit">退出</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <span>登录人名称</span>
+      <span>{{userdata.nickname}}</span>
     </div>
   </div>
 </template>
 
 <script>
-import {resetRouter} from "@/router";
 export default {
   name: "UserHeader",
   data(){
     return{
       activeIndex: '1',
-      activeIndex2: '1',
+      userdata:[],
     }
+  },
+  created() {
+      this.request.get("http://localhost:9090/user/get",{params:{username:this.$store.state.user.username}})
+          .then(res=>
+          {
+            console.log(res);
+            this.userdata=res;
+          })
   },
   methods:{
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
-    },
-    toHome(){
-      this.$router.push({path:'/UserHome'});
-    },
-    toOrderManager(){
-      this.$router.push({path:'/UserOrder'});
-    },
-    toBook(){
-      this.$router.push({path:'/UserBook'});
     },
     lookUserInfo(){
       this.$router.push({path:'/UserInfo'});
@@ -62,7 +60,8 @@ export default {
       this.$router.push({path:'/UserJoin'});
     },
     Exit(){
-      this.$router.push({path:'/'});
+      this.$store.commit("exit");
+      this.$router.replace({path:'/Sign'});
     }
   }
 }

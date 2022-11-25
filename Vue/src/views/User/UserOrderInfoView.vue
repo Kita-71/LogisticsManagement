@@ -12,114 +12,99 @@
             </el-page-header>
           </el-col>
           <el-col :span="8" class="col4">
-            <el-steps class="step" :space="200" :active="1" finish-status="success">
-              <el-step title="已完成"></el-step>
-              <el-step title="进行中"></el-step>
-              <el-step title="步骤 3"></el-step>
+            <el-steps class="step" :space="200" :active="this.active" finish-status="success">
+              <el-step title="待发出"></el-step>
+              <el-step title="运输中"></el-step>
+              <el-step title="待签收"></el-step>
             </el-steps>
           </el-col>
           <el-col :span="8" class="col5">
           </el-col>
         </el-row>
         <!-- 第二列栅格布局 -->
-        <el-row :gutter="20">
-          <el-col class="col1" :span="16">
+        <el-row >
+          <el-col class="col1" :span="24">
             <div class="c1">
               <b>订单详细</b>
-              <el-descriptions  class="margin-top"direction="vertical" :column="2" :size="medium">
+              <el-descriptions  class="margin-top"direction="vertical" :column="2" >
               <el-descriptions-item>
                 <template slot="label">
                   <i class="el-icon-mobile-phone"></i>
                   物流订单号
                 </template>
-                BabyQ18100000923
+                {{this.orderdata.orderId}}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">
                   <i class="el-icon-tickets"></i>
                   对象类型
                 </template>
-                日用品
+                {{this.orderdata.goods}}
               </el-descriptions-item>
             </el-descriptions>
-              <el-descriptions  class="margin-top" direction="vertical" :column="3" :size="medium">
+              <el-descriptions  class="margin-top" direction="vertical" :column="3" >
               <el-descriptions-item>
                 <template slot="label">
                   <i class="el-icon-user"></i>寄出人
                 </template>
-                Kita
+                {{this.orderdata.senderName}}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">
                   <i class="el-icon-mobile-phone"></i>
                   寄出人联系方式
                 </template>
-                13126078008
+                {{this.orderdata.senderPhone}}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">
                   <i class="el-icon-location-outline"></i>
                   寄出地址
                 </template>
-                苏州市
+                {{this.orderdata.origin}}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">
                   <i class="el-icon-user"></i>收件人
                 </template>
-                Hokiya
+                {{this.orderdata.receiverName}}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">
                   <i class="el-icon-mobile-phone"></i>
                   收件人联系方式
                 </template>
-                13981965263
+                {{this.orderdata.receiverPhone}}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">
                   <i class="el-icon-location-outline"></i>
                   收件地址
                 </template>
-                苏州市
+                {{this.orderdata.dest}}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">
                   <i class="el-icon-location-outline"></i>
                   下单时间
                 </template>
-                2022-5-20
+                {{this.orderdata.bookTime}}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">
                   <i class="el-icon-location-outline"></i>
                   寄出时间
                 </template>
-                2022-8-14
+                {{this.orderdata.sendTime}}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">
                   <i class="el-icon-location-outline"></i>
                   签收时间
                 </template>
-                2022-11-7
+                {{this.orderdata.doneTime}}
               </el-descriptions-item>
             </el-descriptions>
-            </div>
-          </el-col>
-          <el-col class="col2" :span="8">
-            <div class="c2">
-              <b class="b1">物流跟踪</b>
-            <div class="block">
-              <el-timeline :reverse="reverse" :color="'#0bbd87'">
-                <el-timeline-item
-                    v-for="(activity, index) in activities"
-                    :key="index"
-                    :timestamp="activity.timestamp">
-                  {{activity.content}}
-                </el-timeline-item>
-              </el-timeline>
-            </div>
             </div>
           </el-col>
         </el-row>
@@ -129,10 +114,12 @@
 
 <script>
 import UserHeader from "@/components/User/UserHeader";
+import request from "@/utils/request";
 export default {
-  components:{UserHeader},
+  components: {UserHeader},
   data() {
     return {
+      orderdata:{},
       reverse: true,
       activities: [{
         content: '到达xxx地',
@@ -143,9 +130,40 @@ export default {
       }, {
         content: '到达xxx地',
         timestamp: '2022-04-11'
-      }]
+      }],
+      active: 0,
     };
-  }
+  },
+  created() {
+    request.get("http://localhost:9090/order/getorder",{params:{orderId:
+        this.$router.currentRoute.query.orderId}}).then(res=>{
+        this.orderdata=res;
+        if(this.orderdata.state=="reserve")
+      {
+        this.active=0;
+      }
+      else if(this.orderdata.state=="in_transport")
+      {
+        this.active=1;
+      }
+      else if(this.orderdata.state=="pending_pickup")
+      {
+        this.active=2;
+      }
+      else
+      {
+        this.active=3;
+      }
+    });
+
+  },
+  methods:
+      {
+        goBack()
+        {
+    this.$router.go(-1);
+        }
+      }
 }
 </script>
 
@@ -176,7 +194,7 @@ export default {
 .c1
 {
   position: relative;
-  top:10%;
+  top:20%;
   left: 2.5%;
   background-image: linear-gradient(-225deg,rgba(255,255,255,0.5) 0%,rgba(255,255,255,0.5) 100%);
   border-radius: 30px;
@@ -194,7 +212,6 @@ export default {
   position: relative;
   left: 5%;
   top:60px;
-  background-color:none;
   width: 90%;
   /deep/ .el-descriptions__body
   {
@@ -203,29 +220,6 @@ export default {
   }
 }
 
-.c2
-{
-  position: relative;
-  top:10%;
-  left: 2.5%;
-  background-image: linear-gradient(-225deg,rgba(255,255,255,0.5) 0%,rgba(255,255,255,0.5) 100%);
-  border-radius: 30px;
-  width: 95%;
-  height: 650px;
-  b
-  {
-    font-size: 18px;
-    position: relative;
-    top: 30px;
-    left: 40px;
-  }
-  .block
-  {
-    position: relative;
-    top: 110px;
-    left: 40px;
-  }
-}
 .col1 {
 }
 .col2 {
