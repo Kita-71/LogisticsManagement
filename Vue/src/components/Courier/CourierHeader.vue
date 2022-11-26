@@ -1,7 +1,19 @@
 <template>
   <div class="header">
-    <span class="times">{{ time }}</span>
     <div class="user">
+      <el-dropdown  style=" color: #999922; position: relative; left: 60px;top: -16px;">
+        <div style="font-size: 45px; ">
+
+          <i class="el-icon-setting"  ></i>
+          <el-dropdown-menu slot="dropdown"  >
+            <el-dropdown-item @click.native="lookUserInfo">个人信息</el-dropdown-item>
+            <el-dropdown-item  @click.native="Exit">退出</el-dropdown-item>
+          </el-dropdown-menu>
+        </div>
+      </el-dropdown>
+    </div>
+    <span class="times">{{ time }}</span>
+    <div class="user" style="font-size: 25px; position: relative;  left: -200px; top: 12px; ">
       <i class="el-icon-s-custom" ></i>
       <span>Admin</span>
     </div>
