@@ -305,7 +305,7 @@ export default {
       DialogA: false,
       page_size:4,
       currentPage: 1,
-      deleteUserid:1,
+      deleteUserid:1
     }
   },
   created(){

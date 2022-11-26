@@ -1,6 +1,5 @@
 package com.babyq.logisticsmanagement.controller;
 
-import com.babyq.logisticsmanagement.entity.Order;
 import com.babyq.logisticsmanagement.entity.User;
 import com.babyq.logisticsmanagement.mapper.UserMapper;
 import com.babyq.logisticsmanagement.service.UserService;

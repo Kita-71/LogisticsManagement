@@ -11,4 +11,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class SiteService extends ServiceImpl <SiteMapper, Site>{
 
+    public boolean deleteSite(Integer id) {
+        return removeById(id);
+    }
+
+    public boolean saveSite(Site site) {
+        return saveOrUpdate(site);//mabatis+提供的函数
+    }
 }
