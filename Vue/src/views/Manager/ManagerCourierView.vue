@@ -9,7 +9,95 @@
     <el-button type="primary" @click="DialogA = false">确 定</el-button>
   </span>
     </el-dialog>
-
+    <el-drawer
+        title="修改用户信息"
+        :visible.sync="draw"
+        direction="rtl"
+        :close-on-click-modal="false"
+        :wrapper-closable="false">
+      <div class="leftContainer">
+        <el-form ref="ChangeFormRef"
+                 :model="ChangeForm" :rules="ChangeFromRules" class="changeForm">
+          <!-- 站点所在区域 -->
+          <el-form-item label="站点所在区域" :required="true" prop="siteRegion">
+            <el-input v-model="ChangeForm.siteRegion" placeholder="站点所在区域" size="medium">
+            </el-input>
+          </el-form-item>
+          <!-- 站点名称 -->
+          <el-form-item label="站点名称" :required="true" prop="siteName">
+            <el-input v-model="ChangeForm.siteName" placeholder="站点名称" size="medium">
+            </el-input>
+          </el-form-item>
+          <!-- 站点负责人姓名 -->
+          <el-form-item label="站点负责人名称" :required="true" prop="sitePrincipalName">
+            <el-input v-model="ChangeForm.sitePrincipalName" placeholder="站点负责人名称" size="medium">
+            </el-input>
+          </el-form-item>
+          <!-- 站点负责人地址 -->
+          <el-form-item label="站点负责人手机号" :required="true" prop="sitePrincipalPhone">
+            <el-input v-model="ChangeForm.sitePrincipalPhone" placeholder="站点负责人手机号" size="medium">
+            </el-input>
+          </el-form-item>
+          <!-- 站点用户Id -->
+          <el-form-item label="站点账号Id" :required="true" prop="siteUserId">
+            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium">
+            </el-input>
+          </el-form-item>
+          <!-- 权限-->
+          <el-form-item >
+            <el-button type="primary" @click="onNew" >修改</el-button>
+            <el-button @click="onNewExit">取消</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </el-drawer>
+    <el-drawer
+        title="修改用户信息"
+        :visible.sync="draw2"
+        direction="rtl"
+        :close-on-click-modal="false"
+        :wrapper-closable="false">
+      <div class="leftContainer">
+        <el-form ref="ChangeFormRef"
+                 :model="ChangeForm" :rules="ChangeFromRules" class="changeForm">
+          <!-- 站点Id -->
+          <el-form-item label="站点Id" :required="true" prop="siteId">
+            <el-input v-model="ChangeForm.siteId" placeholder="站点Id" size="medium" :disabled="true">
+            </el-input>
+          </el-form-item>
+          <!-- 站点所在区域 -->
+          <el-form-item label="站点所在区域" :required="true" prop="siteRegion">
+            <el-input v-model="ChangeForm.siteRegion" placeholder="站点所在区域" size="medium">
+            </el-input>
+          </el-form-item>
+          <!-- 站点名称 -->
+          <el-form-item label="站点名称" :required="true" prop="siteName">
+            <el-input v-model="ChangeForm.siteName" placeholder="站点名称" size="medium">
+            </el-input>
+          </el-form-item>
+          <!-- 站点负责人姓名 -->
+          <el-form-item label="站点负责人名称" :required="true" prop="sitePrincipalName">
+            <el-input v-model="ChangeForm.sitePrincipalName" placeholder="站点负责人名称" size="medium">
+            </el-input>
+          </el-form-item>
+          <!-- 站点负责人地址 -->
+          <el-form-item label="站点负责人手机号" :required="true" prop="sitePrincipalPhone">
+            <el-input v-model="ChangeForm.sitePrincipalPhone" placeholder="站点负责人手机号" size="medium">
+            </el-input>
+          </el-form-item>
+          <!-- 站点用户Id -->
+          <el-form-item label="站点账号Id" :required="true" prop="siteUserId">
+            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="true">
+            </el-input>
+          </el-form-item>
+          <!-- 权限-->
+          <el-form-item >
+            <el-button type="primary" @click="onSubmit" >修改</el-button>
+            <el-button @click="onExit">取消</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </el-drawer>
     <el-header >
       <ManagerHeader></ManagerHeader>
     </el-header>
@@ -19,131 +107,99 @@
         <ManagerAside></ManagerAside>
       </el-aside>
       <el-main>
-        <el-row :gutter="20" >
-          <el-col :span="16" >
-            <div class="rightContainer">
-              <el-row>
-                <el-col :span="6">
-                  <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
-                    <el-breadcrumb-item :to="{ path: '/ManagerInfoHome' }">信息管理</el-breadcrumb-item>
-                    <el-breadcrumb-item>快递点管理</el-breadcrumb-item>
-                  </el-breadcrumb></el-col>
-                <el-col :span="6">
-                  <el-select v-model="value" placeholder="请选择" class="searchSelect">
-                    <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                    </el-option>
-                  </el-select>
-                </el-col>
-                <el-col :span="6">
-                  <el-input
-                      placeholder= "请输入与选择框对应的查询内容"
-                      v-model="search_input"
-                      class="search">
-                    <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
-                  </el-input>
-                </el-col>
-              </el-row>
+        <el-col :span="24" >
+          <div class="rightContainer">
+            <el-row>
+              <el-col :span="6">
+                <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
+                  <el-breadcrumb-item>物流订单管理</el-breadcrumb-item>
+                </el-breadcrumb></el-col>
+              <el-col :span="6">
+                <el-select v-model="value" placeholder="请选择" class="searchSelect">
+                  <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="6">
+                <el-input
+                    placeholder= "请输入与选择框对应的查询内容"
+                    v-model="search_input"
+                    class="search">
+                  <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+                </el-input>
+              </el-col>
+              <el-col :span="6">
+                <el-button type="primary" class="newButton" @click="this.newSite">新增快递点</el-button>
+              </el-col>
+            </el-row>
 
-              <el-table
-                  :data="tableData"
-                  class="table"
-                  border
-                  height="85%"
-              >
-                <el-table-column
-                    prop="userid"
-                    label="id"
-                    width="150">
-                </el-table-column>
-                <el-table-column
-                    prop="username"
-                    label="用户名"
-                    width="130">
-                </el-table-column>
-                <el-table-column
-                    prop="phone"
-                    label="手机号"
-                    width="150">
-                </el-table-column>
-                <el-table-column
-                    prop="email"
-                    label="邮箱"
-                    width="180">
-                </el-table-column>
-                <el-table-column
-                    prop="permission"
-                    label="角色"
-                    width="100">
-                </el-table-column>
-                <el-table-column
-                    label="操作">
-                  <template slot-scope="scope">
-                    <el-button
-                        size="mini"
-                        @click="handleEdit(scope.$index, scope.row)">修改
-                    </el-button>
-                    <el-button
-                        size="mini"
-                        @click="handleDelete(scope.$index, scope.row)"
-                        type="danger">删除
-                    </el-button>
-                  </template>
-                </el-table-column>
-              </el-table>
-              <el-pagination
-                  @size-change="handleSizeChange"
-                  @current-change="handleCurrentChange"
-                  :current-page="currentPage4"
-                  :page-sizes="[9, 18, 27,36]"
-                  :page-size="9"
-                  layout="total, sizes, prev, pager, next, jumper"
-                  :total="400"
-                  class="pagination">
-              </el-pagination>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="leftContainer"
-                 v-loading="loading"
-                 element-loading-text="请在左方选择修改项">
-              <b class="ChangeTitle">修改用户信息</b>
-              <el-form ref="ChangeFormRef"
-                       :model="ChangeForm" :rules="ChangeFromRules" class="changeForm">
-                <!-- 用户名 -->
-                <el-form-item label="用户名" :required="true" prop="username">
-                  <el-input v-model="ChangeForm.username" placeholder="用户名" size="medium">
-                  </el-input>
-                </el-form-item>
-                <!-- 手机号 -->
-                <el-form-item label="手机号" :required="true" prop="phone">
-                  <el-input v-model="ChangeForm.phone" placeholder="手机号" size="medium">
-                  </el-input>
-                </el-form-item>
-                <!-- 邮箱 -->
-                <el-form-item label="邮箱" :required="true" prop="email">
-                  <el-input v-model="ChangeForm.email" placeholder="邮箱" size="medium">
-                  </el-input>
-                </el-form-item>
-                <!-- 权限-->
-                <el-form-item label="用户角色" :required="true" class="btnItem" >
-                  <el-select v-model="ChangeForm.permission" placeholder="请选择用户角色">
-                    <el-option label="普通用户" value="普通用户"></el-option>
-                    <el-option label="快递点员工" value="快递点员工"></el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item >
-                  <el-button type="primary" @click="onSubmit" >修改</el-button>
-                  <el-button @click="onExit">取消</el-button>
-                </el-form-item>
-              </el-form>
-            </div>
-          </el-col>
-        </el-row>
-
+            <el-table
+                :data="tableData"
+                class="table"
+                border
+                height="85%"
+            >
+              <el-table-column
+                  prop="siteId"
+                  label="编号"
+                  width="150">
+              </el-table-column>
+              <el-table-column
+                  prop="siteRegion"
+                  label="所在区域"
+                  width="300">
+              </el-table-column>
+              <el-table-column
+                  prop="siteName"
+                  label="站点名称"
+                  width="250">
+              </el-table-column>
+              <el-table-column
+                  prop="sitePrincipalName"
+                  label="负责人姓名"
+                  width="180">
+              </el-table-column>
+              <el-table-column
+                  prop="sitePrincipalPhone"
+                  label="负责人手机号"
+                  width="200">
+              </el-table-column>
+              <el-table-column
+                  prop="siteUserId"
+                  label="站点用户账号ID"
+                  width="200">
+              </el-table-column>
+              <el-table-column
+                  label="操作">
+                <template slot-scope="scope">
+                  <el-button
+                      size="mini"
+                      @click="handleEdit(scope.$index, scope.row)">修改
+                  </el-button>
+                  <el-button
+                      size="mini"
+                      @click="handleDelete(scope.$index, scope.row)"
+                      type="danger">删除
+                  </el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="currentPage4"
+                :page-sizes="[9, 18, 27,36]"
+                :page-size="9"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="400"
+                class="pagination">
+            </el-pagination>
+          </div>
+        </el-col>
       </el-main>
     </el-container>
   </el-container>
@@ -157,27 +213,28 @@ export default {
   components:{ManagerAside,ManagerHeader},
   data() {
     return {
+      //与后端对接时时把该项直接覆盖即可
       tableData: [{
-        userid: '1',
-        username: 'Kita',
-        phone: '13126078008',
-        email: '842935300@qq.com',
-        permission: "普通用户"
+        siteId:"22",
+        siteRegion:"22",
+        siteName:"22",
+        sitePrincipalName:"22",
+        sitePrincipalPhone:"13126078008",
+        siteUserId:"22",
       }],
+      //
       ChangeForm: {
-        username: "",
-        phone: "",
-        email: "",
-        permission: ""
+        siteId:"",
+        siteRegion:"",
+        siteName:"",
+        sitePrincipalName:"",
+        sitePrincipalPhone:"",
+        siteUserId:"",
       },
       ChangeFromRules: {
         // 验证用户名是否合法
-        username: [
-          {required: true, message: '请输入用户名', trigger: 'blur'},
-          {min: 4, max: 8, message: '长度在 4到 8个字符', trigger: 'blur'}
-        ],
-        phone: [
-          {required: true, message: '请输入手机号', trigger: 'blur'},
+        sitePrincipalPhone:[
+          {required: true, message: '请输入负责人手机号', trigger: 'blur'},
           {
             validator: function (rule, value, callback) {
               if (/^1[34578]\d{9}$/.test(value) == false) {
@@ -189,46 +246,75 @@ export default {
             trigger: "blur"
           }
         ],
-        email: [
-          {
-            required: true,
-            message: "请输入邮箱",
-            trigger: "blur"
-          },
-          {
-            validator: function (rule, value, callback) {
-              if (
-                  /^\w{1,64}@[a-z0-9\-]{1,256}(\.[a-z]{2,6}){1,2}$/i.test(
-                      value
-                  ) == false
-              ) {
-                callback(new Error("邮箱格式错误"));
-              } else {
-                callback();
-              }
-            },
-            trigger: "blur"
-          }
+        siteUserId: [{required: true, message: '请输入站点所属用户ID', trigger: 'blur'}
         ],
+        siteRegion:[{
+          required: true, message: '请输入站点所在区域', trigger: 'blur'
+        }],
+        siteName:[{
+          required: true, message: '请输入站点名称', trigger: 'blur'
+        }],
+        sitePrincipalName: [{
+          required: true, message: '请输入站点负责人手机号', trigger: 'blur'
+        }],
       },
-      loading: true,
       DialogA: false,
+      DialogB: false,
       search_input: "",
-      options: [{
-        value: '用户名',
-        label: '用户名'
-      }, {
-        value: '手机号',
-        label: '手机号'
-      }, {
-        value: '邮箱',
-        label: '邮箱'
-      }],
-      value: "用户名",//当前选择项
-      //分页相关变量
+      options: [
+        {
+          value: 'site_name',
+          label: '名称'
+        },
+        {
+          value: 'site_address',
+          label: '地址'
+        },
+        {
+          value: 'site_principle',
+          label: '负责人姓名'
+        },
+      ],
+      value: "site_name",//当前选择项
+      draw2:false,
+      draw:false,
     }
   },
   methods: {
+    onNew() {
+      this.$refs["ChangeFormRef"].validate(valid => {
+        if (valid) {
+          console.log("success submit!!");
+          this.$message({
+            type: 'success',
+            message: '新增成功'
+          });
+          this.draw=false;
+          this.ChangeForm.username="";
+          this.ChangeForm.password="";
+          this.ChangeForm.email="";
+          this.ChangeForm.permission="";
+          this.ChangeForm.phone="";
+        }else{
+          this.DialogB = true;
+          console.log("error submit!!");
+        }
+      });
+    },
+    onNewExit()
+    {
+      this.$message({
+        type: 'info',
+        message: '已取消新增'
+      });
+      this.draw=false;
+      this.ChangeForm.siteId="";
+      this.ChangeForm.siteRegion="";
+      this.ChangeForm.siteName="";
+      this.ChangeForm.sitePrincipalName="";
+      this.ChangeForm.sitePrincipalPhone="";
+      this.ChangeForm.siteUserId="";
+    },
     onSubmit() {
       this.$refs["ChangeFormRef"].validate(valid => {
         if (valid) {
@@ -237,7 +323,7 @@ export default {
             type: 'success',
             message: '修改成功'
           });
-          this.loading=true;
+          this.draw2=false;
           this.ChangeForm.username="";
           this.ChangeForm.password="";
           this.ChangeForm.email="";
@@ -255,19 +341,22 @@ export default {
         type: 'info',
         message: '已取消修改'
       });
-      this.loading=true;
-      this.ChangeForm.username="";
-      this.ChangeForm.password="";
-      this.ChangeForm.email="";
-      this.ChangeForm.permission="";
-      this.ChangeForm.phone="";
+      this.draw2=false;
+      this.ChangeForm.siteId="";
+      this.ChangeForm.siteRegion="";
+      this.ChangeForm.siteName="";
+      this.ChangeForm.sitePrincipalName="";
+      this.ChangeForm.sitePrincipalPhone="";
+      this.ChangeForm.siteUserId="";
     },
     handleEdit(index, row) {
-      this.loading=false;
-      this.ChangeForm.username=row.username;
-      this.ChangeForm.phone=row.phone;
-      this.ChangeForm.email=row.email;
-      this.ChangeForm.permission=row.permission;
+      this.draw2=true;
+      this.ChangeForm.siteId=row.siteId;
+      this.ChangeForm.siteRegion=row.siteRegion;
+      this.ChangeForm.siteName=row.siteName;
+      this.ChangeForm.sitePrincipalName=row.sitePrincipalName;
+      this.ChangeForm.sitePrincipalPhone=row.sitePrincipalPhone;
+      this.ChangeForm.siteUserId=row.siteUserId;
     },
     handleDelete(index,row){
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -292,6 +381,10 @@ export default {
         type: 'success',
         message: '搜索已提交'
       });
+    },
+    newSite()
+    {
+      this.draw=true;
     }
 
   }
@@ -397,5 +490,9 @@ export default {
   position: relative;
   top: 5%;
   left: 30%;
+}
+.newButton{
+  position: relative;
+  top: 20px;
 }
 </style>

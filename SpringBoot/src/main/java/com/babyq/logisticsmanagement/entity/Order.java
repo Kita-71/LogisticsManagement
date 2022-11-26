@@ -46,4 +46,7 @@ public class Order {
     private Date sendTime;
     private Date doneTime;
     private  State state;
+    private String postscript;
+    private Integer senderUid;
+    private Integer receiverUid;
 }

@@ -61,11 +61,24 @@
                   </el-col>
                   <el-col :span="6">
                     <el-input
-                        placeholder= "请输入与选择框对应的查询内容"
+                        placeholder= "请输入发出地中包含的内容，如”深圳“"
                         v-model="search_input"
-                        class="search2">
+                        class="search2"
+                        v-if="this.search_value==='origin'">
                       <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
                     </el-input>
+                      <el-input
+                          placeholder="请输入目的地中包含的内容，如”深圳“"
+                          v-model="search_input"
+                          class="search2" v-if="this.search_value==='dest'">
+                        <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+                      </el-input>
+                        <el-input
+                            placeholder="请输入订单创建日期，直接输入年月日，如20221105"
+                            v-model="search_input"
+                            class="search2" v-if="this.search_value==='time'">
+                          <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+                        </el-input>
                   </el-col>
                 </el-row>
                 <el-row style="height: 80%">
@@ -90,6 +103,14 @@
                   <el-table-column
                       label="货物"
                       prop="goods">
+                  </el-table-column>
+                  <el-table-column>
+                    <template slot-scope="scope">
+                      <el-button
+                          size="mini"
+                          @click="handleLook(scope.$index, scope.row)">详细
+                      </el-button>
+                    </template>
                   </el-table-column>
                 </el-table>
                 </el-row>
@@ -154,7 +175,7 @@ export default {
         label: '目的地'
       }, {
         value: 'time',
-        label: '时间'
+        label: '订单创建时间'
       }],
       tableData: [],
       total: 0,
@@ -169,6 +190,19 @@ export default {
     this.getDataTotal();
   },
   methods: {
+    handleLook(index, row)
+    {
+      request.get("http://localhost:9090/order/getorder",{params:{orderId:row.orderId}}).then(res=>{
+        if(res)
+        {
+          this.$router.push({
+            name:"UserOrderInfo",//这个name就是你刚刚配置在router里边的name
+            query:{
+              orderId:row.orderId
+            }})
+        }
+      })
+    },
     getDataTotal()
     {
       this.request.get("http://localhost:9090/user/get",{params:{username:this.$store.state.user.username}})
@@ -178,7 +212,7 @@ export default {
             console.log(this.currentPage4);
             console.log(this.page_size);
             request.get("http://localhost:9090/order/pageGetByPhone",{params:
-                  {pageNum:this.currentPage4,pageSize:this.page_size,phone:userdata.phone,orderMode:this.orderMode,state:this.value,searchMode:this.search_value,search_input:this.search_input}})
+                  {pageNum:this.currentPage4,pageSize:this.page_size,phone:userdata.phone,orderMode:this.orderMode,state:this.value,searchMode:this.search_value,search_input:this.search_input,receiver_uid:userdata.userid,sender_uid:userdata.userid}})
                 .then(res=>{
                   this.orderData=res.records;
                   this.total=res.total;
@@ -299,5 +333,6 @@ export default {
 .search2
 {
   margin-top: 20px;
+  width: 150%;
 }
 </style>

@@ -28,6 +28,7 @@ public class UserController {
     public boolean changeInfo(@RequestBody User user) {
         return userService.saveUser(user);
     }
+
     @PostMapping("/checkPasswd")
     public boolean checkPasswd(@RequestBody Map<String, String> userMap){
         String username=  userMap.get("username");
