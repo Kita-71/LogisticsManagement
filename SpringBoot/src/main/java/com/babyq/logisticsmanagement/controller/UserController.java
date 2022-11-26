@@ -1,5 +1,6 @@
 package com.babyq.logisticsmanagement.controller;
 
+import com.babyq.logisticsmanagement.entity.Order;
 import com.babyq.logisticsmanagement.entity.User;
 import com.babyq.logisticsmanagement.mapper.UserMapper;
 import com.babyq.logisticsmanagement.service.UserService;
@@ -44,10 +45,9 @@ public class UserController {
     public List<User> findAll() {
         return userService.getList();
     }
-
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete")
     //删除指定数据
-    public boolean delete(@PathVariable Integer id) {
+    public boolean deleteUser(@RequestParam Integer id) {
         return userService.deleteUser(id);
     }
 
@@ -72,13 +72,40 @@ public class UserController {
 
     }
 
-
     @GetMapping("/get")
     public User getUser(@RequestParam String username)
     {
         QueryWrapper<User> queryWrapper=new QueryWrapper<>();
         queryWrapper.like("username",username);
         return userService.getOne(queryWrapper);
+    }
+
+    @GetMapping("/pagefilter")
+    public IPage<User> getFilteredUserPaged(@RequestParam Integer pageNum, @RequestParam Integer pageSize, @RequestParam(defaultValue = "") String searchMode, @RequestParam(defaultValue = "") String search_input ){
+        IPage<User> page=new Page<>(pageNum,pageSize);
+        QueryWrapper<User> queryWrapper= new QueryWrapper<>();
+
+        if(search_input.isEmpty()==false)
+        {
+            if(searchMode.equals("username"))
+            {
+                queryWrapper.like("username",search_input);
+            }
+            else if (searchMode.equals("phone"))
+            {
+                queryWrapper.like("phone",search_input);
+            }
+            else if (searchMode.equals("email"))
+            {
+                queryWrapper.like("email",search_input);
+            }
+            else if (searchMode.equals("id"))
+            {
+                //queryWrapper.like("id",search_input);
+                queryWrapper.eq("id",search_input);
+            }
+        }
+        return userService.page(page,queryWrapper);
     }
 
 }
