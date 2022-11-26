@@ -1,41 +1,150 @@
 <template>
   <el-container class="containerAll">
     <el-drawer
-        title="修改用户信息"
         :visible.sync="draw2"
         direction="rtl"
         :close-on-click-modal="false"
         :wrapper-closable="false">
+      <template slot="title" style="text-align: left">
+        <i class="el-icon-s-management">
+          订单详细信息</i>
+      </template>
       <div class="leftContainer">
-        <el-form ref="ChangeFormRef"
-                 :model="ChangeForm" :rules="ChangeFromRules" class="changeForm">
-          <!-- 用户名 -->
-          <el-form-item label="物品名" :required="true" prop="username">
-            <el-input v-model="ChangeForm.username" placeholder="用户名" size="medium">
-            </el-input>
-          </el-form-item>
-          <!-- 手机号 -->
-          <el-form-item label="目的地" :required="true" prop="phone">
-            <el-input v-model="ChangeForm.phone" placeholder="手机号" size="medium">
-            </el-input>
-          </el-form-item>
-          <!-- 邮箱 -->
-          <el-form-item label="现在位置" :required="true" prop="email">
-            <el-input v-model="ChangeForm.email" placeholder="邮箱" size="medium">
-            </el-input>
-          </el-form-item>
-          <!-- 权限-->
-          <el-form-item label="用户角色" :required="true" class="btnItem" >
-            <el-select v-model="ChangeForm.permission" placeholder="请选择用户角色">
-              <el-option label="普通用户" value="普通用户"></el-option>
-              <el-option label="快递点员工" value="快递点员工"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item >
-            <el-button type="primary" @click="onSubmit" >修改</el-button>
-            <el-button @click="onExit">取消</el-button>
-          </el-form-item>
-        </el-form>
+        <el-descriptions class="margin-top" column="1" style="position: relative; font-size: large; left: -5%">
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                订单ID
+              </div>
+            </template>
+            {{this.ChangeForm.orderId}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                预定时间
+              </div>
+
+            </template>
+            {{this.ChangeForm.book_time}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                物品名
+              </div>
+            </template>
+            {{this.ChangeForm.goods}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                发件人姓名
+              </div>
+            </template>
+            {{this.ChangeForm.sender_name}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                发件人手机号
+              </div>
+            </template>
+            {{this.ChangeForm.sender_phone}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                发件人uid
+              </div>
+
+            </template>
+            {{this.ChangeForm.sender_uid}}
+          </el-descriptions-item>
+
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                收件人
+              </div>
+            </template>
+            {{this.ChangeForm.receiver_name}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                收件人手机号
+              </div>
+            </template>
+            {{this.ChangeForm.receiver_phone}}
+          </el-descriptions-item>
+
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                收件人uid
+              </div>
+
+            </template>
+            {{this.ChangeForm.receiver_uid}}
+          </el-descriptions-item>
+
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                目的地
+              </div>
+            </template>
+            {{this.ChangeForm.dest}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                发货地
+              </div>
+            </template>
+            {{this.ChangeForm.origin}}
+          </el-descriptions-item>
+
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                取件方式
+              </div>
+            </template>
+            {{this.ChangeForm.pickup_method}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                状态
+              </div>
+            </template>
+            {{this.ChangeForm.state}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                备注
+              </div>
+            </template>
+            {{this.ChangeForm.postscript}}
+          </el-descriptions-item>
+        </el-descriptions>
       </div>
     </el-drawer>
     <el-dialog
@@ -57,6 +166,7 @@
       <el-main>
         <el-col :span="24" style="height: 100%">
           <div  class="rightContainer">
+
             <el-row >
               <el-col :span="6">
                 <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
@@ -65,15 +175,27 @@
                 </el-breadcrumb>
               </el-col>
             </el-row>
+            <el-row style="top: 6%" >
+              <div style="position: relative;top: -22px;">
+                <el-col :span="12" style=" margin-left: 10px; width: 47%">
+                  <el-input v-model="takeininput" placeholder="请输入待入库的订单号"  clearable class="textarea"></el-input>
+                </el-col>
+                <el-col :span="11">
+                  <el-button type="primary" class="do_button" @click="handleInput" >入库</el-button>
+                </el-col>
+              </div>
+
+            </el-row>
             <el-row class="choose_header" gutter="20">
               <el-col  :span="12" class="search_col1">
-                <el-col :span="12">
-                  <el-select v-model="value" placeholder="请选择" class="searchSelect">
+                <el-col :span="4">
+                  <el-select v-model="value1" placeholder="请选择" class="searchSelect1">
                     <el-option
-                        v-for="item in options"
+                        v-for="item in options1"
                         :key="item.value"
                         :label="item.label"
-                        :value="item.value">
+                        :value="item.value"
+                    >
                     </el-option>
                   </el-select>
                 </el-col>
@@ -82,18 +204,19 @@
                       placeholder= "请输入与选择框对应的查询内容"
                       v-model="search_input"
                       class="search">
-                    <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+                    <el-button slot="append" icon="el-icon-search" @click="search1"></el-button>
                   </el-input>
                 </el-col>
               </el-col>
               <el-col  :span="12" class="search_col2">
-                <el-col :span="12">
-                  <el-select v-model="value" placeholder="请选择" class="searchSelect">
+                <el-col :span="4">
+                  <el-select v-model="value2" placeholder="请选择" class="searchSelect2">
                     <el-option
-                        v-for="item in options"
+                        v-for="item in options2"
                         :key="item.value"
                         :label="item.label"
-                        :value="item.value">
+                        :value="item.value"
+                    >
                     </el-option>
                   </el-select>
                 </el-col>
@@ -102,88 +225,110 @@
                       placeholder= "请输入与选择框对应的查询内容"
                       v-model="search_input"
                       class="search">
-                    <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+                    <el-button slot="append" icon="el-icon-search" @click="search2"></el-button>
                   </el-input>
                 </el-col>
               </el-col>
             </el-row>
-            <el-row style="top: 6%">
-              <el-col :span="11">
-                <el-input v-model="takeininput" placeholder="请输入要搜索的订单号"  clearable class="textarea"></el-input>
-              </el-col>
-              <el-col :span="11">
-                <el-button type="primary" class="do_button" @click="search" >搜索</el-button>
-              </el-col>
-            </el-row>
+
             <el-row :gutter="20" class="table_row">
-              <el-col :span="12">
+              <el-col :span="13" >
                 <el-table
                     :data="tableData1"
                     class="table"
                     :header-cell-style="{ backgroundColor: '#fafafa',   textAlign: 'center',  }"
                     border
                     height="85%"
+                    style="margin-left: 10px"
+
                 >
                   <el-table-column label="已入库待派送" >
 
                     <el-table-column
-                        prop="userid"
-                        label="id">
+                        prop="orderId"
+                        label="订单id">
                     </el-table-column>
                     <el-table-column
-                        prop="username"
+                        prop="goods"
                         label="物品名">
                     </el-table-column>
                     <el-table-column
-                        prop="phone"
-                        label="目的地">
+                        prop="receiver_name"
+                        width="91%"
+                        label="收件人">
                     </el-table-column>
                     <el-table-column
-                        prop="email"
-                        label="邮箱">
+                        prop="receiver_phone"
+                        width="115%"
+                        label="收件人电话">
                     </el-table-column>
                     <el-table-column
+                        prop="dest"
+                        label="收件人地址">
+                    </el-table-column>
+                    <el-table-column
+                        width="145%"
                         label="操作">
                       <template slot-scope="scope">
                         <el-button
                             size="mini"
-                            @click="handleEdit(scope.$index, scope.row)">派送
+                            @click="handleDispatch(scope.$index, scope.row)">派送
+                        </el-button>
+                        <el-button
+                            size="mini"
+                            @click="handleInfo(scope.$index, scope.row)">详情
                         </el-button>
                       </template>
                     </el-table-column>
                   </el-table-column>
                 </el-table>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="11">
                 <el-table
                     :data="tableData2"
                     class="table"
                     border
                     :header-cell-style="{ backgroundColor: '#fafafa',   textAlign: 'center',  }"
                     height="85%"
+                    style="width: 99%"
                 >
                   <el-table-column label="已派送" >
                     <el-table-column
-                        prop="userid"
-                        label="id">
+                        width="150%"
+                        prop="orderId"
+                        label="订单id">
                     </el-table-column>
                     <el-table-column
-                        prop="username"
+                        prop="goods"
                         label="物品名">
                     </el-table-column>
                     <el-table-column
-                        prop="phone"
-                        label="目的地">
+                        prop="receiver_name"
+                        width="90%"
+                        label="收件人">
                     </el-table-column>
                     <el-table-column
-                        prop="email"
-                        label="邮箱">
+                        prop="receiver_phone"
+                        width="115%"
+                        label="收件人电话">
                     </el-table-column>
                     <el-table-column
-                        prop="location"
-                        label="位置">
+                        prop="state"
+                        label="状态">
 
                     </el-table-column>
+                    <el-table-column
+                        width="80%"
+                        label="操作">
+                      <template slot-scope="scope">
+                        <el-button
+                            size="mini"
+                            @click="handleInfo(scope.$index, scope.row)">详情
+                        </el-button>
+                      </template>
+                    </el-table-column>
+
+
                   </el-table-column>
 
                 </el-table>
@@ -238,33 +383,122 @@ export default {
       takeininput:'',
       tableData1: [
         {
-        userid: '1',
-        username: 'Kita',
-        phone:'13126078008',
-        email:'842935300@qq.com',
-        permission:"普通用户"
-      },{
-        userid: '1',
-        username: 'Kita',
-        phone:'13126078008',
-        email:'842935300@qq.com',
-        permission:"普通用户"
-      }],
-      tableData2: [{
-        userid: '1',
-        username: 'Kita',
-        phone:'13126078008',
-        email:'842935300@qq.com',
-        location:'22-5-1233',
-        permission:"普通用户"
-      },{
-        userid: '1',
-        username: 'Kita',
-        phone:'13126078008',
-        email:'842935300@qq.com',
-        location:'22-5-1233',
-        permission:"普通用户"
-      }],
+          orderId:"123123123123",
+          goods:"医托答辩",
+          origin:"540",
+          sender_name:"Kita",
+          sender_phone:"13126078008",
+          dest:"电子科技大学本科六组图22栋540室",
+          receiver_name:"Kita",
+          receiver_phone:"13126078008",
+          current_site: "",
+          state: "23-2-1882",
+          pickup_method:"",
+          book_time: "2022-11-26-17:02",
+          send_time: "",
+          done_time: "",
+          postscript: "",
+          sender_uid: "",
+          receiver_uid: ""
+        },
+        {
+          orderId:"234234234234",
+          goods:"良托答辩",
+          origin:"540",
+          sender_name:"Kita",
+          sender_phone:"13126078008",
+          dest:"电子科技大学本科六组图22栋540室",
+          receiver_name:"Kita",
+          receiver_phone:"13126078008",
+          current_site: "",
+          state: "22-5-2331",
+          pickup_method:"",
+          book_time: "2022-11-26-19:35",
+          send_time: "",
+          done_time: "",
+          postscript: "",
+          sender_uid: "",
+          receiver_uid: ""
+        },{
+          orderId:"123123123123",
+          goods:"伞拖答辩",
+          origin:"540",
+          sender_name:"Kita",
+          sender_phone:"13126078008",
+          dest:"电子科技大学本科六组图22栋540室",
+          receiver_name:"Kita",
+          receiver_phone:"13126078008",
+          current_site: "",
+          state: "23-2-1882",
+          pickup_method:"",
+          book_time: "2022-11-26-17:02",
+          send_time: "",
+          done_time: "",
+          postscript: "",
+          sender_uid: "",
+          receiver_uid: ""
+        },
+        {
+          orderId:"234234234234",
+          goods:"斯托答辩",
+          origin:"540",
+          sender_name:"Kita",
+          sender_phone:"13126078008",
+          dest:"电子科技大学本科六组图22栋540室",
+          receiver_name:"Kita",
+          receiver_phone:"13126078008",
+          current_site: "",
+          state: "22-5-2331",
+          pickup_method:"",
+          book_time: "2022-11-26-19:35",
+          send_time: "",
+          done_time: "",
+          postscript: "",
+          sender_uid: "",
+          receiver_uid: ""
+        }
+      ],
+      tableData2: [
+          {
+            orderId:"123123123123",
+            goods:"武拓答辩",
+            origin:"540",
+            sender_name:"Kita",
+            sender_phone:"13126078008",
+            dest:"电子科技大学本科六组图22栋540室",
+            receiver_name:"Kita",
+            receiver_phone:"13126078008",
+            current_site: "",
+            state: "23-2-1882",
+            pickup_method:"",
+            book_time: "2022-11-26-17:02",
+            send_time: "",
+            done_time: "",
+            postscript: "",
+            sender_uid: "",
+            receiver_uid: ""
+          },
+          {
+              orderId:"234234234234",
+              goods:"刘拓答辩",
+              origin:"540",
+              sender_name:"Kita",
+              sender_phone:"13126078008",
+              dest:"电子科技大学本科六组图22栋540室",
+              receiver_name:"Kita",
+              receiver_phone:"13126078008",
+              current_site: "",
+              state: "22-5-2331",
+              pickup_method:"",
+              book_time: "2022-11-26-19:35",
+              send_time: "",
+              done_time: "",
+              postscript: "",
+              sender_uid: "",
+              receiver_uid: ""
+            }
+
+      ],
       ChangeForm: {
         username:"",
         phone: "",
@@ -333,17 +567,42 @@ export default {
         ]
       },
       search_input:"",
-      options: [{
-        value: '用户名',
+      options1: [{
+        value: 'orderId',
         label: '用户名'
       }, {
-        value: '手机号',
-        label: '手机号'
+        value: 'goods',
+        label: '物品名'
       }, {
-        value: '邮箱',
-        label: '邮箱'
-      }],
-      value:"用户名",
+        value: 'receiver_name',
+        label: '收件人'
+      }, {
+        value: 'receiver_phone',
+        label: '收件人电话'
+      }, {
+        value: 'dest',
+        label: '收件人地址'
+      }
+      ],
+      options2: [{
+        value: 'orderId',
+        label: '用户名'
+      }, {
+        value: 'goods',
+        label: '物品名'
+      }, {
+        value: 'receiver_name',
+        label: '收件人'
+      }, {
+        value: 'receiver_phone',
+        label: '收件人电话'
+      }, {
+        value: 'state',
+        label: '状态'
+      }
+      ],
+      value1:"订单id",
+      value2:"订单id",
       draw:false,
       draw2:false,
       DialogA:false,
@@ -411,6 +670,23 @@ export default {
       this.ChangeForm.email=row.email;
       this.ChangeForm.permission=row.permission;
     },
+    handleDispatch(index,row){
+      this.$confirm('是否已完成派送?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() =>{
+          this.$message({
+            type: 'success',
+            message: '已成功派送'
+          });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消派送'
+        });
+      });
+    },
     handleDelete(index,row){
       this.$confirm('此操作将永久删除该项, 是否继续?', '提示', {
         cancelButtonText: '取消',
@@ -428,13 +704,46 @@ export default {
         });
       });
     },
-    search()
+    handleInput()
     {
-      this.$message({
-        type: 'success',
-        message: '搜索已提交'
+      this.$confirm('确定要入库吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '入库成功'
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消入库'
+        });
       });
+
     },
+    handleInfo(index, row) {
+      this.draw2=true;
+      this.ChangeForm.orderId=row.orderId;
+      this.ChangeForm.origin=row.origin;
+      this.ChangeForm.book_time=row.book_time;
+      this.ChangeForm.dest=row.dest;
+      this.ChangeForm.current_site=row.current_site;
+      this.ChangeForm.goods=row.goods;
+      this.ChangeForm.done_time=row.done_time;
+      this.ChangeForm.pickup_method=row.pickup_method;
+      this.ChangeForm.postscript=row.postscript;
+      this.ChangeForm.receiver_name=row.receiver_name;
+      this.ChangeForm.receiver_phone=row.receiver_phone;
+      this.ChangeForm.receiver_uid=row.receiver_uid;
+      this.ChangeForm.send_time=row.send_time;
+      this.ChangeForm.sender_name=row.sender_name;
+      this.ChangeForm.sender_uid=row.sender_uid;
+      this.ChangeForm.sender_phone=row.sender_phone;
+
+    },
+
     handleFalse() {
       //终止
       this.$message({
@@ -443,6 +752,19 @@ export default {
       });
       return false;
     },
+    search1()
+    {
+      this.$message({
+        type: 'success',
+        message: '搜索已提交'
+      });
+    },search2()
+    {
+      this.$message({
+        type: 'success',
+        message: '搜索已提交'
+      });
+    }
   }
 }
 </script>
@@ -502,8 +824,8 @@ export default {
 {
   position: relative;
   font-size: 15px;
-  top: 15px;
-  left: 10%;
+  top: 22px;
+  left: 7%;
 }
 .table_row{
   position: relative;
@@ -533,6 +855,6 @@ export default {
   position: relative;
   font-size: 15px;
   top: 0%;
-  left: -2%;
+  left: 2%;
 }
 </style>
