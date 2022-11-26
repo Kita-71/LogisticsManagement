@@ -11,4 +11,8 @@ public class OrderService extends ServiceImpl <OrderMapper, Order>{
     public  Order getOrder(String orderId) {
         return getById(orderId);//mabatis+提供的函数@Service
     }
+
+    public boolean newOrUpdateOrder(Order order) {
+        return saveOrUpdate(order);
+    }
 }

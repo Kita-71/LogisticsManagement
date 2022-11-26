@@ -29,7 +29,8 @@
             </el-steps>
           </el-row >
           <el-row style="height: 75%" v-if="active=='0'">
-            <el-form ref="form" :model="form"  class="commitForm">
+            <div class="commitForm">
+            <el-form ref="form" :model="form"  >
               <el-form-item label="站点名称" :required="true">
                 <el-input v-model="form.name"></el-input>
               </el-form-item>
@@ -55,6 +56,7 @@
                 <el-button>取消</el-button>
               </el-form-item>
             </el-form>
+            </div>>
           </el-row>
             <el-row style="height: 75%" v-else-if="active=='1'">
               <div class="c1">
@@ -226,9 +228,9 @@ export default {
 {
   position: relative;
   left: 10%;
+  top:10%;
   width: 80%;
   height: 100%;
-  margin-bottom: 0px;
 }
 .b1
 {
