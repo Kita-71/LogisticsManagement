@@ -20,14 +20,20 @@
       <img src ="@/assets/logo.png">
     </div>
     <div class="user">
-      <el-dropdown >
-        <i class="el-icon-setting" ></i>
-        <el-dropdown-menu slot="dropdown"  >
-          <el-dropdown-item @click.native="lookUserInfo">个人信息</el-dropdown-item>
-          <el-dropdown-item  @click.native="Exit">退出</el-dropdown-item>
-        </el-dropdown-menu>
+      <el-dropdown style="  position: relative; left: 60px;top: 6px;">
+        <div style="font-size: 45px; ">
+
+          <i class="el-icon-setting"  ></i>
+          <el-dropdown-menu slot="dropdown"  >
+            <el-dropdown-item @click.native="lookUserInfo">个人信息</el-dropdown-item>
+            <el-dropdown-item  @click.native="Exit">退出</el-dropdown-item>
+          </el-dropdown-menu>
+        </div>
       </el-dropdown>
-      <span>{{userdata.nickname}}</span>
+      <div style="font-size: 25px; position: relative; top: -60px; left: -120px;">
+        <i class="el-icon-s-custom" ></i>
+        <span>Admin</span>
+      </div>
     </div>
   </div>
 </template>

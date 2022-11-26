@@ -1,41 +1,150 @@
 <template>
   <el-container class="containerAll">
     <el-drawer
-        title="修改用户信息"
         :visible.sync="draw2"
         direction="rtl"
         :close-on-click-modal="false"
         :wrapper-closable="false">
+      <template slot="title" style="text-align: left">
+        <i class="el-icon-s-management">
+          订单详细信息</i>
+      </template>
       <div class="leftContainer">
-        <el-form ref="ChangeFormRef"
-                 :model="ChangeForm" :rules="ChangeFromRules" class="changeForm">
-          <!-- 用户名 -->
-          <el-form-item label="物品名" :required="true" prop="username">
-            <el-input v-model="ChangeForm.username" placeholder="用户名" size="medium">
-            </el-input>
-          </el-form-item>
-          <!-- 手机号 -->
-          <el-form-item label="目的地" :required="true" prop="phone">
-            <el-input v-model="ChangeForm.phone" placeholder="手机号" size="medium">
-            </el-input>
-          </el-form-item>
-          <!-- 邮箱 -->
-          <el-form-item label="现在位置" :required="true" prop="email">
-            <el-input v-model="ChangeForm.email" placeholder="邮箱" size="medium">
-            </el-input>
-          </el-form-item>
-          <!-- 权限-->
-          <el-form-item label="用户角色" :required="true" class="btnItem" >
-            <el-select v-model="ChangeForm.permission" placeholder="请选择用户角色">
-              <el-option label="普通用户" value="普通用户"></el-option>
-              <el-option label="快递点员工" value="快递点员工"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item >
-            <el-button type="primary" @click="onSubmit" >修改</el-button>
-            <el-button @click="onExit">取消</el-button>
-          </el-form-item>
-        </el-form>
+        <el-descriptions class="margin-top" column="1">
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                订单ID
+              </div>
+            </template>
+            {{this.ChangeForm.orderId}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                预定时间
+              </div>
+
+            </template>
+            {{this.ChangeForm.book_time}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                物品名
+              </div>
+            </template>
+            {{this.ChangeForm.goods}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                发件人姓名
+              </div>
+            </template>
+            {{this.ChangeForm.sender_name}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                发件人手机号
+              </div>
+            </template>
+            {{this.ChangeForm.sender_phone}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                发件人uid
+              </div>
+
+            </template>
+            {{this.ChangeForm.sender_uid}}
+          </el-descriptions-item>
+
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                收件人
+              </div>
+            </template>
+            {{this.ChangeForm.receiver_name}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                收件人手机号
+              </div>
+            </template>
+            {{this.ChangeForm.receiver_phone}}
+          </el-descriptions-item>
+
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                收件人uid
+              </div>
+
+            </template>
+            {{this.ChangeForm.receiver_uid}}
+          </el-descriptions-item>
+
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                目的地
+              </div>
+            </template>
+            {{this.ChangeForm.dest}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                发货地
+              </div>
+            </template>
+            {{this.ChangeForm.origin}}
+          </el-descriptions-item>
+
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                取件方式
+              </div>
+            </template>
+            {{this.ChangeForm.pickup_method}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+                状态
+              </div>
+            </template>
+            {{this.ChangeForm.state}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-location-outline"></i>
+              <div  style="color:#4d52f8">
+              备注
+              </div>
+            </template>
+            {{this.ChangeForm.postscript}}
+          </el-descriptions-item>
+        </el-descriptions>
       </div>
     </el-drawer>
     <el-dialog
@@ -57,12 +166,14 @@
       <el-main>
         <el-col :span="24" style="height: 100%">
           <div class="rightContainer">
-            <el-row>
+            <el-row style=" top: 3%;left: 2.2%;">
               <el-col :span="6">
                 <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
                   <el-breadcrumb-item :to="{ path: '/CourierHome' }">主页</el-breadcrumb-item>
-                  <el-breadcrumb-item>快递点订单管理</el-breadcrumb-item>
+                  <el-breadcrumb-item>预约送货</el-breadcrumb-item>
                 </el-breadcrumb></el-col>
+            </el-row>
+            <el-row class="search_col">
               <el-col :span="6">
                 <el-select v-model="value" placeholder="请选择" class="searchSelect">
                   <el-option
@@ -82,40 +193,52 @@
                 </el-input>
               </el-col>
             </el-row>
-            <el-row>
+            <el-row class="table">
 
               <el-table
                   :data="tableData"
                   class="table"
                   border
                   height="85%"
+                  style="width: 96%"
               >
                 <el-table-column
-                    prop="userid"
-                    label="id">
+                    prop="orderId"
+                    label="订单ID">
                 </el-table-column>
                 <el-table-column
-                    prop="username"
+                    prop="goods"
                     label="物品名">
                 </el-table-column>
                 <el-table-column
-                    prop="phone"
-                    label="目的地">
+                    prop="origin"
+                    label="发货地">
                 </el-table-column>
                 <el-table-column
-                    prop="email"
-                    label="邮箱">
+                    prop="sender_name"
+                    label="发件人姓名">
                 </el-table-column>
                 <el-table-column
-                    prop="permission"
-                    label="角色">
+                    prop="sender_phone"
+                    label="发件人手机号">
+                </el-table-column>
+                <el-table-column
+                    prop="book_time"
+                    label="预约时间">
                 </el-table-column>
                 <el-table-column
                     label="操作">
                   <template slot-scope="scope">
                     <el-button
                         size="mini"
-                        @click="handleEdit(scope.$index, scope.row)">发货
+                        type="success"
+                        @click="handleDeliver(scope.$index, scope.row)">发货
+                    </el-button>
+                    <el-button
+                        size="mini"
+                        type="info"
+                        round
+                        @click="handleInfo(scope.$index, scope.row)">详情
                     </el-button>
                   </template>
                 </el-table-column>
@@ -157,17 +280,42 @@ export default {
     }
     return {
       tableData: [{
-        userid: '1',
-        username: 'Kita',
-        phone:'13126078008',
-        email:'842935300@qq.com',
-        permission:"普通用户"
+        orderId:"123123123123",
+        goods:"医托答辩",
+        origin:"540",
+        sender_name:"Kita",
+        sender_phone:"13126078008",
+        dest:"",
+        receiver_name:"",
+        receiver_phone:"",
+        current_site: "",
+        state: "",
+        pickup_method:"",
+        book_time: "2022-11-26-17:02",
+        send_time: "",
+        done_time: "",
+        postscript: "",
+        sender_uid: "",
+        receiver_uid: ""
       }],
       ChangeForm: {
-        username:"",
-        phone: "",
-        email: "",
-        permission:""
+        orderId:"",
+        goods:"",
+        origin:"",
+        sender_name:"",
+        sender_phone:"",
+        dest:"",
+        receiver_name:"",
+        receiver_phone:"",
+        current_site: "",
+        state: "",
+        pickup_method:"",
+        book_time: "",
+        send_time: "",
+        done_time: "",
+        postscript: "",
+        sender_uid: "",
+        receiver_uid: ""
       },
       ChangeFromRules: {
         // 验证用户名是否合法
@@ -232,14 +380,23 @@ export default {
       },
       search_input:"",
       options: [{
-        value: '用户名',
-        label: '用户名'
+        value: 'orderId',
+        label: '订单ID'
       }, {
-        value: '手机号',
-        label: '手机号'
+        value: 'goods',
+        label: '物品名'
       }, {
-        value: '邮箱',
-        label: '邮箱'
+        value: 'origin',
+        label: '发货地'
+      }, {
+        value: 'sender_name',
+        label: '发件人姓名'
+      }, {
+        value: 'sender_phone',
+        label: '发件人手机号'
+      }, {
+        value: 'book_time',
+        label: '预约时间'
       }],
       value:"用户名",
       draw:false,
@@ -269,11 +426,23 @@ export default {
     onExit()
     {
       this.draw2=false;
-      this.ChangeForm.username="";
-      this.ChangeForm.password="";
-      this.ChangeForm.email="";
-      this.ChangeForm.permission="";
-      this.ChangeForm.phone="";
+      this.ChangeForm.origin="";
+      this.ChangeForm.book_time="";
+      this.ChangeForm.dest="";
+      this.ChangeForm.current_site="";
+      this.ChangeForm.goods="";
+      this.ChangeForm.done_time="";
+      this.ChangeForm.orderId="";
+      this.ChangeForm.pickup_method="";
+      this.ChangeForm.postscript="";
+      this.ChangeForm.receiver_name="";
+      this.ChangeForm.receiver_phone="";
+      this.ChangeForm.receiver_uid="";
+      this.ChangeForm.send_time="";
+      this.ChangeForm.sender_name="";
+      this.ChangeForm.sender_uid="";
+      this.ChangeForm.sender_phone="";
+
       this.$message({
         type: 'info',
         message: '已取消修改'
@@ -302,13 +471,33 @@ export default {
       });
       this.draw=false;
     },
-    handleEdit(index, row) {
+    handleInfo(index, row) {
       this.draw2=true;
-      this.ChangeForm.username=row.username;
-      this.ChangeForm.phone=row.phone;
-      this.ChangeForm.email=row.email;
-      this.ChangeForm.permission=row.permission;
+      this.ChangeForm.orderId=row.orderId;
+      this.ChangeForm.origin=row.origin;
+      this.ChangeForm.book_time=row.book_time;
+      this.ChangeForm.dest=row.dest;
+      this.ChangeForm.current_site=row.current_site;
+      this.ChangeForm.goods=row.goods;
+      this.ChangeForm.done_time=row.done_time;
+      this.ChangeForm.pickup_method=row.pickup_method;
+      this.ChangeForm.postscript=row.postscript;
+      this.ChangeForm.receiver_name=row.receiver_name;
+      this.ChangeForm.receiver_phone=row.receiver_phone;
+      this.ChangeForm.receiver_uid=row.receiver_uid;
+      this.ChangeForm.send_time=row.send_time;
+      this.ChangeForm.sender_name=row.sender_name;
+      this.ChangeForm.sender_uid=row.sender_uid;
+      this.ChangeForm.sender_phone=row.sender_phone;
+
     },
+    handleDeliver(index, row) {
+      this.$message({
+        type: 'success',
+        message: '已成功发货'
+      });
+    },
+
     handleDelete(index,row){
       this.$confirm('此操作将永久删除该项, 是否继续?', '提示', {
         cancelButtonText: '取消',
@@ -376,5 +565,31 @@ export default {
 {
   height: 100%;
   background-color: #fafafa;
+}
+.margin-top{
+
+  position: relative;
+  left: 3%;
+  font-size: large;
+}
+.rightContainer {
+  position: relative;
+  top: 2.5%;
+  left: 2.5%;
+  background-color: #ffffff;
+  border-radius: 30px;
+  width: 95%;
+  height: 95%;
+}
+.search_col{
+  position: relative;
+  top: 5.5%;
+  left: 2%;
+}
+.table{
+  position: relative;
+  top: 7%;
+  left: 1%;
+
 }
 </style>
