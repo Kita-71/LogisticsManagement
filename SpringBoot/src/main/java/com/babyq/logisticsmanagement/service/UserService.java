@@ -1,11 +1,14 @@
 package com.babyq.logisticsmanagement.service;
 
+import cn.hutool.core.date.LocalDateTimeUtil;
 import com.babyq.logisticsmanagement.entity.User;
 import com.babyq.logisticsmanagement.mapper.UserMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import sun.util.resources.LocaleData;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +62,27 @@ public class UserService extends ServiceImpl <UserMapper, User>{
         else
             AnswerMap.put("permission",true);
 
+        return AnswerMap;
+    }
+
+    public Map<String, Boolean> signUp(User user) {
+        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
+        Map<String,Boolean>AnswerMap=new HashMap<>();
+        queryWrapper.eq("username",user.getUsername());
+        User user_check=this.getOne(queryWrapper);
+        if(user_check==null)
+        {
+            AnswerMap.put("user_exist",false);
+            user.setNickname("BabyQNewUser");
+            user.setPermission("commonUser");
+            user.setCreateTime(LocalDateTime.now());
+            AnswerMap.put("signup_success",this.save(user));
+        }
+        else
+        {
+            AnswerMap.put("user_exist",true);
+            AnswerMap.put("signup_success",false);
+        }
         return AnswerMap;
     }
 }

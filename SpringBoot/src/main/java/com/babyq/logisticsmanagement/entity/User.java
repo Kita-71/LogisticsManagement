@@ -1,11 +1,16 @@
 package com.babyq.logisticsmanagement.entity;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Getter
@@ -25,5 +30,7 @@ public class User {
     private String phone;
     private String address;
     private String permission;
+
+    private LocalDateTime createTime;
 
 }

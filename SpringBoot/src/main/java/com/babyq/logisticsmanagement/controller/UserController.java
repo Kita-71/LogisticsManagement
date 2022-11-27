@@ -35,6 +35,11 @@ public class UserController {
         return userService.checkPasswd(username,passwd);
     }
 
+    @PostMapping("/signUp")
+    public Map<String, Boolean>  signUp(@RequestBody User user){
+        return userService.signUp(user);
+    }
+
     @PostMapping("/checkAccess")
     public Map<String, Boolean> checkAccess(@RequestBody Map<String, String> userMap){
         String username=  userMap.get("username");
@@ -42,11 +47,6 @@ public class UserController {
         String require=  userMap.get("require");
         return userService.checkAccess(username,passwd,require);
     }
-    //    @GetMapping
-//    public List<User> findAll(){
-//        List<User> all = userMapper.findAll();
-//        return all;
-//    }
     @GetMapping
     //获取所有数据
     public List<User> findAll() {
@@ -58,6 +58,12 @@ public class UserController {
         return userService.deleteUser(id);
     }
 
+
+    @GetMapping("/count")
+    public long getCount()
+    {
+        return userService.count();
+    }
     //    @GetMapping("/page")
 //    public Map<String,Object> findPage(@RequestParam Integer pageNum, @RequestParam Integer pageSize){
 //        Integer rowid=(pageNum-1)*pageSize;

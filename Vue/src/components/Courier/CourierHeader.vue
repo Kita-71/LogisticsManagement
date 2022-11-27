@@ -54,6 +54,10 @@ export default {
     Exit(){
       this.$store.commit("courier_exit");
       this.$router.replace({path:'/Sign'});
+      this.$message({
+        type: 'success',
+        message: '登出成功'
+      });
     }
   }
 }
