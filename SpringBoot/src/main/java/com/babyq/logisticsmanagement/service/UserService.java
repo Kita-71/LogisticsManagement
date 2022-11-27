@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService extends ServiceImpl <UserMapper, User>{
@@ -24,12 +26,39 @@ public class UserService extends ServiceImpl <UserMapper, User>{
     public boolean checkPasswd(String username,String passwd){
 
         QueryWrapper<User> queryWrapper=new QueryWrapper<>();
-        queryWrapper.like("username",username);
-        queryWrapper.like("password",passwd);
+        queryWrapper.eq("username",username);
+        queryWrapper.eq("password",passwd);
         User user=this.getOne(queryWrapper);
         if(user==null)
             return false;
         else
             return true;
+    }
+
+    public Map<String,Boolean> checkAccess(String username, String passwd, String require) {
+        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
+        Map<String,Boolean>AnswerMap=new HashMap<>();
+        queryWrapper.eq("username",username);
+        User user1=this.getOne(queryWrapper);
+        if(user1==null)
+            AnswerMap.put("user",false);
+        else
+            AnswerMap.put("user",true);
+
+        queryWrapper.eq("password",passwd);
+        User user2=this.getOne(queryWrapper);
+        if(user2==null)
+            AnswerMap.put("password",false);
+        else
+            AnswerMap.put("password",true);
+
+        queryWrapper.eq("permission",require);
+        User user3=this.getOne(queryWrapper);
+        if(user3==null)
+            AnswerMap.put("permission",false);
+        else
+            AnswerMap.put("permission",true);
+
+        return AnswerMap;
     }
 }

@@ -135,6 +135,8 @@ export default {
   name: "UserOrderView",
   data() {
     return {
+      userdata:{
+      },
       //状态选择框
       options: [{
         value: 'single',
@@ -147,7 +149,7 @@ export default {
       value: 'single',
       site_options:[
       ],
-      site_value: 'single',
+      site_value: '',
       region: {
       },
       senderRegion:{},
@@ -163,9 +165,11 @@ export default {
         dest:"",
         receiverName:"",
         receiverPhone:"",
-        currentSite:"",
+        currentSite:0,
         state:"reserve",
         postscript:"",
+        senderUid:0,
+        receiverUid:0,
       },
       FromRules:{
         senderName: [
@@ -192,6 +196,14 @@ export default {
       }
     }
   },
+  created() {
+    request.get("http://localhost:9090/user/get",{params:{username:this.$store.state.user.username}})
+        .then(res=>
+        {
+          console.log(res);
+          this.userdata=res;
+        })
+  },
   methods: {
     handleEdit(index, row) {
       console.log(index, row);
@@ -204,6 +216,8 @@ export default {
       this.$router.go(-1);
     },
     siteRegionChange (data){
+      this.site_options=[];
+      this.site_value="";
       if(data.province.value) {
         this.siteRegionData=data.province.value;
         console.log(this.siteRegionData);
@@ -218,7 +232,13 @@ export default {
       }
       if(data.town.value) {
         this.siteRegionData=data.province.value+data.city.value+data.area.value+data.town.value;
-        console.log(this.siteRegionData);
+        request.get("http://localhost:9090/site/getSitesByRegion",{params:{region:this.siteRegionData}}).then(res=> {
+          for(var key in res){
+            console.info(key+":"+res[key]);
+
+            this.site_options.push({label:res[key].siteName,value:res[key].siteId});
+          };
+        });
       }
     },
     senderRegionChange (data) {
@@ -250,20 +270,47 @@ export default {
       }
     },
     onSubmit(){
+      if(this.site_value=="")
+      {
+        this.$message({
+          type: 'warning',
+          message: '快递点未选择'
+        });
+      }
+      else
+      {
       this.$refs["FormRef"].validate(valid => {
-        this.formData.origin=this.senderRegionData+this.formData.origin;
-        this.formData.dest=this.receiverRegionData+this.formData.dest;
-        request.post("http://localhost:9090/order/newOrUpdateOrder", this.formData).then(res => {
-          if (res) {
-            this.reset();
-          }
-        })
+        if(valid)
+        {
+          this.formData.origin=this.senderRegionData+this.formData.origin;
+          this.formData.dest=this.receiverRegionData+this.formData.dest;
+          this.formData.currentSite=Number(this.site_value);
+          console.log(this.userdata);
+          this.formData.senderUid=Number(this.userdata.userid);
+          request.post("http://localhost:9090/order/newOrUpdateOrder", this.formData).then(res => {
+            if (res) {
+              this.reset();
+            }
+          })
+        }
+        else
+        {
+          this.$message({
+            type: 'warning',
+            message: '请按照指定提示填充信息'
+          });
+        }
       })
+      }
     },
     reset()
     {
       this.formData="";
       this.$router.replace("/UserOrder");
+      this.$message({
+        type: 'success',
+        message: '预约发货成功'
+      });
     }
   }
 }

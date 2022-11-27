@@ -66,7 +66,7 @@ export default {
       this.$router.push({path:'/UserJoin'});
     },
     Exit(){
-      this.$store.commit("exit");
+      this.$store.commit("user_exit");
       this.$router.replace({path:'/Sign'});
     }
   }

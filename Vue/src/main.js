@@ -16,15 +16,41 @@ Vue.use(Plugin);
 Vue.prototype.request=request;
 router.beforeEach((to, from, next) => {
       if (to.meta.requireAuth) {
-        if (store.state.user.username) {
-          next()
-        } else {
-          next({
-            path: '/Sign',
-            query: {redirect: to.fullPath}
-          })
-        }
-      } else {
+          if(to.meta.requireUserAuth)
+          {
+              if (store.state.user.username) {
+                  next()
+              } else {
+                  next({
+                      path: '/Sign',
+                      query: {redirect: to.fullPath,access:"commonUser"}
+                  })
+              }
+          }
+          else if(to.meta.requireCourierAuth)
+          {
+              if (store.state.courier.username) {
+                  next()
+              } else {
+                  next({
+                      path: '/Sign',
+                      query: {redirect: to.fullPath,access:"deliveryStaff"}
+                  })
+              }
+          }
+          else if(to.meta.requireAdminAuth)
+          {
+              if (store.state.admin.username) {
+                  next()
+              } else {
+                  next({
+                      path: '/Sign',
+                      query: {redirect: to.fullPath,access:"admin"}
+                  })
+              }
+          }
+      }
+      else {
         next()
       }
     }

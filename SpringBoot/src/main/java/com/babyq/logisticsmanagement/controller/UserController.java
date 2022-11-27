@@ -35,6 +35,14 @@ public class UserController {
         String passwd=  userMap.get("passwd");
         return userService.checkPasswd(username,passwd);
     }
+
+    @PostMapping("/checkAccess")
+    public Map<String, Boolean> checkAccess(@RequestBody Map<String, String> userMap){
+        String username=  userMap.get("username");
+        String passwd=  userMap.get("passwd");
+        String require=  userMap.get("require");
+        return userService.checkAccess(username,passwd,require);
+    }
     //    @GetMapping
 //    public List<User> findAll(){
 //        List<User> all = userMapper.findAll();
