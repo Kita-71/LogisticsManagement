@@ -10,98 +10,7 @@
   </span>
     </el-dialog>
     <el-drawer
-        title="新建用户信息"
-        :visible.sync="draw"
-        direction="rtl"
-        :close-on-click-modal="false"
-        :wrapper-closable="false">
-      <div class="leftContainer">
-        <el-form ref="ChangeFormRef"
-                 :model="ChangeForm" :rules="ChangeFromRules" class="changeForm">
-
-          <!-- 站点Id -->
-          <el-form-item label="订单Id" :required="true" prop="siteId">
-            <el-input v-model="ChangeForm.siteId" placeholder="" size="medium" :disabled="false">
-            </el-input>
-          </el-form-item>
-          <!-- 站点所在区域 -->
-          <el-form-item label="物品名" :required="true" prop="siteRegion">
-            <el-input v-model="ChangeForm.siteRegion" placeholder="站点所在区域" size="medium">
-            </el-input>
-          </el-form-item>
-          <!-- 站点名称 -->
-          <el-form-item label="发件人" :required="true" prop="siteName">
-            <el-input v-model="ChangeForm.siteName" placeholder="站点名称" size="medium">
-            </el-input>
-          </el-form-item>
-          <!-- 站点负责人姓名 -->
-          <el-form-item label="发件人电话" :required="true" prop="sitePrincipalName">
-            <el-input v-model="ChangeForm.sitePrincipalName" placeholder="站点负责人名称" size="medium">
-            </el-input>
-          </el-form-item>
-          <!-- 站点负责人地址 -->
-          <el-form-item label="收件人" :required="true" prop="sitePrincipalPhone">
-            <el-input v-model="ChangeForm.sitePrincipalPhone" placeholder="站点负责人手机号" size="medium">
-            </el-input>
-          </el-form-item>
-          <!-- 站点用户Id -->
-          <el-form-item label="收件人电话" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="收件人电话" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="收件地址" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="目前位置" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="状态" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="取件方式" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="预约时间" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="发货时间" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="抵达时间" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="备注" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="发货人uid" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="收货人uid" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
-            </el-input>
-            <el-form-item >
-              <el-button type="primary" @click="onNew" >新建</el-button>
-              <el-button @click="onExit">取消</el-button>
-            </el-form-item>
-          </el-form-item>
-        </el-form>
-      </div>
-    </el-drawer>
-    <el-drawer
-        title="修改用户信息"
+        title="修改订单信息"
         :visible.sync="draw2"
         direction="rtl"
         :close-on-click-modal="false"
@@ -222,12 +131,12 @@
                     placeholder= "请输入与选择框对应的查询内容"
                     v-model="search_input"
                     class="search">
-                  <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+                  <el-button slot="append" icon="el-icon-search" @click="clicksearch"></el-button>
                 </el-input>
               </el-col>
-              <el-col :span="6">
-                <el-button type="primary" class="newButton" @click="handleNew">新增订单</el-button>
-              </el-col>
+<!--              <el-col :span="6">-->
+<!--                <el-button type="primary" class="newButton" @click="handleNew">新增订单</el-button>-->
+<!--              </el-col>-->
             </el-row>
 
             <el-table
@@ -239,32 +148,32 @@
               <el-table-column
                   prop="orderId"
                   label="订单号"
-                  width="150">
+                  width="215">
               </el-table-column>
               <el-table-column
                   prop="goods"
                   label="物品名"
-                  width="300">
+                  width="150">
               </el-table-column>
               <el-table-column
-                  prop="sender_name"
+                  prop="senderName"
                   label="发件人"
-                  width="250">
+                  width="130">
               </el-table-column>
               <el-table-column
-                  prop="sender_phone"
+                  prop="senderPhone"
                   label="发件人电话"
-                  width="200">
+                  width="160">
               </el-table-column>
               <el-table-column
-                  prop="receiver_name"
+                  prop="receiverName"
                   label="收件人"
-                  width="180">
+                  width="130">
               </el-table-column>
               <el-table-column
-                  prop="receiver_phone"
+                  prop="receiverPhone"
                   label="收件人电话"
-                  width="200">
+                  width="160">
               </el-table-column>
               <el-table-column
                   label="操作">
@@ -288,7 +197,7 @@
                 :page-sizes="[9, 18, 27,36]"
                 :page-size="9"
                 layout="total, sizes, prev, pager, next, jumper"
-                :total="400"
+                :total="total"
                 class="pagination">
             </el-pagination>
           </div>
@@ -306,85 +215,7 @@ export default {
   components:{ManagerAside,ManagerHeader},
   data() {
     return {
-      //与后端对接时时把该项直接覆盖即可
-      tableData: [
-        {
-          orderId:"123123123123",
-          goods:"医托答辩",
-          origin:"540",
-          sender_name:"Kita",
-          sender_phone:"13126078008",
-          dest:"电子科技大学本科六组图22栋540室",
-          receiver_name:"Kita",
-          receiver_phone:"13126078008",
-          current_site: "",
-          state: "23-2-1882",
-          pickup_method:"",
-          book_time: "2022-11-26-17:02",
-          send_time: "",
-          done_time: "",
-          postscript: "",
-          sender_uid: "",
-          receiver_uid: ""
-        },
-        {
-          orderId:"234234234234",
-          goods:"良托答辩",
-          origin:"540",
-          sender_name:"Kita",
-          sender_phone:"13126078008",
-          dest:"电子科技大学本科六组图22栋540室",
-          receiver_name:"Kita",
-          receiver_phone:"13126078008",
-          current_site: "",
-          state: "22-5-2331",
-          pickup_method:"",
-          book_time: "2022-11-26-19:35",
-          send_time: "",
-          done_time: "",
-          postscript: "",
-          sender_uid: "",
-          receiver_uid: ""
-        },{
-          orderId:"123123123123",
-          goods:"伞拖答辩",
-          origin:"540",
-          sender_name:"Kita",
-          sender_phone:"13126078008",
-          dest:"电子科技大学本科六组图22栋540室",
-          receiver_name:"Kita",
-          receiver_phone:"13126078008",
-          current_site: "",
-          state: "23-2-1882",
-          pickup_method:"",
-          book_time: "2022-11-26-17:02",
-          send_time: "",
-          done_time: "",
-          postscript: "",
-          sender_uid: "",
-          receiver_uid: ""
-        },
-        {
-          orderId:"234234234234",
-          goods:"斯托答辩",
-          origin:"540",
-          sender_name:"Kita",
-          sender_phone:"13126078008",
-          dest:"电子科技大学本科六组图22栋540室",
-          receiver_name:"Kita",
-          receiver_phone:"13126078008",
-          current_site: "",
-          state: "22-5-2331",
-          pickup_method:"",
-          book_time: "2022-11-26-19:35",
-          send_time: "",
-          done_time: "",
-          postscript: "",
-          sender_uid: "",
-          receiver_uid: ""
-        }
-      ],
-      //
+      tableData:[],
       ChangeForm: {
         orderId:"",
         goods:"",
@@ -462,12 +293,38 @@ export default {
           label: '收件人电话'
         },
       ],
-      value: "订单号",//当前选择项
+      value: "orderId",//当前选择项
       draw2:false,
       draw:false,
+      page_size:9,
+      currentPage: 1,
+      total:0
     }
   },
+  created(){
+    this.getOrderTotal();
+  },
   methods: {
+    getOrderTotal(){
+      this.request.get("http://localhost:9090/order/pagefilter",{params:{pageNum:this.currentPage,pageSize:this.page_size,searchMode: this.value,search_input: this.search_input}})
+          .then(res=>
+          {
+            this.tableData=res.records;
+            this.total=res.total;
+          })
+    },
+    handleSizeChange(val){
+      this.page_size=val;
+      this.getOrderTotal();
+    },
+    handleCurrentChange(val){
+      this.currentPage=val;
+      this.getOrderTotal();
+    },
+    clicksearch(){
+      this.currentPage=1;
+      this.getOrderTotal();
+    },
     onNew() {
       this.$refs["ChangeFormRef"].validate(valid => {
         if (valid) {

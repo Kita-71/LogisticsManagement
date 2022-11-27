@@ -66,11 +66,45 @@ public class OrderController {
     @PostMapping("/newOrUpdateOrder")
     public boolean newOrUpdateOrder(@RequestBody Order order){
         return orderService.newOrUpdateOrder(order);
-    };
+    }
 
     @GetMapping("/getorder")
     public Order getorder(@RequestParam String orderId)
     {
         return orderService.getOrder(orderId);
-    };
+    }
+    @GetMapping("/pagefilter")
+    public IPage<Order> getFilteredOrderPaged(@RequestParam Integer pageNum, @RequestParam Integer pageSize, @RequestParam(defaultValue = "") String searchMode, @RequestParam(defaultValue = "") String search_input ){
+        IPage<Order> page=new Page<>(pageNum,pageSize);
+        QueryWrapper<Order> queryWrapper= new QueryWrapper<>();
+
+        if(!search_input.isEmpty())
+        {
+            if(searchMode.equals("orderId"))
+            {
+                queryWrapper.eq("orderId",search_input);
+            }
+            else if (searchMode.equals("goods"))
+            {
+                queryWrapper.like("goods",search_input);
+            }
+            else if (searchMode.equals("sender_name"))
+            {
+                queryWrapper.like("sender_name",search_input);
+            }
+            else if (searchMode.equals("sender_phone"))
+            {
+                queryWrapper.eq("sender_phone",search_input);
+            }
+            else if (searchMode.equals("receiver_name"))
+            {
+                queryWrapper.like("receiver_name",search_input);
+            }
+            else if (searchMode.equals("receiver_phone"))
+            {
+                queryWrapper.eq("receiver_phone",search_input);
+            }
+        }
+        return orderService.page(page,queryWrapper);
+    }
 }
