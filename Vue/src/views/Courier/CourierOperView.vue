@@ -253,12 +253,12 @@
                         label="物品名">
                     </el-table-column>
                     <el-table-column
-                        prop="receiver_name"
+                        prop="receiverName"
                         width="91%"
                         label="收件人">
                     </el-table-column>
                     <el-table-column
-                        prop="receiver_phone"
+                        prop="receiverPhone"
                         width="115%"
                         label="收件人电话">
                     </el-table-column>
@@ -303,12 +303,12 @@
                         label="物品名">
                     </el-table-column>
                     <el-table-column
-                        prop="receiver_name"
+                        prop="receiverName"
                         width="90%"
                         label="收件人">
                     </el-table-column>
                     <el-table-column
-                        prop="receiver_phone"
+                        prop="receiverPhone"
                         width="115%"
                         label="收件人电话">
                     </el-table-column>
@@ -336,22 +336,22 @@
             </el-row>
             <el-pagination
                 @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
+                @current-change="handleCurrentChange1"
                 :current-page="currentPage4"
-                :page-sizes="[9, 18, 27,36]"
-                :page-size="9"
+                :page-sizes="[4, 8, 12,16]"
+                :page-size="4"
                 layout="total, sizes, prev, pager, next, jumper"
-                :total="400"
+                :total="total1"
                 class="pagination1">
             </el-pagination>
             <el-pagination
                 @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
+                @current-change="handleCurrentChange2"
                 :current-page="currentPage4"
-                :page-sizes="[9, 18, 27,36]"
-                :page-size="9"
+                :page-sizes="[4, 8, 12,16]"
+                :page-size="4"
                 layout="total, sizes, prev, pager, next, jumper"
-                :total="400"
+                :total="total2"
                 class="pagination2">
             </el-pagination>
 
@@ -381,124 +381,126 @@ export default {
     }
     return {
       takeininput:'',
-      tableData1: [
-        {
-          orderId:"123123123123",
-          goods:"医托答辩",
-          origin:"540",
-          sender_name:"Kita",
-          sender_phone:"13126078008",
-          dest:"电子科技大学本科六组图22栋540室",
-          receiver_name:"Kita",
-          receiver_phone:"13126078008",
-          current_site: "",
-          state: "23-2-1882",
-          pickup_method:"",
-          book_time: "2022-11-26-17:02",
-          send_time: "",
-          done_time: "",
-          postscript: "",
-          sender_uid: "",
-          receiver_uid: ""
-        },
-        {
-          orderId:"234234234234",
-          goods:"良托答辩",
-          origin:"540",
-          sender_name:"Kita",
-          sender_phone:"13126078008",
-          dest:"电子科技大学本科六组图22栋540室",
-          receiver_name:"Kita",
-          receiver_phone:"13126078008",
-          current_site: "",
-          state: "22-5-2331",
-          pickup_method:"",
-          book_time: "2022-11-26-19:35",
-          send_time: "",
-          done_time: "",
-          postscript: "",
-          sender_uid: "",
-          receiver_uid: ""
-        },{
-          orderId:"123123123123",
-          goods:"伞拖答辩",
-          origin:"540",
-          sender_name:"Kita",
-          sender_phone:"13126078008",
-          dest:"电子科技大学本科六组图22栋540室",
-          receiver_name:"Kita",
-          receiver_phone:"13126078008",
-          current_site: "",
-          state: "23-2-1882",
-          pickup_method:"",
-          book_time: "2022-11-26-17:02",
-          send_time: "",
-          done_time: "",
-          postscript: "",
-          sender_uid: "",
-          receiver_uid: ""
-        },
-        {
-          orderId:"234234234234",
-          goods:"斯托答辩",
-          origin:"540",
-          sender_name:"Kita",
-          sender_phone:"13126078008",
-          dest:"电子科技大学本科六组图22栋540室",
-          receiver_name:"Kita",
-          receiver_phone:"13126078008",
-          current_site: "",
-          state: "22-5-2331",
-          pickup_method:"",
-          book_time: "2022-11-26-19:35",
-          send_time: "",
-          done_time: "",
-          postscript: "",
-          sender_uid: "",
-          receiver_uid: ""
-        }
-      ],
-      tableData2: [
-          {
-            orderId:"123123123123",
-            goods:"武拓答辩",
-            origin:"540",
-            sender_name:"Kita",
-            sender_phone:"13126078008",
-            dest:"电子科技大学本科六组图22栋540室",
-            receiver_name:"Kita",
-            receiver_phone:"13126078008",
-            current_site: "",
-            state: "23-2-1882",
-            pickup_method:"",
-            book_time: "2022-11-26-17:02",
-            send_time: "",
-            done_time: "",
-            postscript: "",
-            sender_uid: "",
-            receiver_uid: ""
-          },
-          {
-              orderId:"234234234234",
-              goods:"刘拓答辩",
-              origin:"540",
-              sender_name:"Kita",
-              sender_phone:"13126078008",
-              dest:"电子科技大学本科六组图22栋540室",
-              receiver_name:"Kita",
-              receiver_phone:"13126078008",
-              current_site: "",
-              state: "22-5-2331",
-              pickup_method:"",
-              book_time: "2022-11-26-19:35",
-              send_time: "",
-              done_time: "",
-              postscript: "",
-              sender_uid: "",
-              receiver_uid: ""
-            }
-
-      ],
+      // tableData1: [
+      //   {
+      //     orderId:"123123123123",
+      //     goods:"医托答辩",
+      //     origin:"540",
+      //     sender_name:"Kita",
+      //     sender_phone:"13126078008",
+      //     dest:"电子科技大学本科六组图22栋540室",
+      //     receiver_name:"Kita",
+      //     receiver_phone:"13126078008",
+      //     current_site: "",
+      //     state: "23-2-1882",
+      //     pickup_method:"",
+      //     book_time: "2022-11-26-17:02",
+      //     send_time: "",
+      //     done_time: "",
+      //     postscript: "哈哈",
+      //     sender_uid: "12",
+      //     receiver_uid: "134"
+      //   },
+      //   {
+      //     orderId:"234234234234",
+      //     goods:"良托答辩",
+      //     origin:"540",
+      //     sender_name:"Kita",
+      //     sender_phone:"13126078008",
+      //     dest:"电子科技大学本科六组图22栋540室",
+      //     receiver_name:"Kita",
+      //     receiver_phone:"13126078008",
+      //     current_site: "",
+      //     state: "22-5-2331",
+      //     pickup_method:"",
+      //     book_time: "2022-11-26-19:35",
+      //     send_time: "",
+      //     done_time: "",
+      //     postscript: "",
+      //     sender_uid: "",
+      //     receiver_uid: ""
+      //   },{
+      //     orderId:"123123123123",
+      //     goods:"伞拖答辩",
+      //     origin:"540",
+      //     sender_name:"Kita",
+      //     sender_phone:"13126078008",
+      //     dest:"电子科技大学本科六组图22栋540室",
+      //     receiver_name:"Kita",
+      //     receiver_phone:"13126078008",
+      //     current_site: "",
+      //     state: "23-2-1882",
+      //     pickup_method:"",
+      //     book_time: "2022-11-26-17:02",
+      //     send_time: "",
+      //     done_time: "",
+      //     postscript: "",
+      //     sender_uid: "",
+      //     receiver_uid: ""
+      //   },
+      //   {
+      //     orderId:"234234234234",
+      //     goods:"斯托答辩",
+      //     origin:"540",
+      //     sender_name:"Kita",
+      //     sender_phone:"13126078008",
+      //     dest:"电子科技大学本科六组图22栋540室",
+      //     receiver_name:"Kita",
+      //     receiver_phone:"13126078008",
+      //     current_site: "",
+      //     state: "22-5-2331",
+      //     pickup_method:"",
+      //     book_time: "2022-11-26-19:35",
+      //     send_time: "",
+      //     done_time: "",
+      //     postscript: "",
+      //     sender_uid: "",
+      //     receiver_uid: ""
+      //   }
+      // ],
+      // tableData2: [
+      //     {
+      //       orderId:"123123123123",
+      //       goods:"武拓答辩",
+      //       origin:"540",
+      //       sender_name:"Kita",
+      //       sender_phone:"13126078008",
+      //       dest:"电子科技大学本科六组图22栋540室",
+      //       receiver_name:"Kita",
+      //       receiver_phone:"13126078008",
+      //       current_site: "",
+      //       state: "23-2-1882",
+      //       pickup_method:"",
+      //       book_time: "2022-11-26-17:02",
+      //       send_time: "",
+      //       done_time: "",
+      //       postscript: "",
+      //       sender_uid: "",
+      //       receiver_uid: ""
+      //     },
+      //     {
+      //         orderId:"234234234234",
+      //         goods:"刘拓答辩",
+      //         origin:"540",
+      //         sender_name:"Kita",
+      //         sender_phone:"13126078008",
+      //         dest:"电子科技大学本科六组图22栋540室",
+      //         receiver_name:"Kita",
+      //         receiver_phone:"13126078008",
+      //         current_site: "",
+      //         state: "22-5-2331",
+      //         pickup_method:"",
+      //         book_time: "2022-11-26-19:35",
+      //         send_time: "",
+      //         done_time: "",
+      //         postscript: "",
+      //         sender_uid: "",
+      //         receiver_uid: ""
+      //       }
+      //
+      // ],
+      tableData1: [],
+      tableData2: [],
       ChangeForm: {
         username:"",
         phone: "",
@@ -566,8 +568,8 @@ export default {
           { required: true, validator: validatePass2, trigger: 'blur' }
         ]
       },
-      search_input:"",
-      options1: [{
+      options1: [
+          {
         value: 'orderId',
         label: '用户名'
       }, {
@@ -584,7 +586,8 @@ export default {
         label: '收件人地址'
       }
       ],
-      options2: [{
+      options2: [
+          {
         value: 'orderId',
         label: '用户名'
       }, {
@@ -603,12 +606,58 @@ export default {
       ],
       value1:"订单id",
       value2:"订单id",
+      search_input1:"",
+      search_input2:"",
       draw:false,
       draw2:false,
       DialogA:false,
+      username:"",
+      site_id:1,
+      page_size1:4,
+      currentPage1: 1,
+      page_size2:4,
+      currentPage2: 1,
+      total1:0,
+      total2:0,
     }
   },
+  created() {
+    this.getSiteOrder();
+    this.getSiteOrderDone();
+  },
   methods: {
+    getSiteOrder(){
+      this.request.get("http://localhost:9090/order/getsiteorder",{params:{pageNum:this.currentPage1,pageSize:this.page_size1,siteId:this.site_id,searchMode: this.value1,search_input: this.search_input1}})
+          .then(res=>
+          {
+            this.tableData1=res.records;
+            this.total1=res.total;
+          })
+    },
+    handleSizeChange1(val){
+      this.page_size1=val;
+      this.getSiteOrder();
+    },
+    handleCurrentChange1(val){
+      this.currentPage1=val;
+      this.getSiteOrder();
+    },
+    getSiteOrderDone(){
+      this.request.get("http://localhost:9090/order/getsiteorderdone",{params:{pageNum:this.currentPage2,pageSize:this.page_size2,siteId:this.site_id,searchMode: this.value2,search_input: this.search_input2}})
+          .then(res=>
+          {
+            this.tableData2=res.records;
+            this.total2=res.total;
+          })
+    },
+    handleSizeChange2(val){
+      this.page_size2=val;
+      this.getSiteOrderDone();
+    },
+    handleCurrentChange2(val){
+      this.currentPage2=val;
+      this.getSiteOrderDone();
+    },
     onSubmit() {
       this.$refs["ChangeFormRef"].validate(valid => {
         if (valid) {
