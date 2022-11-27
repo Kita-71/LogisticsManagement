@@ -73,6 +73,78 @@ public class OrderController {
     {
         return orderService.getOrder(orderId);
     }
+    @GetMapping("/getsiteorder")
+    //用于获取本站点的所有待发出快递
+    public IPage<Order> getsiteorder(@RequestParam Integer pageNum, @RequestParam Integer pageSize,@RequestParam Integer siteId,@RequestParam(defaultValue = "") String searchMode, @RequestParam(defaultValue = "") String search_input)
+    {
+        IPage<Order> page=new Page<>(pageNum,pageSize);
+        QueryWrapper<Order> queryWrapper= new QueryWrapper<>();
+        queryWrapper.eq("state","pending_pickup");//筛选待派送订单
+        queryWrapper.eq("current_site",siteId);//筛选本站点订单
+        if(!search_input.isEmpty())
+        {
+            if(searchMode.equals("orderId"))
+            {
+                queryWrapper.eq("orderId",search_input);
+            }
+            else if (searchMode.equals("goods"))
+            {
+                queryWrapper.like("goods",search_input);
+            }
+            else if (searchMode.equals("receiver_name"))
+            {
+                queryWrapper.like("receiver_name",search_input);
+            }
+            else if (searchMode.equals("receiver_phone"))
+            {
+                queryWrapper.eq("receiver_phone",search_input);
+            }
+            else if (searchMode.equals("dest"))
+            {
+                queryWrapper.like("dest",search_input);
+            }
+        }
+        return orderService.page(page,queryWrapper);
+    }
+    @GetMapping("/getsiteorderdone")
+    //用于获取本站点的所有已发出快递
+    public IPage<Order> getsiteorderdone(@RequestParam Integer pageNum, @RequestParam Integer pageSize,@RequestParam Integer siteId,@RequestParam(defaultValue = "") String searchMode, @RequestParam(defaultValue = "") String search_input)
+    {
+        IPage<Order> page=new Page<>(pageNum,pageSize);
+        QueryWrapper<Order> queryWrapper= new QueryWrapper<>();
+        queryWrapper.eq("state","done");//筛选待派送订单
+        queryWrapper.eq("current_site",siteId);//筛选本站点订单
+        if(!search_input.isEmpty())
+        {
+            if(searchMode.equals("orderId"))
+            {
+                queryWrapper.eq("orderId",search_input);
+            }
+            else if (searchMode.equals("goods"))
+            {
+                queryWrapper.like("goods",search_input);
+            }
+            else if (searchMode.equals("receiver_name"))
+            {
+                queryWrapper.like("receiver_name",search_input);
+            }
+            else if (searchMode.equals("receiver_phone"))
+            {
+                queryWrapper.eq("receiver_phone",search_input);
+            }
+            else if (searchMode.equals("dest"))
+            {
+                queryWrapper.like("dest",search_input);
+            }
+        }
+        return orderService.page(page,queryWrapper);
+    }
+
+    @DeleteMapping("/delete")
+    //删除指定数据
+    public boolean deleteUser(@RequestParam String id) {
+        return orderService.deleteOrder(id);
+    }
     @GetMapping("/pagefilter")
     public IPage<Order> getFilteredOrderPaged(@RequestParam Integer pageNum, @RequestParam Integer pageSize, @RequestParam(defaultValue = "") String searchMode, @RequestParam(defaultValue = "") String search_input ){
         IPage<Order> page=new Page<>(pageNum,pageSize);

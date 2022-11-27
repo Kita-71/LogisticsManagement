@@ -15,4 +15,8 @@ public class OrderService extends ServiceImpl <OrderMapper, Order>{
     public boolean newOrUpdateOrder(Order order) {
         return saveOrUpdate(order);
     }
+
+    public boolean deleteOrder(String id) {
+        return removeById(id);
+    }
 }

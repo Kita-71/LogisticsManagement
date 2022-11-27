@@ -20,7 +20,7 @@
                  :model="ChangeForm" :rules="ChangeFromRules" class="changeForm">
           <!-- 站点Id -->
           <el-form-item label="订单Id" :required="true" prop="siteId">
-            <el-input v-model="ChangeForm.siteId" placeholder="" size="medium" :disabled="false">
+            <el-input v-model="ChangeForm.orderId" placeholder="" size="medium" :disabled="true" >
             </el-input>
           </el-form-item>
           <!-- 站点所在区域 -->
@@ -94,7 +94,7 @@
           </el-form-item>
           <!-- 权限-->
           <el-form-item >
-            <el-button type="primary" @click="onSubmit" >修改</el-button>
+            <el-button type="primary" @click="onSubmit" >确认修改</el-button>
             <el-button @click="onExit2">取消</el-button>
           </el-form-item>
         </el-form>
@@ -298,7 +298,8 @@ export default {
       draw:false,
       page_size:9,
       currentPage: 1,
-      total:0
+      total:0,
+      deleteOrderid:""
     }
   },
   created(){
@@ -325,6 +326,13 @@ export default {
       this.currentPage=1;
       this.getOrderTotal();
     },
+    deleteOrder(){
+      this.request.delete("http://localhost:9090/order/delete",{params:{id:this.deleteOrderid}})
+          .then(res=>
+          {
+            this.getOrderTotal();
+          })
+    },
     onNew() {
       this.$refs["ChangeFormRef"].validate(valid => {
         if (valid) {
@@ -334,8 +342,8 @@ export default {
             message: '新增成功'
           });
           this.draw=false;
-          this.ChangeForm.orderId="";
-          this.ChangeForm.goods="";
+          this.ChangeForm.orderId=row.orderId;
+          this.ChangeForm.goods=row.goods;
           this.ChangeForm.origin="";
           this.ChangeForm.sender_name="";
           this.ChangeForm.sender_phone="";
@@ -364,7 +372,7 @@ export default {
         message: '已取消新增'
       });
       this.draw=false;
-      this.ChangeForm.orderId="";
+      this.ChangeForm.orderId=row.orderId;
       this.ChangeForm.goods="";
       this.ChangeForm.origin="";
       this.ChangeForm.sender_name="";
@@ -451,8 +459,8 @@ export default {
     handleEdit(index, row) {
       this.draw2=true;
       /**/
-      this.ChangeForm.orderId="";
-      this.ChangeForm.goods="";
+      this.ChangeForm.orderId=row.orderId;
+      this.ChangeForm.goods=row.goods;
       this.ChangeForm.origin="";
       this.ChangeForm.sender_name="";
       this.ChangeForm.sender_phone="";
@@ -476,6 +484,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        this.deleteOrderid=row.orderId;
+        this.deleteOrder();
         this.$message({
           type: 'success',
           message: '删除成功'
