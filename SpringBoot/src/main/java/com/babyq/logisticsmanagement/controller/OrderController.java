@@ -24,7 +24,13 @@ public class OrderController {
     
     @Autowired
     private OrderService orderService;
-    
+
+    @GetMapping("/count")
+    public long getCount()
+    {
+        return orderService.count();
+    }
+
     @GetMapping("/pageGetByPhone")
     public IPage<Order> getPagedOrderByPhone(@RequestParam Integer pageNum, @RequestParam Integer pageSize, @RequestParam String phone, @RequestParam String state,
                                              @RequestParam boolean orderMode,@RequestParam String searchMode,@RequestParam String search_input ,

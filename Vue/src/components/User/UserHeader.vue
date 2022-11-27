@@ -20,9 +20,12 @@
       <img src ="@/assets/logo.png">
     </div>
     <div class="user">
-      <el-dropdown style="  position: relative; left: 60px;top: 6px;">
-        <div style="font-size: 45px; ">
-
+      <div style="font-size: 14px; position: absolute;left: 10%; top: 10%; width: 70%;margin-right: 20px">
+        <i class="el-icon-s-custom" ></i>
+        <span>{{this.$store.state.user.username}}</span>
+      </div>
+      <el-dropdown style=" position: absolute; left: 30%; top: 10%;">
+        <div style="font-size: 20px;">
           <i class="el-icon-setting"  ></i>
           <el-dropdown-menu slot="dropdown"  >
             <el-dropdown-item @click.native="lookUserInfo">个人信息</el-dropdown-item>
@@ -30,10 +33,6 @@
           </el-dropdown-menu>
         </div>
       </el-dropdown>
-      <div style="font-size: 25px; position: relative; top: -60px; left: -120px;">
-        <i class="el-icon-s-custom" ></i>
-        <span>Admin</span>
-      </div>
     </div>
   </div>
 </template>
@@ -68,6 +67,10 @@ export default {
     Exit(){
       this.$store.commit("user_exit");
       this.$router.replace({path:'/Sign'});
+      this.$message({
+        type: 'success',
+        message: '登出成功'
+      });
     }
   }
 }
@@ -107,7 +110,8 @@ export default {
 .user
 {
   position: absolute;
-  left: 90%;
+  left: 80%;
+  width: 20%;
 .el-dropdown
 {
   margin-right: 15px;color: #000;

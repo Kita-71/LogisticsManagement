@@ -215,7 +215,7 @@ export default {
       },
       resetpswdForm: {
         userid:1,
-        password:"123456"
+        password:"BabyQ123456"
       },
       ChangeFromRules: {
         // 验证用户名是否合法

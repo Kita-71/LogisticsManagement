@@ -3,22 +3,28 @@
     <div class="textBox">
       <transition name="slide">
         <p class="text" :key="text.id">
-          <el-tag type="warning">{{text.val.tag}}</el-tag>
-          {{text.val.title}}</p>
+          <el-tag type="warning">{{text.val.title}}</el-tag>
+          {{text.val.description}}</p>
       </transition>
     </div>
   </div>
 </template>
 
 <script>
+import request from "@/utils/request";
+
 export default {
   name: 'scroll',
+  created() {
+    request.get("http://localhost:9090/info/all").then(res=>
+    {
+        this.textArr=res;
+    })
+  },
   data () {
     return {
       textArr: [
-        {tag:'天气影响通知',title:'受2022号台风影响，广东省深圳市的物流服务于2022.11.28日至2022.11.29日暂停一天'},
-        {tag:'疫情影响通知',title:'根据疫情防控需求，广东省广州市物流服务暂停，恢复时间另行通知'},
-        {tag:'物流优惠活动',title:'双12来袭，12.1-12.12使用本站物流服务可享受九折寄件优惠'}
+        {},
       ],
       number: 0
     }

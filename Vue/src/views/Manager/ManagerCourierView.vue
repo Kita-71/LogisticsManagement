@@ -554,4 +554,5 @@ export default {
   position: relative;
   top: 20px;
 }
+
 </style>
