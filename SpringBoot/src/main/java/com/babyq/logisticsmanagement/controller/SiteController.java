@@ -18,6 +18,12 @@ import java.util.List;
 public class SiteController {
     @Autowired
     private SiteService siteService;
+
+    @GetMapping("/count")
+    public long getCount()
+    {
+        return siteService.count();
+    }
     @GetMapping("/pagefilter")
     public IPage<Site> getFilteredSitePaged(@RequestParam Integer pageNum, @RequestParam Integer pageSize, @RequestParam(defaultValue = "") String searchMode, @RequestParam(defaultValue = "") String search_input ){
         IPage<Site> page=new Page<>(pageNum,pageSize);

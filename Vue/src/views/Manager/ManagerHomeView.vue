@@ -189,7 +189,7 @@ export default {
       like: true,
       value1: 4154.564,
       value2: 2222,
-      value3:,
+      value3:222,
       title: "今年的增长",
       input: "Hello Element UI!",
       draw:false,
