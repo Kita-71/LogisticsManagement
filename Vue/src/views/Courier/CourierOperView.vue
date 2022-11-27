@@ -164,8 +164,10 @@
         <CourierAside></CourierAside>
       </el-aside>
       <el-main>
-        <el-col :span="24" style="height: 100%">
-          <div  class="rightContainer">
+        <el-col :span="24"
+                height="%" style="height: 100%">
+          <div
+               class="rightContainer">
 
             <el-row >
               <el-col :span="6">
@@ -232,14 +234,14 @@
             </el-row>
 
             <el-row :gutter="20" class="table_row">
-              <el-col :span="13" >
+              <el-col :span="13" width="100%">
                 <el-table
                     :data="tableData1"
                     class="table"
                     :header-cell-style="{ backgroundColor: '#fafafa',   textAlign: 'center',  }"
                     border
-                    height="85%"
-                    style="margin-left: 10px"
+                    style="margin-left: 1%; position:absolute; height: 100%; width: 52.5%; "
+                    height="110%"
 
                 >
                   <el-table-column label="已入库待派送" >
@@ -282,15 +284,25 @@
                     </el-table-column>
                   </el-table-column>
                 </el-table>
+                <el-pagination
+                    @size-change="handleSizeChange1"
+                    @current-change="handleCurrentChange1"
+                    :current-page="currentPage4"
+                    :page-sizes="[4, 8, 12,16]"
+                    :page-size="4"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total1"
+                    class="pagination1">
+                </el-pagination>
               </el-col>
-              <el-col :span="11">
+              <el-col :span="11" width="100%">
                 <el-table
                     :data="tableData2"
                     class="table"
                     border
                     :header-cell-style="{ backgroundColor: '#fafafa',   textAlign: 'center',  }"
-                    height="85%"
-                    style="width: 99%"
+                    style="width: 99%; position: absolute; height: 100%; width: 44% ;"
+                    height="110%"
                 >
                   <el-table-column label="已派送" >
                     <el-table-column
@@ -330,30 +342,20 @@
 
 
                   </el-table-column>
-
                 </el-table>
+                <el-pagination
+                    @size-change="handleSizeChange2"
+                    @current-change="handleCurrentChange2"
+                    :current-page="currentPage4"
+                    :page-sizes="[4, 8, 12,16]"
+                    :page-size="4"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total2"
+                    class="pagination2">
+                </el-pagination>
               </el-col>
             </el-row>
-            <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange1"
-                :current-page="currentPage4"
-                :page-sizes="[4, 8, 12,16]"
-                :page-size="4"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="total1"
-                class="pagination1">
-            </el-pagination>
-            <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange2"
-                :current-page="currentPage4"
-                :page-sizes="[4, 8, 12,16]"
-                :page-size="4"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="total2"
-                class="pagination2">
-            </el-pagination>
+
 
           </div>
         </el-col>
@@ -872,21 +874,22 @@ export default {
 }
 .pagination1
 {
-  position: absolute;
-  top: 95%;
+  position: relative;
+  margin-top: 72%;
+  margin-left: 3%;
   left:0%;
+}
+.pagination2
+{
+  position: absolute;
+  top: 116.6%;
+  margin-left: 3%;
 }
 .do_button{
 
   position: relative;
   top: 95%;
   left:3%;
-}
-.pagination2
-{
-  position: absolute;
-  top: 95%;
-  left:50%;
 }
 .rightContainer {
    position: relative;
@@ -906,6 +909,7 @@ export default {
 }
 .table_row{
   position: relative;
+  height: 65%;
   top: 7%;
 }
 .choose_header{
