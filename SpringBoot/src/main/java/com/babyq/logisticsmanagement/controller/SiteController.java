@@ -11,6 +11,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/site")
 public class SiteController {
@@ -33,7 +35,7 @@ public class SiteController {
             }
             else if (searchMode.equals("site_principle"))
             {
-                queryWrapper.like("site_principle",search_input);
+                queryWrapper.like("site_principle_name",search_input);
             }
         }
         return siteService.page(page,queryWrapper);
