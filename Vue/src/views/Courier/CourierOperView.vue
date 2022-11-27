@@ -202,9 +202,9 @@
                 <el-col :span="12">
                   <el-input
                       placeholder= "请输入与选择框对应的查询内容"
-                      v-model="search_input"
+                      v-model="search_input1"
                       class="search">
-                    <el-button slot="append" icon="el-icon-search" @click="search1"></el-button>
+                    <el-button slot="append" icon="el-icon-search" @click="clicksearch1"></el-button>
                   </el-input>
                 </el-col>
               </el-col>
@@ -223,9 +223,9 @@
                 <el-col :span="12">
                   <el-input
                       placeholder= "请输入与选择框对应的查询内容"
-                      v-model="search_input"
+                      v-model="search_input2"
                       class="search">
-                    <el-button slot="append" icon="el-icon-search" @click="search2"></el-button>
+                    <el-button slot="append" icon="el-icon-search" @click="clicksearch2"></el-button>
                   </el-input>
                 </el-col>
               </el-col>
@@ -312,11 +312,11 @@
                         width="115%"
                         label="收件人电话">
                     </el-table-column>
-                    <el-table-column
-                        prop="state"
-                        label="状态">
+<!--                    <el-table-column-->
+<!--                        prop="state"-->
+<!--                        label="状态">-->
 
-                    </el-table-column>
+<!--                    </el-table-column>-->
                     <el-table-column
                         width="80%"
                         label="操作">
@@ -571,7 +571,7 @@ export default {
       options1: [
           {
         value: 'orderId',
-        label: '用户名'
+        label: '订单ID'
       }, {
         value: 'goods',
         label: '物品名'
@@ -589,7 +589,7 @@ export default {
       options2: [
           {
         value: 'orderId',
-        label: '用户名'
+        label: '订单ID'
       }, {
         value: 'goods',
         label: '物品名'
@@ -599,20 +599,31 @@ export default {
       }, {
         value: 'receiver_phone',
         label: '收件人电话'
-      }, {
-        value: 'state',
-        label: '状态'
       }
+      // , {
+      //   value: 'state',
+      //   label: '状态'
+      // }
       ],
-      value1:"订单id",
-      value2:"订单id",
+      value1:"orderId",
+      value2:"orderId",
       search_input1:"",
       search_input2:"",
       draw:false,
       draw2:false,
       DialogA:false,
       username:"",
-      site_id:1,
+      user:{
+        "userid": 0,
+        "username": "",
+        "nickname": "",
+        "email": "",
+        "phone": "",
+        "address": "",
+        "permission": "",
+        "siteId": 0
+      },
+      site_id:0,
       page_size1:4,
       currentPage1: 1,
       page_size2:4,
@@ -622,10 +633,21 @@ export default {
     }
   },
   created() {
-    this.getSiteOrder();
-    this.getSiteOrderDone();
+    this.getsiteid();
   },
   methods: {
+    getsiteid(){
+      this.username=this.$store.state.courier.username;
+      this.request.get("http://localhost:9090/user/get", {params:{username:this.username}})
+          .then(res=>
+          {
+            this.user=res;
+            this.site_id=this.user.siteId;
+            this.getSiteOrder();
+            this.getSiteOrderDone();
+          })
+      console.log(this.site_id);
+    },
     getSiteOrder(){
       this.request.get("http://localhost:9090/order/getsiteorder",{params:{pageNum:this.currentPage1,pageSize:this.page_size1,siteId:this.site_id,searchMode: this.value1,search_input: this.search_input1}})
           .then(res=>
@@ -656,6 +678,12 @@ export default {
     },
     handleCurrentChange2(val){
       this.currentPage2=val;
+      this.getSiteOrderDone();
+    },
+    clicksearch1(){
+      this.getSiteOrder();
+    },
+    clicksearch2(){
       this.getSiteOrderDone();
     },
     onSubmit() {

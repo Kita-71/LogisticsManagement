@@ -25,5 +25,6 @@ public class User {
     private String phone;
     private String address;
     private String permission;
+    private Integer siteId;
 
 }
