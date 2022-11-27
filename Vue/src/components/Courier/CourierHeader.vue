@@ -50,6 +50,10 @@ export default {
               : new Date().getSeconds();
       this.time =
           yy + "年 " + mm + "月" + dd + "日 " + hh + ":" + mf + ":" + ss;
+    },
+    Exit(){
+      this.$store.commit("courier_exit");
+      this.$router.replace({path:'/Sign'});
     }
   }
 }

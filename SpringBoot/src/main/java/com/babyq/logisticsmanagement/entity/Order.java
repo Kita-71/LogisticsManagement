@@ -40,7 +40,7 @@ public class Order {
     private String dest;
     private String receiverName;
     private String receiverPhone;
-    private  String currentSite;
+    private  Integer currentSite;
     private PickupMethod pickupMethod;
     private Date bookTime;
     private Date sendTime;

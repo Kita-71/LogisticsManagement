@@ -1,5 +1,7 @@
 package com.babyq.logisticsmanagement.controller;
 
+import com.babyq.logisticsmanagement.entity.Order;
+import com.babyq.logisticsmanagement.entity.Site;
 import com.babyq.logisticsmanagement.entity.Site;
 import com.babyq.logisticsmanagement.entity.User;
 import com.babyq.logisticsmanagement.service.SiteService;
@@ -48,4 +50,9 @@ public class SiteController {
     }
 
 
+    @GetMapping("/getSitesByRegion")
+    public List<Site> getSitesByRegion(@RequestParam String region)
+    {
+      return siteService.getSitesByRegion(region);
+    };
 }

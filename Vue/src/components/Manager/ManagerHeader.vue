@@ -6,7 +6,6 @@
 
           <i class="el-icon-setting"  ></i>
           <el-dropdown-menu slot="dropdown"  >
-            <el-dropdown-item @click.native="lookUserInfo">个人信息</el-dropdown-item>
             <el-dropdown-item  @click.native="Exit">退出</el-dropdown-item>
           </el-dropdown-menu>
         </div>
@@ -50,6 +49,10 @@ export default {
               : new Date().getSeconds();
       this.time =
           yy + "年 " + mm + "月" + dd + "日 " + hh + ":" + mf + ":" + ss;
+    },
+    Exit(){
+      this.$store.commit("admin_exit");
+      this.$router.replace({path:'/Sign'});
     }
   }
 }
