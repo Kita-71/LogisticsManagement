@@ -60,7 +60,10 @@
               </el-form-item>
               <!-- 密碼 -->
               <el-form-item prop="password" label="密码" :required="true">
-                <el-input v-model="LoginForm.password" placeholder="8-15位密码" show-password size="medium">
+                <el-input v-model="LoginForm.password" placeholder="8-15位密码" show-password size="medium"
+                          @paste.native.capture.prevent="handleFalse"
+                          @copy.native.capture.prevent="handleFalse"
+                          @cut.native.capture.prevent="handleFalse">
                 </el-input>
               </el-form-item>
               <!-- 按鈕 -->

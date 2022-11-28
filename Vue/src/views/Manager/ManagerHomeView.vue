@@ -85,7 +85,8 @@
                 </el-col>
                 <el-col :span="6">
                   <div>
-                    <el-statistic :value="like ? 521 : 520" title="运输中的订单">
+                    <el-statistic  :value="value4" title="暂时没想好统计啥">
+
                     </el-statistic>
                   </div>
                 </el-col>
@@ -158,7 +159,12 @@ export default {
             this.value2=res;
         }
     );
-    request.get("http://localhost:9090/user/count").then(res=>
+    request.get("http://localhost:9090/site/count").then(res=>
+        {
+          this.value3=res;
+        }
+    );
+    request.get("http://localhost:9090/order/count").then(res=>
         {
           this.value1=res;
         }
@@ -190,6 +196,7 @@ export default {
       value1: 4154.564,
       value2: 2222,
       value3:222,
+      value4:"大家周一快乐",
       title: "今年的增长",
       input: "Hello Element UI!",
       draw:false,
