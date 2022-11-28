@@ -144,7 +144,7 @@ export default {
         // 验证用户名是否合法
         username: [
           {required: true, message: '请输入用户名', trigger: 'blur'},
-          {min: 4, max: 8, message: '长度在 4到 8个字符', trigger: 'blur'}
+          {min: 4, max: 10, message: '长度在 4到 10个字符', trigger: 'blur'}
         ],
         nickname: [
           {required: true, message: '请输入昵称', trigger: 'blur'},

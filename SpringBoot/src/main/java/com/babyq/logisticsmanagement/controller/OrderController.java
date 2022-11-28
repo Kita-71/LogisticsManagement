@@ -74,6 +74,18 @@ public class OrderController {
     public boolean newOrUpdateOrder(@RequestBody Order order){
         if(order.getOrderId()==null)
             order.setBookTime(LocalDateTime.now());
+
+        return orderService.newOrUpdateOrder(order);
+    }
+    @PostMapping("/newOrUpdateOrder2")
+    public boolean newOrUpdateOrder2(@RequestBody Order order){
+        order.setSendTime(LocalDateTime.now());
+
+        return orderService.newOrUpdateOrder(order);
+    }
+    @PostMapping("/newOrUpdateOrder3")
+    public boolean newOrUpdateOrder3(@RequestBody Order order){
+        order.setDoneTime(LocalDateTime.now());
         return orderService.newOrUpdateOrder(order);
     }
 

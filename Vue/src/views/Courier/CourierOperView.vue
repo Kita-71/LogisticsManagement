@@ -727,7 +727,7 @@ export default {
         type: 'warning'
       }).then(() =>{
         this.dispatchForm.orderId=row.orderId;
-        this.request.post("http://localhost:9090/order/newOrUpdateOrder",this.dispatchForm)
+        this.request.post("http://localhost:9090/order/newOrUpdateOrder3",this.dispatchForm)
             .then(res=>
             {
               if(res==true){

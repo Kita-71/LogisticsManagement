@@ -575,7 +575,7 @@ export default {
     },
     handleDeliver(index, row) {
       this.deliveryForm.orderId=row.orderId;
-      this.request.post("http://localhost:9090/order/newOrUpdateOrder",this.deliveryForm)
+      this.request.post("http://localhost:9090/order/newOrUpdateOrder2",this.deliveryForm)
           .then(res=>
           {
             if(res==true){

@@ -89,7 +89,7 @@ public class UserController {
     public User getUser(@RequestParam String username)
     {
         QueryWrapper<User> queryWrapper=new QueryWrapper<>();
-        queryWrapper.like("username",username);
+        queryWrapper.eq("username",username);
         return userService.getOne(queryWrapper);
     }
     @GetMapping("/getone")
