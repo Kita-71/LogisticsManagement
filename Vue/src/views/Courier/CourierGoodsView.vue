@@ -193,14 +193,12 @@
                 </el-input>
               </el-col>
             </el-row>
-            <el-row class="table">
-
+            <el-row style="position: relative; height:100%;">
               <el-table
                   :data="tableData"
-                  class="table"
                   border
                   height="85%"
-                  style="width: 96%"
+                  style="position:absolute;width: 96% ; top:10%;margin-left: 2%;"
               >
                 <el-table-column
                     prop="orderId"
@@ -677,11 +675,5 @@ export default {
   position: relative;
   top: 5.5%;
   left: 2%;
-}
-.table{
-  position: relative;
-  top: 7%;
-  left: 1%;
-
 }
 </style>
