@@ -63,4 +63,12 @@ public class SiteController {
     {
       return siteService.getSitesByRegion(region);
     };
+
+    @GetMapping("/getSiteById")
+    public Site getSiteById(@RequestParam Integer id)
+    {
+        return siteService.getById(id);
+    }
+
+
 }
