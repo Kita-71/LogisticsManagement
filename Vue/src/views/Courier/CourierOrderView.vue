@@ -29,31 +29,31 @@
             </el-input>
           </el-form-item>
           <!-- 站点名称 -->
-          <el-form-item label="发件人" :required="true" prop="sender_name">
-            <el-input v-model="ChangeForm.sender_name" placeholder="站点名称" size="medium">
+          <el-form-item label="发件人" :required="true" prop="senderName">
+            <el-input v-model="ChangeForm.senderName" placeholder="站点名称" size="medium">
             </el-input>
           </el-form-item>
           <!-- 站点负责人姓名 -->
-          <el-form-item label="发件人电话" :required="true" prop="sender_phone">
-            <el-input v-model="ChangeForm.sender_phone" placeholder="NULL" size="medium">
+          <el-form-item label="发件人电话" :required="true" prop="senderPhone">
+            <el-input v-model="ChangeForm.senderPhone" placeholder="NULL" size="medium">
             </el-input>
           </el-form-item>
           <!-- 站点负责人地址 -->
-          <el-form-item label="收件人" :required="true" prop="receiver_name">
-            <el-input v-model="ChangeForm.receiver_name" placeholder="NULL" size="medium">
+          <el-form-item label="收件人" :required="true" prop="receiverName">
+            <el-input v-model="ChangeForm.receiverName" placeholder="NULL" size="medium">
             </el-input>
           </el-form-item>
           <!-- 站点用户Id -->
-          <el-form-item label="收件人电话" :required="true" prop="receiver_phone">
-            <el-input v-model="ChangeForm.receiver_phone" placeholder="NULL" size="medium" :disabled="false">
+          <el-form-item label="收件人电话" :required="true" prop="receiverPhone">
+            <el-input v-model="ChangeForm.receiverPhone" placeholder="NULL" size="medium" :disabled="false">
             </el-input>
           </el-form-item>
           <el-form-item label="收件地址" :required="true" prop="dest">
             <el-input v-model="ChangeForm.dest" placeholder="NULL" size="medium" :disabled="false">
             </el-input>
           </el-form-item>
-          <el-form-item label="目前站点的id" :required="true" prop="current_site">
-            <el-input v-model="ChangeForm.current_site" placeholder="NULL" size="medium" :disabled="false">
+          <el-form-item label="目前站点的id" :required="true" prop="currentSite">
+            <el-input v-model="ChangeForm.currentSite" placeholder="NULL" size="medium" :disabled="false">
             </el-input>
           </el-form-item>
           <el-form-item label="状态" :required="true" prop="state">
@@ -192,20 +192,20 @@ export default {
         orderId:"",
         goods:"",
         origin:"",
-        sender_name:"",
-        sender_phone:"",
+        senderName:"",
+        senderPhone:"",
         dest:"",
-        receiver_name:"",
-        receiver_phone:"",
-        current_site:"",
+        receiverName:"",
+        receiverPhone:"",
+        currentSite:"",
         state:"",
-        pickup_method:"",
-        book_time:[],
-        send_time:[],
-        done_time:[],
+        pickupMethod:"",
+        bookTime:[],
+        sendTime:[],
+        doneTime:[],
         postscript:"",
-        sender_uid:"",
-        receiver_uid:""
+        senderUid:"",
+        receiverUid:""
       },
       ChangeFromRules: {
         sitePrincipalPhone:[
@@ -386,7 +386,7 @@ export default {
     onSubmit() {
       this.$refs["ChangeFormRef"].validate(valid => {
         if (valid) {
-          this.request.post("http://localhost:9090/order/newOrUpdateOrder", {params:{order:this.ChangeForm}})
+          this.request.post("http://localhost:9090/order/newOrUpdateOrder", this.ChangeForm)
               .then(res=>
               {
                 this.$message({
@@ -401,20 +401,20 @@ export default {
           this.ChangeForm.orderId="";
           this.ChangeForm.goods="";
           this.ChangeForm.origin="";
-          this.ChangeForm.sender_name="";
-          this.ChangeForm.sender_phone="";
+          this.ChangeForm.senderName="";
+          this.ChangeForm.senderPhone="";
           this.ChangeForm.dest="";
-          this.ChangeForm.receiver_name="";
-          this.ChangeForm.receiver_phone="";
-          this.ChangeForm.current_site="";
+          this.ChangeForm.receiverName="";
+          this.ChangeForm.receiverPhone="";
+          this.ChangeForm.currentSite="";
           this.ChangeForm.state="";
-          this.ChangeForm.pickup_method="";
-          this.ChangeForm.book_time=[];
-          this.ChangeForm.send_time=[];
-          this.ChangeForm.done_time=[];
+          this.ChangeForm.pickupMethod="";
+          this.ChangeForm.bookTime=[];
+          this.ChangeForm.sendTime=[];
+          this.ChangeForm.doneTime=[];
           this.ChangeForm.postscript="";
-          this.ChangeForm.sender_uid="";
-          this.ChangeForm.receiver_uid="";
+          this.ChangeForm.senderUid="";
+          this.ChangeForm.receiverUid="";
         }else{
           this.DialogA = true;
           console.log("error submit!!");
@@ -474,27 +474,24 @@ export default {
       this.request.get("http://localhost:9090/order/getorder",{params:{orderId:orderId}})
           .then(res=>
           {
-
             this.ChangeForm.orderId=res.orderId;
             this.ChangeForm.goods=res.goods;
             this.ChangeForm.origin=res.origin;
-            this.ChangeForm.sender_name=res.senderName;
-            this.ChangeForm.sender_phone=res.senderPhone;
+            this.ChangeForm.senderName=res.senderName;
+            this.ChangeForm.senderPhone=res.senderPhone;
             this.ChangeForm.dest=res.dest;
-            this.ChangeForm.receiver_name=res.receiverName;
-            this.ChangeForm.receiver_phone=res.receiverPhone;
-            this.ChangeForm.current_site=res.currentSite;
+            this.ChangeForm.receiverName=res.receiverName;
+            this.ChangeForm.receiverPhone=res.receiverPhone;
+            this.ChangeForm.currentSite=res.currentSite;
             this.ChangeForm.state=res.state;
-            this.ChangeForm.pickup_method=res.pickupMethod;
-            this.ChangeForm.book_time=res.bookTime;
-            this.ChangeForm.send_time=res.sendTime;
-            this.ChangeForm.done_time=res.doneTime;
+            this.ChangeForm.pickupMethod=res.pickupMethod;
+            this.ChangeForm.bookTime=res.bookTime;
+            this.ChangeForm.sendTime=res.sendTime;
+            this.ChangeForm.doneTime=res.doneTime;
             this.ChangeForm.postscript=res.postscript;
-            this.ChangeForm.sender_uid=res.senderUid;
-            this.ChangeForm.receiver_uid=res.receiverUid;
+            this.ChangeForm.senderUid=res.senderUid;
+            this.ChangeForm.receiverUid=res.receiverUid;
           })
-
-
     },
     handleDelete(index,row){
       this.$confirm('此操作将永久删除该订单, 是否继续?', '提示', {
