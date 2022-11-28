@@ -159,7 +159,7 @@
           <div
                class="rightContainer">
 
-            <el-row >
+            <el-row style="height: 5%;">
               <el-col :span="6">
                 <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
                   <el-breadcrumb-item :to="{ path: '/CourierHome' }">主页</el-breadcrumb-item>
@@ -167,9 +167,9 @@
                 </el-breadcrumb>
               </el-col>
             </el-row>
-            <el-row style="top: 6%" >
-              <div style="position: relative;top: -22px;">
-                <el-col :span="12" style=" margin-left: 10px; width: 47%">
+            <el-row style=" position: relative;top: 3%" >
+              <div style="position: relative;width: 100%">
+                <el-col :span="12" style=" margin-left: 1%; width: 47%">
                   <el-input v-model="takeininput" placeholder="请输入待入库的订单号"  clearable class="textarea"></el-input>
                 </el-col>
                 <el-col :span="11">

@@ -1,21 +1,19 @@
 <template>
   <div class="header">
     <div class="user">
-      <el-dropdown  style=" color: #999922; position: relative; left: 60px;top: -16px;">
-        <div style="font-size: 45px; ">
-
+      <el-dropdown  style=" color: #999922; position: relative; left: 50px;top: -2px;">
+        <div style="font-size: 20px; ">
           <i class="el-icon-setting"  ></i>
           <el-dropdown-menu slot="dropdown"  >
-            <el-dropdown-item @click.native="lookUserInfo">个人信息</el-dropdown-item>
             <el-dropdown-item  @click.native="Exit">退出</el-dropdown-item>
           </el-dropdown-menu>
         </div>
       </el-dropdown>
     </div>
     <span class="times">{{ time }}</span>
-    <div class="user" style="font-size: 25px; position: relative;  left: -200px; top: 12px; ">
+    <div class="user" style="font-size: 15px; position: relative;  left: -150px; top: 20px; ">
       <i class="el-icon-s-custom" ></i>
-      <span>Admin</span>
+      <span>{{this.$store.state.courier.username}}</span>
     </div>
   </div>
 </template>
