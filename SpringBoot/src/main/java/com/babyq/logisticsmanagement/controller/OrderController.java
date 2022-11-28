@@ -96,6 +96,42 @@ public class OrderController {
     {
         return orderService.checkOrder(orderId);
     }
+    @GetMapping("/getsiteordertotal")
+    //用于获取本站点的所有待发出快递
+    public IPage<Order> getsiteordertotal(@RequestParam Integer pageNum, @RequestParam Integer pageSize,@RequestParam Integer siteId,@RequestParam(defaultValue = "") String searchMode, @RequestParam(defaultValue = "") String search_input)
+    {
+        IPage<Order> page=new Page<>(pageNum,pageSize);
+        QueryWrapper<Order> queryWrapper= new QueryWrapper<>();
+        queryWrapper.eq("current_site",siteId);//筛选本站点订单
+        if(!search_input.isEmpty())
+        {
+            if(searchMode.equals("orderId"))
+            {
+                queryWrapper.eq("orderId",search_input);
+            }
+            else if (searchMode.equals("goods"))
+            {
+                queryWrapper.like("goods",search_input);
+            }
+            else if (searchMode.equals("sender_name"))
+            {
+                queryWrapper.like("sender_name",search_input);
+            }
+            else if (searchMode.equals("sender_phone"))
+            {
+                queryWrapper.eq("sender_phone",search_input);
+            }
+            else if (searchMode.equals("receiver_name"))
+            {
+                queryWrapper.like("receiver_name",search_input);
+            }
+            else if (searchMode.equals("receiver_phone"))
+            {
+                queryWrapper.eq("receiver_phone",search_input);
+            }
+        }
+        return orderService.page(page,queryWrapper);
+    }
     @GetMapping("/getsiteorder")
     //用于获取本站点的所有待发出快递
     public IPage<Order> getsiteorder(@RequestParam Integer pageNum, @RequestParam Integer pageSize,@RequestParam Integer siteId,@RequestParam(defaultValue = "") String searchMode, @RequestParam(defaultValue = "") String search_input)
@@ -114,6 +150,7 @@ public class OrderController {
             {
                 queryWrapper.like("goods",search_input);
             }
+
             else if (searchMode.equals("receiver_name"))
             {
                 queryWrapper.like("receiver_name",search_input);
@@ -124,7 +161,7 @@ public class OrderController {
             }
             else if (searchMode.equals("dest"))
             {
-                queryWrapper.like("dest",search_input);
+                queryWrapper.eq("dest",search_input);
             }
         }
         return orderService.page(page,queryWrapper);

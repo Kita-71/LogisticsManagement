@@ -293,21 +293,42 @@ export default {
           label: '收件人电话'
         },
       ],
+      user:{
+        "userid": 0,
+        "username": "",
+        "nickname": "",
+        "email": "",
+        "phone": "",
+        "address": "",
+        "permission": "",
+        "siteId": 0
+      },
       value: "orderId",//当前选择项
       draw2:false,
       draw:false,
       page_size:9,
       currentPage: 1,
       total:0,
-      deleteOrderid:""
+      deleteOrderid:"",
+      site_id:0
     }
   },
   created(){
-    this.getOrderTotal();
+    this.getsiteid();
   },
   methods: {
+    getsiteid(){
+      this.username=this.$store.state.courier.username;
+      this.request.get("http://localhost:9090/user/getone", {params:{username:this.username}})
+          .then(res=>
+          {
+            this.user=res;
+            this.site_id=this.user.siteId;
+            this.getOrderTotal();
+          })
+    },
     getOrderTotal(){
-      this.request.get("http://localhost:9090/order/pagefilter",{params:{pageNum:this.currentPage,pageSize:this.page_size,searchMode: this.value,search_input: this.search_input}})
+      this.request.get("http://localhost:9090/order/getsiteordertotal",{params:{pageNum:this.currentPage,pageSize:this.page_size,siteId:this.site_id,searchMode: this.value,search_input: this.search_input}})
           .then(res=>
           {
             this.tableData=res.records;
