@@ -18,7 +18,7 @@
                 订单ID
               </div>
             </template>
-            {{this.ChangeForm.orderId}}
+            {{this.infoForm.orderId}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
@@ -28,7 +28,7 @@
               </div>
 
             </template>
-            {{this.ChangeForm.book_time}}
+            {{this.infoForm.book_time}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
@@ -37,7 +37,7 @@
                 物品名
               </div>
             </template>
-            {{this.ChangeForm.goods}}
+            {{this.infoForm.goods}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
@@ -46,7 +46,7 @@
                 发件人姓名
               </div>
             </template>
-            {{this.ChangeForm.sender_name}}
+            {{this.infoForm.sender_name}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
@@ -55,7 +55,7 @@
                 发件人手机号
               </div>
             </template>
-            {{this.ChangeForm.sender_phone}}
+            {{this.infoForm.sender_phone}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
@@ -65,7 +65,7 @@
               </div>
 
             </template>
-            {{this.ChangeForm.sender_uid}}
+            {{this.infoForm.sender_uid}}
           </el-descriptions-item>
 
           <el-descriptions-item>
@@ -75,7 +75,7 @@
                 收件人
               </div>
             </template>
-            {{this.ChangeForm.receiver_name}}
+            {{this.infoForm.receiver_name}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
@@ -84,7 +84,7 @@
                 收件人手机号
               </div>
             </template>
-            {{this.ChangeForm.receiver_phone}}
+            {{this.infoForm.receiver_phone}}
           </el-descriptions-item>
 
           <el-descriptions-item>
@@ -95,7 +95,7 @@
               </div>
 
             </template>
-            {{this.ChangeForm.receiver_uid}}
+            {{this.infoForm.receiver_uid}}
           </el-descriptions-item>
 
           <el-descriptions-item>
@@ -105,7 +105,7 @@
                 目的地
               </div>
             </template>
-            {{this.ChangeForm.dest}}
+            {{this.infoForm.dest}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
@@ -114,7 +114,7 @@
                 发货地
               </div>
             </template>
-            {{this.ChangeForm.origin}}
+            {{this.infoForm.origin}}
           </el-descriptions-item>
 
           <el-descriptions-item>
@@ -124,7 +124,7 @@
                 取件方式
               </div>
             </template>
-            {{this.ChangeForm.pickup_method}}
+            {{this.infoForm.pickup_method}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
@@ -133,7 +133,7 @@
                 状态
               </div>
             </template>
-            {{this.ChangeForm.state}}
+            {{this.infoForm.state}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
@@ -142,7 +142,7 @@
               备注
               </div>
             </template>
-            {{this.ChangeForm.postscript}}
+            {{this.infoForm.postscript}}
           </el-descriptions-item>
         </el-descriptions>
       </div>
@@ -189,7 +189,7 @@
                     placeholder= "请输入与选择框对应的查询内容"
                     v-model="search_input"
                     class="search">
-                  <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+                  <el-button slot="append" icon="el-icon-search" @click="clicksearch"></el-button>
                 </el-input>
               </el-col>
             </el-row>
@@ -215,15 +215,15 @@
                     label="发货地">
                 </el-table-column>
                 <el-table-column
-                    prop="sender_name"
+                    prop="senderName"
                     label="发件人姓名">
                 </el-table-column>
                 <el-table-column
-                    prop="sender_phone"
+                    prop="senderPhone"
                     label="发件人手机号">
                 </el-table-column>
                 <el-table-column
-                    prop="book_time"
+                    prop="bookTime"
                     label="预约时间">
                 </el-table-column>
                 <el-table-column
@@ -247,11 +247,11 @@
             <el-pagination
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
-                :current-page="currentPage4"
-                :page-sizes="[9, 18, 27,36]"
-                :page-size="9"
+                :current-page="currentPage"
+                :page-sizes="[8, 16, 24,32]"
+                :page-size="8"
                 layout="total, sizes, prev, pager, next, jumper"
-                :total="400"
+                :total="total"
                 class="pagination2">
             </el-pagination>
           </div>
@@ -317,6 +317,29 @@ export default {
         postscript: "",
         sender_uid: "",
         receiver_uid: ""
+      },
+      infoForm:{
+        orderId:"",
+        goods:"",
+        origin:"",
+        sender_name:"",
+        sender_phone:"",
+        dest:"",
+        receiver_name:"",
+        receiver_phone:"",
+        current_site:"",
+        state:"",
+        pickup_method:"",
+        book_time:"",
+        send_time:"",
+        done_time:"",
+        postscript:"",
+        sender_uid:"",
+        receiver_uid:""
+      },
+      deliveryForm:{
+        orderId: "",
+        state: "in_transport"
       },
       ChangeFromRules: {
         // 验证用户名是否合法
@@ -422,7 +445,7 @@ export default {
     }
   },
   created(){
-
+    this.getsiteid();
   },
   methods: {
     getsiteid(){
@@ -443,6 +466,21 @@ export default {
             this.tableData=res.records;
             this.total=res.total;
           })
+    },
+    handleSizeChange(val){
+      this.page_size=val;
+      this.getReserveOrder();
+    },
+    handleCurrentChange(val){
+      this.currentPage=val;
+      this.getReserveOrder();
+    },
+    clicksearch(){
+      this.$message({
+        type: 'success',
+        message: '搜索成功'
+      });
+      this.getReserveOrder();
     },
     onSubmit() {
       this.$refs["ChangeFormRef"].validate(valid => {
@@ -512,29 +550,44 @@ export default {
     },
     handleInfo(index, row) {
       this.draw2=true;
-      this.ChangeForm.orderId=row.orderId;
-      this.ChangeForm.origin=row.origin;
-      this.ChangeForm.book_time=row.book_time;
-      this.ChangeForm.dest=row.dest;
-      this.ChangeForm.current_site=row.current_site;
-      this.ChangeForm.goods=row.goods;
-      this.ChangeForm.done_time=row.done_time;
-      this.ChangeForm.pickup_method=row.pickup_method;
-      this.ChangeForm.postscript=row.postscript;
-      this.ChangeForm.receiver_name=row.receiver_name;
-      this.ChangeForm.receiver_phone=row.receiver_phone;
-      this.ChangeForm.receiver_uid=row.receiver_uid;
-      this.ChangeForm.send_time=row.send_time;
-      this.ChangeForm.sender_name=row.sender_name;
-      this.ChangeForm.sender_uid=row.sender_uid;
-      this.ChangeForm.sender_phone=row.sender_phone;
+      var orderId=row.orderId;
+      this.request.get("http://localhost:9090/order/getorder",{params:{orderId:orderId}})
+          .then(res=>
+          {
+            this.infoForm.orderId=res.orderId;
+            this.infoForm.origin=res.origin;
+            this.infoForm.book_time=res.bookTime;
+            this.infoForm.dest=res.dest;
+            this.infoForm.current_site=res.currentSite;
+            this.infoForm.goods=res.goods;
+            this.infoForm.done_time=res.doneTime;
+            this.infoForm.pickup_method=res.pickupMethod;
+            this.infoForm.postscript=res.postscript;
+            this.infoForm.receiver_name=res.receiverName;
+            this.infoForm.receiver_phone=res.receiverPhone;
+            this.infoForm.receiver_uid=res.receiverUid;
+            this.infoForm.send_time=res.sendTime;
+            this.infoForm.sender_name=res.senderName;
+            this.infoForm.sender_uid=res.senderUid;
+            this.infoForm.sender_phone=res.senderPhone;
+            this.infoForm.state=res.state;
+          })
+
 
     },
     handleDeliver(index, row) {
-      this.$message({
-        type: 'success',
-        message: '已成功发货'
-      });
+      this.deliveryForm.orderId=row.orderId;
+      this.request.post("http://localhost:9090/order/newOrUpdateOrder",this.deliveryForm)
+          .then(res=>
+          {
+            if(res==true){
+              this.$message({
+                type: 'success',
+                message: '发货成功'
+              });
+            }
+            this.getReserveOrder();
+          })
     },
 
     handleDelete(index,row){

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -42,9 +43,9 @@ public class Order {
     private String receiverPhone;
     private  Integer currentSite;
     private PickupMethod pickupMethod;
-    private Date bookTime;
-    private Date sendTime;
-    private Date doneTime;
+    private LocalDateTime bookTime;
+    private LocalDateTime sendTime;
+    private LocalDateTime doneTime;
     private  State state;
     private String postscript;
     private Integer senderUid;
