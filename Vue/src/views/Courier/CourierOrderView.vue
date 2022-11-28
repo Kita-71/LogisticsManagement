@@ -19,73 +19,49 @@
         <el-form ref="ChangeFormRef"
                  :model="ChangeForm" :rules="ChangeFromRules" class="changeForm">
           <!-- 站点Id -->
-          <el-form-item label="订单Id" :required="true" prop="siteId">
+          <el-form-item label="订单Id" :required="true" prop="orderId">
             <el-input v-model="ChangeForm.orderId" placeholder="" size="medium" :disabled="true" >
             </el-input>
           </el-form-item>
           <!-- 站点所在区域 -->
-          <el-form-item label="物品名" :required="true" prop="siteRegion">
-            <el-input v-model="ChangeForm.goods" placeholder="站点所在区域" size="medium">
+          <el-form-item label="物品名" :required="true" prop="goods">
+            <el-input v-model="ChangeForm.goods" placeholder="NULL" size="medium">
             </el-input>
           </el-form-item>
           <!-- 站点名称 -->
-          <el-form-item label="发件人" :required="true" prop="siteName">
+          <el-form-item label="发件人" :required="true" prop="sender_name">
             <el-input v-model="ChangeForm.sender_name" placeholder="站点名称" size="medium">
             </el-input>
           </el-form-item>
           <!-- 站点负责人姓名 -->
-          <el-form-item label="发件人电话" :required="true" prop="sitePrincipalName">
-            <el-input v-model="ChangeForm.sender_phone" placeholder="站点负责人名称" size="medium">
+          <el-form-item label="发件人电话" :required="true" prop="sender_phone">
+            <el-input v-model="ChangeForm.sender_phone" placeholder="NULL" size="medium">
             </el-input>
           </el-form-item>
           <!-- 站点负责人地址 -->
-          <el-form-item label="收件人" :required="true" prop="sitePrincipalPhone">
-            <el-input v-model="ChangeForm.receiver_name" placeholder="站点负责人手机号" size="medium">
+          <el-form-item label="收件人" :required="true" prop="receiver_name">
+            <el-input v-model="ChangeForm.receiver_name" placeholder="NULL" size="medium">
             </el-input>
           </el-form-item>
           <!-- 站点用户Id -->
-          <el-form-item label="收件人电话" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.receiver_phone" placeholder="站点账号Id" size="medium" :disabled="false">
+          <el-form-item label="收件人电话" :required="true" prop="receiver_phone">
+            <el-input v-model="ChangeForm.receiver_phone" placeholder="NULL" size="medium" :disabled="false">
             </el-input>
           </el-form-item>
-          <el-form-item label="收件地址" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.dest" placeholder="站点账号Id" size="medium" :disabled="false">
+          <el-form-item label="收件地址" :required="true" prop="dest">
+            <el-input v-model="ChangeForm.dest" placeholder="NULL" size="medium" :disabled="false">
             </el-input>
           </el-form-item>
-          <el-form-item label="目前位置" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.current_site" placeholder="站点账号Id" size="medium" :disabled="false">
+          <el-form-item label="目前站点的id" :required="true" prop="current_site">
+            <el-input v-model="ChangeForm.current_site" placeholder="NULL" size="medium" :disabled="false">
             </el-input>
           </el-form-item>
-          <el-form-item label="状态" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.state" placeholder="站点账号Id" size="medium" :disabled="false">
+          <el-form-item label="状态" :required="true" prop="state">
+            <el-input v-model="ChangeForm.state" placeholder="NULL" size="medium" :disabled="false">
             </el-input>
           </el-form-item>
-          <el-form-item label="取件方式" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.pickup_method" placeholder="站点账号Id" size="medium" :disabled="false">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="预约时间" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.book_time" placeholder="站点账号Id" size="medium" :disabled="false">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="发货时间" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.send_time" placeholder="站点账号Id" size="medium" :disabled="false">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="抵达时间" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.done_time" placeholder="站点账号Id" size="medium" :disabled="false">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="备注" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.postscript" placeholder="站点账号Id" size="medium" :disabled="false">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="发货人uid" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.sender_uid" placeholder="站点账号Id" size="medium" :disabled="false">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="收货人uid" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.receiver_uid" placeholder="站点账号Id" size="medium" :disabled="false">
+          <el-form-item label="备注"  prop="postscript">
+            <el-input v-model="ChangeForm.postscript" placeholder="NULL" size="medium" :disabled="false">
             </el-input>
           </el-form-item>
           <!-- 权限-->
@@ -232,7 +208,6 @@ export default {
         receiver_uid:""
       },
       ChangeFromRules: {
-        // 验证用户名是否合法
         sitePrincipalPhone:[
           {required: true, message: '请输入负责人手机号', trigger: 'blur'},
           {
@@ -259,6 +234,7 @@ export default {
         }],
         sitePrincipalNull: [{
         }],
+
       },
       DialogA: false,
       DialogB: false,
