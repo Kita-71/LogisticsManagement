@@ -224,9 +224,9 @@ export default {
         current_site:"",
         state:"",
         pickup_method:"",
-        book_time:"",
-        send_time:"",
-        done_time:"",
+        book_time:[],
+        send_time:[],
+        done_time:[],
         postscript:"",
         sender_uid:"",
         receiver_uid:""
@@ -370,9 +370,9 @@ export default {
           this.ChangeForm.current_site="";
           this.ChangeForm.state="";
           this.ChangeForm.pickup_method="";
-          this.ChangeForm.book_time="";
-          this.ChangeForm.send_time="";
-          this.ChangeForm.done_time="";
+          this.ChangeForm.book_time=[];
+          this.ChangeForm.send_time=[];
+          this.ChangeForm.done_time=[];
           this.ChangeForm.postscript="";
           this.ChangeForm.sender_uid="";
           this.ChangeForm.receiver_uid="";
@@ -400,9 +400,9 @@ export default {
       this.ChangeForm.current_site="";
       this.ChangeForm.state="";
       this.ChangeForm.pickup_method="";
-      this.ChangeForm.book_time="";
-      this.ChangeForm.send_time="";
-      this.ChangeForm.done_time="";
+      this.ChangeForm.book_time=[];
+      this.ChangeForm.send_time=[];
+      this.ChangeForm.done_time=[];
       this.ChangeForm.postscript="";
       this.ChangeForm.sender_uid="";
       this.ChangeForm.receiver_uid="";
@@ -410,17 +410,35 @@ export default {
     onSubmit() {
       this.$refs["ChangeFormRef"].validate(valid => {
         if (valid) {
+          this.request.post("http://localhost:9090/order/newOrUpdateOrder", {params:{order:this.ChangeForm}})
+              .then(res=>
+              {
+                this.$message({
+                  type: 'success',
+                  message: '修改订单信息成功'
+                });
+                this.getOrderTotal();
+              })
           console.log("success submit!!");
-          this.$message({
-            type: 'success',
-            message: '修改成功'
-          });
+
           this.draw2=false;
-          this.ChangeForm.username="";
-          this.ChangeForm.password="";
-          this.ChangeForm.email="";
-          this.ChangeForm.permission="";
-          this.ChangeForm.phone="";
+          this.ChangeForm.orderId="";
+          this.ChangeForm.goods="";
+          this.ChangeForm.origin="";
+          this.ChangeForm.sender_name="";
+          this.ChangeForm.sender_phone="";
+          this.ChangeForm.dest="";
+          this.ChangeForm.receiver_name="";
+          this.ChangeForm.receiver_phone="";
+          this.ChangeForm.current_site="";
+          this.ChangeForm.state="";
+          this.ChangeForm.pickup_method="";
+          this.ChangeForm.book_time=[];
+          this.ChangeForm.send_time=[];
+          this.ChangeForm.done_time=[];
+          this.ChangeForm.postscript="";
+          this.ChangeForm.sender_uid="";
+          this.ChangeForm.receiver_uid="";
         }else{
           this.DialogA = true;
           console.log("error submit!!");
@@ -445,9 +463,9 @@ export default {
       this.ChangeForm.current_site="";
       this.ChangeForm.state="";
       this.ChangeForm.pickup_method="";
-      this.ChangeForm.book_time="";
-      this.ChangeForm.send_time="";
-      this.ChangeForm.done_time="";
+      this.ChangeForm.book_time=[];
+      this.ChangeForm.send_time=[];
+      this.ChangeForm.done_time=[];
       this.ChangeForm.postscript="";
       this.ChangeForm.sender_uid="";
       this.ChangeForm.receiver_uid="";
@@ -466,9 +484,9 @@ export default {
       this.ChangeForm.current_site="";
       this.ChangeForm.state="";
       this.ChangeForm.pickup_method="";
-      this.ChangeForm.book_time="";
-      this.ChangeForm.send_time="";
-      this.ChangeForm.done_time="";
+      this.ChangeForm.book_time=[];
+      this.ChangeForm.send_time=[];
+      this.ChangeForm.done_time=[];
       this.ChangeForm.postscript="";
       this.ChangeForm.sender_uid="";
       this.ChangeForm.receiver_uid="";
@@ -493,12 +511,11 @@ export default {
             this.ChangeForm.state=res.state;
             this.ChangeForm.pickup_method=res.pickupMethod;
             this.ChangeForm.book_time=res.bookTime;
-            this.ChangeForm.send_time=res.send_time;
+            this.ChangeForm.send_time=res.sendTime;
             this.ChangeForm.done_time=res.doneTime;
             this.ChangeForm.postscript=res.postscript;
             this.ChangeForm.sender_uid=res.senderUid;
             this.ChangeForm.receiver_uid=res.receiverUid;
-
           })
 
 
