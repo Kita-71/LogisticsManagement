@@ -65,6 +65,32 @@
               <el-option label="快递点员工" value="deliveryStaff"></el-option>
             </el-select>
           </el-form-item>
+
+          <el-form-item label="当前站点" v-if="this.ChangeForm.permission==='deliveryStaff'" >
+            {{this.currentSite}}
+          </el-form-item>
+          <el-form-item label="站点选择" :required="true" v-if="this.ChangeForm.permission==='deliveryStaff'">
+            <el-row><region-group
+                :town="true"
+                v-model="region"
+                @change="siteRegionChange"
+                class="regionBox"
+            />
+            </el-row>
+            <el-row>
+            <el-col class="line" :span="4">站点名称：</el-col>
+            <el-col :span="20">
+              <el-select v-model="site_value" filterable placeholder="请选择">
+                <el-option
+                    v-for="item in site_options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+              </el-select>
+            </el-col>
+            </el-row>
+          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="onSubmit">修改</el-button>
             <el-button @click="onExit">取消</el-button>
@@ -191,10 +217,11 @@
 import ManagerAside from "@/components/Manager/ManagerAside";
 import ManagerHeader from "@/components/Manager/ManagerHeader";
 import request from "@/utils/request";
+import {RegionGroup} from "v-region";
 
 export default {
   name: "ManagerHome",
-  components: {ManagerAside, ManagerHeader},
+  components: {ManagerAside, ManagerHeader,RegionGroup},
   data() {
     var validatePass2 = (rule, value, callback) => {
       if (value === '') {
@@ -213,7 +240,8 @@ export default {
         nickname: "",
         phone: "",
         email: "",
-        permission: ""
+        permission: "",
+        siteId:0,
       },
       resetpswdForm: {
         userid:1,
@@ -307,13 +335,45 @@ export default {
       DialogA: false,
       page_size:4,
       currentPage: 1,
-      deleteUserid:1
+      deleteUserid:1,
+      site_options:[
+      ],
+      site_value: '',
+      region: {
+      },
+      currentSite:"",
     }
   },
   created(){
     this.getUserTotal();
   },
   methods: {
+    siteRegionChange (data){
+      this.site_options=[];
+      this.site_value="";
+      if(data.province.value) {
+        this.siteRegionData=data.province.value;
+        console.log(this.siteRegionData);
+      }
+      if(data.city.value) {
+        this.siteRegionData=data.province.value+data.city.value;
+        console.log(this.siteRegionData);
+      }
+      if(data.area.value) {
+        this.siteRegionData=data.province.value+data.city.value+data.area.value;
+        console.log(this.siteRegionData);
+      }
+      if(data.town.value) {
+        this.siteRegionData=data.province.value+data.city.value+data.area.value+data.town.value;
+        request.get("http://localhost:9090/site/getSitesByRegion",{params:{region:this.siteRegionData}}).then(res=> {
+          for(var key in res){
+            console.info(key+":"+res[key]);
+
+            this.site_options.push({label:res[key].siteName,value:res[key].siteId});
+          };
+        });
+      }
+    },
     getUserTotal()
     {
       this.request.get("http://localhost:9090/user/pagefilter",{params:{pageNum:this.currentPage,pageSize:this.page_size,searchMode: this.value,search_input: this.search_input}})
@@ -349,10 +409,60 @@ export default {
             //this.getUserTotal();
           })
     },
+    handleEdit(index, row) {
+      this.draw2 = true;
+      this.ChangeForm.userid = Number(row.userid);
+      this.ChangeForm.username = row.username;
+      this.ChangeForm.nickname = row.nickname;
+      this.ChangeForm.phone = row.phone;
+      this.ChangeForm.email = row.email;
+      this.ChangeForm.permission = row.permission;
+      this.ChangeForm.siteId = row.siteId;
+      if(row.siteId)
+      {
+        request.get("http://localhost:9090/site/getSiteById",{params:{id:row.siteId}}).then(res=>{
+          this.currentSite=res.siteRegion+ res.siteName;
+        });
+      }
+    },
     onSubmit() {
       this.$refs["ChangeFormRef"].validate(valid => {
         if (valid) {
-          request.post("http://localhost:9090/user/changeInfo",this.ChangeForm).then(res=> {
+          if(this.site_value)
+          {
+            this.ChangeForm.siteId=Number(this.site_value);
+            request.post("http://localhost:9090/user/changeInfo",this.ChangeForm).then(res=> {
+              if (res)
+              {
+                this.$message({
+                  type: 'success',
+                  message: '修改成功'
+                });
+                //修改成功，即刻修改
+                this.getUserTotal();
+              }
+              else
+              {
+                this.$message({
+                  type: 'warning',
+                  message: '修改失败'
+                });
+              }
+            });
+            this.draw2 = false;
+            this.ChangeForm.username = "";
+            this.ChangeForm.email = "";
+            this.ChangeForm.permission = "";
+            this.ChangeForm.phone = "";
+            this.ChangeForm.siteId = 0;
+            this.currentSite="";
+            this.region="";
+            this.site_value="";
+            this.site_options="";
+          }
+          else
+          {
+            request.post("http://localhost:9090/user/changeInfo",this.ChangeForm).then(res=> {
             if (res)
             {
               this.$message({
@@ -360,7 +470,7 @@ export default {
                 message: '修改成功'
               });
               //修改成功，即刻修改
-              this.$router.go(0);
+              this.getUserTotal();
             }
             else
             {
@@ -370,11 +480,17 @@ export default {
               });
             }
           });
-          this.draw2 = false;
-          this.ChangeForm.username = "";
-          this.ChangeForm.email = "";
-          this.ChangeForm.permission = "";
-          this.ChangeForm.phone = "";
+            this.draw2 = false;
+            this.ChangeForm.username = "";
+            this.ChangeForm.email = "";
+            this.ChangeForm.permission = "";
+            this.ChangeForm.phone = "";
+            this.ChangeForm.siteId = 0;
+            this.currentSite="";
+            this.region="";
+            this.site_value="";
+            this.site_options="";
+          }
         } else {
           this.DialogA = true;
         }
@@ -387,6 +503,11 @@ export default {
       this.ChangeForm.email = "";
       this.ChangeForm.permission = "";
       this.ChangeForm.phone = "";
+      this.ChangeForm.siteId = 0;
+      this.currentSite="";
+      this.region="";
+      this.site_value="";
+      this.site_options="";
       this.$message({
         type: 'info',
         message: '已取消修改'
@@ -419,15 +540,6 @@ export default {
       this.PasswdForm.passwd = "";
       this.PasswdForm.repasswd = "";
       this.draw = false;
-    },
-    handleEdit(index, row) {
-      this.draw2 = true;
-      this.ChangeForm.userid = Number(row.userid);
-      this.ChangeForm.username = row.username;
-      this.ChangeForm.nickname = row.nickname;
-      this.ChangeForm.phone = row.phone;
-      this.ChangeForm.email = row.email;
-      this.ChangeForm.permission = row.permission;
     },
     handlePasswd(index, row) {
       this.$confirm('此操作将重置该用户密码, 是否继续?', '提示', {

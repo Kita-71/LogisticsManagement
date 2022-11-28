@@ -643,6 +643,7 @@ export default {
                               });
                             }
                             this.getSiteOrder();
+                            this.getSiteOrderDone();
                             this.takeininput="";
                           })
                     }
