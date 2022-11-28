@@ -252,7 +252,7 @@
                 :page-size="9"
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="400"
-                class="pagination">
+                class="pagination2">
             </el-pagination>
           </div>
         </el-col>
@@ -279,25 +279,26 @@ export default {
       }
     }
     return {
-      tableData: [{
-        orderId:"123123123123",
-        goods:"医托答辩",
-        origin:"540",
-        sender_name:"Kita",
-        sender_phone:"13126078008",
-        dest:"",
-        receiver_name:"",
-        receiver_phone:"",
-        current_site: "",
-        state: "",
-        pickup_method:"",
-        book_time: "2022-11-26-17:02",
-        send_time: "",
-        done_time: "",
-        postscript: "",
-        sender_uid: "",
-        receiver_uid: ""
-      }],
+      // tableData: [{
+      //   orderId:"123123123123",
+      //   goods:"医托答辩",
+      //   origin:"540",
+      //   sender_name:"Kita",
+      //   sender_phone:"13126078008",
+      //   dest:"",
+      //   receiver_name:"",
+      //   receiver_phone:"",
+      //   current_site: "",
+      //   state: "",
+      //   pickup_method:"",
+      //   book_time: "2022-11-26-17:02",
+      //   send_time: "",
+      //   done_time: "",
+      //   postscript: "",
+      //   sender_uid: "",
+      //   receiver_uid: ""
+      // }],
+      tableData: [],
       ChangeForm: {
         orderId:"",
         goods:"",
@@ -379,7 +380,8 @@ export default {
         ]
       },
       search_input:"",
-      options: [{
+      options: [
+          {
         value: 'orderId',
         label: '订单ID'
       }, {
@@ -398,13 +400,50 @@ export default {
         value: 'book_time',
         label: '预约时间'
       }],
-      value:"用户名",
+      value:"orderId",
       draw:false,
       draw2:false,
       DialogA:false,
+      username:"",
+      user:{
+        "userid": 0,
+        "username": "",
+        "nickname": "",
+        "email": "",
+        "phone": "",
+        "address": "",
+        "permission": "",
+        "siteId": 0
+      },
+      site_id:0,
+      page_size:4,
+      currentPage: 1,
+      total:0
     }
   },
+  created(){
+
+  },
   methods: {
+    getsiteid(){
+      this.username=this.$store.state.courier.username;
+      this.request.get("http://localhost:9090/user/getone", {params:{username:this.username}})
+          .then(res=>
+          {
+            this.user=res;
+            this.site_id=this.user.siteId;
+            this.getReserveOrder();
+          })
+      console.log(this.site_id);
+    },
+    getReserveOrder(){
+      this.request.get("http://localhost:9090/order/getreserveorder",{params:{pageNum:this.currentPage,pageSize:this.page_size,siteId:this.site_id,searchMode: this.value,search_input: this.search_input}})
+          .then(res=>
+          {
+            this.tableData=res.records;
+            this.total=res.total;
+          })
+    },
     onSubmit() {
       this.$refs["ChangeFormRef"].validate(valid => {
         if (valid) {

@@ -162,6 +162,39 @@ public class OrderController {
         }
         return orderService.page(page,queryWrapper);
     }
+    @GetMapping("/getreserveorder")
+    //用于获取本站点的所有预约快递
+    public IPage<Order> getreserveorder(@RequestParam Integer pageNum, @RequestParam Integer pageSize,@RequestParam Integer siteId,@RequestParam(defaultValue = "") String searchMode, @RequestParam(defaultValue = "") String search_input)
+    {
+        IPage<Order> page=new Page<>(pageNum,pageSize);
+        QueryWrapper<Order> queryWrapper= new QueryWrapper<>();
+        queryWrapper.eq("state","reserve");//筛选待派送订单
+        queryWrapper.eq("current_site",siteId);//筛选本站点订单
+        if(!search_input.isEmpty())
+        {
+            if(searchMode.equals("orderId"))
+            {
+                queryWrapper.eq("orderId",search_input);
+            }
+            else if (searchMode.equals("goods"))
+            {
+                queryWrapper.like("goods",search_input);
+            }
+            else if (searchMode.equals("sender_name"))
+            {
+                queryWrapper.like("sender_name",search_input);
+            }
+            else if (searchMode.equals("sender_phone"))
+            {
+                queryWrapper.eq("sender_phone",search_input);
+            }
+            else if (searchMode.equals("origin"))
+            {
+                queryWrapper.like("origin",search_input);
+            }
+        }
+        return orderService.page(page,queryWrapper);
+    }
 
     @DeleteMapping("/delete")
     //删除指定数据

@@ -277,7 +277,7 @@
                 <el-pagination
                     @size-change="handleSizeChange1"
                     @current-change="handleCurrentChange1"
-                    :current-page="currentPage4"
+                    :current-page="currentPage1"
                     :page-sizes="[4, 8, 12,16]"
                     :page-size="4"
                     layout="total, sizes, prev, pager, next, jumper"
@@ -334,28 +334,18 @@
                   </el-table-column>
 
                 </el-table>
+                <el-pagination
+                    @size-change="handleSizeChange2"
+                    @current-change="handleCurrentChange2"
+                    :current-page="currentPage2"
+                    :page-sizes="[4, 8, 12,16]"
+                    :page-size="4"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total2"
+                    class="pagination2">
+                </el-pagination>
               </el-col>
             </el-row>
-            <el-pagination
-                @size-change="handleSizeChange1"
-                @current-change="handleCurrentChange1"
-                :current-page="currentPage4"
-                :page-sizes="[4, 8, 12,16]"
-                :page-size="4"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="total1"
-                class="pagination1">
-            </el-pagination>
-            <el-pagination
-                @size-change="handleSizeChange2"
-                @current-change="handleCurrentChange2"
-                :current-page="currentPage4"
-                :page-sizes="[4, 8, 12,16]"
-                :page-size="4"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="total2"
-                class="pagination2">
-            </el-pagination>
 
           </div>
         </el-col>
@@ -383,124 +373,6 @@ export default {
     }
     return {
       takeininput:'',
-      // tableData1: [
-      //   {
-      //     orderId:"123123123123",
-      //     goods:"医托答辩",
-      //     origin:"540",
-      //     sender_name:"Kita",
-      //     sender_phone:"13126078008",
-      //     dest:"电子科技大学本科六组图22栋540室",
-      //     receiver_name:"Kita",
-      //     receiver_phone:"13126078008",
-      //     current_site: "",
-      //     state: "23-2-1882",
-      //     pickup_method:"",
-      //     book_time: "2022-11-26-17:02",
-      //     send_time: "",
-      //     done_time: "",
-      //     postscript: "哈哈",
-      //     sender_uid: "12",
-      //     receiver_uid: "134"
-      //   },
-      //   {
-      //     orderId:"234234234234",
-      //     goods:"良托答辩",
-      //     origin:"540",
-      //     sender_name:"Kita",
-      //     sender_phone:"13126078008",
-      //     dest:"电子科技大学本科六组图22栋540室",
-      //     receiver_name:"Kita",
-      //     receiver_phone:"13126078008",
-      //     current_site: "",
-      //     state: "22-5-2331",
-      //     pickup_method:"",
-      //     book_time: "2022-11-26-19:35",
-      //     send_time: "",
-      //     done_time: "",
-      //     postscript: "",
-      //     sender_uid: "",
-      //     receiver_uid: ""
-      //   },{
-      //     orderId:"123123123123",
-      //     goods:"伞拖答辩",
-      //     origin:"540",
-      //     sender_name:"Kita",
-      //     sender_phone:"13126078008",
-      //     dest:"电子科技大学本科六组图22栋540室",
-      //     receiver_name:"Kita",
-      //     receiver_phone:"13126078008",
-      //     current_site: "",
-      //     state: "23-2-1882",
-      //     pickup_method:"",
-      //     book_time: "2022-11-26-17:02",
-      //     send_time: "",
-      //     done_time: "",
-      //     postscript: "",
-      //     sender_uid: "",
-      //     receiver_uid: ""
-      //   },
-      //   {
-      //     orderId:"234234234234",
-      //     goods:"斯托答辩",
-      //     origin:"540",
-      //     sender_name:"Kita",
-      //     sender_phone:"13126078008",
-      //     dest:"电子科技大学本科六组图22栋540室",
-      //     receiver_name:"Kita",
-      //     receiver_phone:"13126078008",
-      //     current_site: "",
-      //     state: "22-5-2331",
-      //     pickup_method:"",
-      //     book_time: "2022-11-26-19:35",
-      //     send_time: "",
-      //     done_time: "",
-      //     postscript: "",
-      //     sender_uid: "",
-      //     receiver_uid: ""
-      //   }
-      // ],
-      // tableData2: [
-      //     {
-      //       orderId:"123123123123",
-      //       goods:"武拓答辩",
-      //       origin:"540",
-      //       sender_name:"Kita",
-      //       sender_phone:"13126078008",
-      //       dest:"电子科技大学本科六组图22栋540室",
-      //       receiver_name:"Kita",
-      //       receiver_phone:"13126078008",
-      //       current_site: "",
-      //       state: "23-2-1882",
-      //       pickup_method:"",
-      //       book_time: "2022-11-26-17:02",
-      //       send_time: "",
-      //       done_time: "",
-      //       postscript: "",
-      //       sender_uid: "",
-      //       receiver_uid: ""
-      //     },
-      //     {
-      //         orderId:"234234234234",
-      //         goods:"刘拓答辩",
-      //         origin:"540",
-      //         sender_name:"Kita",
-      //         sender_phone:"13126078008",
-      //         dest:"电子科技大学本科六组图22栋540室",
-      //         receiver_name:"Kita",
-      //         receiver_phone:"13126078008",
-      //         current_site: "",
-      //         state: "22-5-2331",
-      //         pickup_method:"",
-      //         book_time: "2022-11-26-19:35",
-      //         send_time: "",
-      //         done_time: "",
-      //         postscript: "",
-      //         sender_uid: "",
-      //         receiver_uid: ""
-      //       }
-      //
-      // ],
       tableData1: [],
       tableData2: [],
       ChangeForm: {
