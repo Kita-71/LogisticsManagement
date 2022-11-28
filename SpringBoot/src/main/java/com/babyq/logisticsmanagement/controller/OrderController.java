@@ -68,10 +68,27 @@ public class OrderController {
         return orderService.newOrUpdateOrder(order);
     }
 
+//    @PostMapping("/registerorder")
+//    public boolean registerOrder(@RequestBody String orderId){
+//        return orderService.registerOrder(orderId);
+//    }
+
     @GetMapping("/getorder")
     public Order getorder(@RequestParam String orderId)
     {
         return orderService.getOrder(orderId);
+    }
+    @GetMapping("/checkexist")
+    //检查订单是否已经入过库
+    public boolean checkexistorder(@RequestParam String orderId,@RequestParam Integer current_site)
+    {
+        return orderService.checkexistOrder(orderId,current_site);
+    }
+    @GetMapping("/checkorder")
+    //检查订单号是否存在
+    public boolean checkorder(@RequestParam String orderId)
+    {
+        return orderService.checkOrder(orderId);
     }
     @GetMapping("/getsiteorder")
     //用于获取本站点的所有待发出快递

@@ -18,7 +18,7 @@
                 订单ID
               </div>
             </template>
-            {{this.ChangeForm.orderId}}
+            {{this.infoForm.orderId}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
@@ -28,7 +28,7 @@
               </div>
 
             </template>
-            {{this.ChangeForm.book_time}}
+            {{this.infoForm.book_time}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
@@ -37,7 +37,7 @@
                 物品名
               </div>
             </template>
-            {{this.ChangeForm.goods}}
+            {{this.infoForm.goods}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
@@ -46,7 +46,7 @@
                 发件人姓名
               </div>
             </template>
-            {{this.ChangeForm.sender_name}}
+            {{this.infoForm.sender_name}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
@@ -55,7 +55,7 @@
                 发件人手机号
               </div>
             </template>
-            {{this.ChangeForm.sender_phone}}
+            {{this.infoForm.sender_phone}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
@@ -65,7 +65,7 @@
               </div>
 
             </template>
-            {{this.ChangeForm.sender_uid}}
+            {{this.infoForm.sender_uid}}
           </el-descriptions-item>
 
           <el-descriptions-item>
@@ -75,7 +75,7 @@
                 收件人
               </div>
             </template>
-            {{this.ChangeForm.receiver_name}}
+            {{this.infoForm.receiver_name}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
@@ -84,7 +84,7 @@
                 收件人手机号
               </div>
             </template>
-            {{this.ChangeForm.receiver_phone}}
+            {{this.infoForm.receiver_phone}}
           </el-descriptions-item>
 
           <el-descriptions-item>
@@ -95,7 +95,7 @@
               </div>
 
             </template>
-            {{this.ChangeForm.receiver_uid}}
+            {{this.infoForm.receiver_uid}}
           </el-descriptions-item>
 
           <el-descriptions-item>
@@ -105,7 +105,7 @@
                 目的地
               </div>
             </template>
-            {{this.ChangeForm.dest}}
+            {{this.infoForm.dest}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
@@ -114,18 +114,18 @@
                 发货地
               </div>
             </template>
-            {{this.ChangeForm.origin}}
+            {{this.infoForm.origin}}
           </el-descriptions-item>
 
-          <el-descriptions-item>
-            <template slot="label">
-              <i class="el-icon-location-outline"></i>
-              <div  style="color:#4d52f8">
-                取件方式
-              </div>
-            </template>
-            {{this.ChangeForm.pickup_method}}
-          </el-descriptions-item>
+<!--          <el-descriptions-item>-->
+<!--            <template slot="label">-->
+<!--              <i class="el-icon-location-outline"></i>-->
+<!--              <div  style="color:#4d52f8">-->
+<!--                取件方式-->
+<!--              </div>-->
+<!--            </template>-->
+<!--            {{this.infoForm.pickup_method}}-->
+<!--          </el-descriptions-item>-->
           <el-descriptions-item>
             <template slot="label">
               <i class="el-icon-location-outline"></i>
@@ -133,7 +133,7 @@
                 状态
               </div>
             </template>
-            {{this.ChangeForm.state}}
+            {{this.infoForm.state}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
@@ -142,7 +142,7 @@
                 备注
               </div>
             </template>
-            {{this.ChangeForm.postscript}}
+            {{this.infoForm.postscript}}
           </el-descriptions-item>
         </el-descriptions>
       </div>
@@ -335,7 +335,7 @@
               </el-col>
             </el-row>
             <el-pagination
-                @size-change="handleSizeChange"
+                @size-change="handleSizeChange1"
                 @current-change="handleCurrentChange1"
                 :current-page="currentPage4"
                 :page-sizes="[4, 8, 12,16]"
@@ -345,7 +345,7 @@
                 class="pagination1">
             </el-pagination>
             <el-pagination
-                @size-change="handleSizeChange"
+                @size-change="handleSizeChange2"
                 @current-change="handleCurrentChange2"
                 :current-page="currentPage4"
                 :page-sizes="[4, 8, 12,16]"
@@ -507,6 +507,34 @@ export default {
         email: "",
         permission:""
       },
+      infoForm:{
+        orderId:"",
+        goods:"",
+        origin:"",
+        sender_name:"",
+        sender_phone:"",
+        dest:"",
+        receiver_name:"",
+        receiver_phone:"",
+        current_site:"",
+        state:"",
+        pickup_method:"",
+        book_time:"",
+        send_time:"",
+        done_time:"",
+        postscript:"",
+        sender_uid:"",
+        receiver_uid:""
+      },
+      registerForm:{
+        orderId: "",
+        currentSite: 0,
+        state: "pending_pickup"
+      },
+      dispatchForm:{
+        orderId: "",
+        state:"done"
+      },
       ChangeFromRules: {
         // 验证用户名是否合法
         username: [
@@ -638,7 +666,7 @@ export default {
   methods: {
     getsiteid(){
       this.username=this.$store.state.courier.username;
-      this.request.get("http://localhost:9090/user/get", {params:{username:this.username}})
+      this.request.get("http://localhost:9090/user/getone", {params:{username:this.username}})
           .then(res=>
           {
             this.user=res;
@@ -686,6 +714,76 @@ export default {
     clicksearch2(){
       this.getSiteOrderDone();
     },
+    signUp() {
+          request.post("http://localhost:9090/user/signUp",this.RegisterForm).then(res=>
+              {
+                if(res["user_exist"]==true)
+                {
+                  this.$message({
+                    type: 'warning',
+                    message: '该用户已存在'
+                  });
+                }
+                else
+                {
+                  if(res["signup_success"]==true)
+                  {
+                    this.$message({
+                      type: 'success',
+                      message: '注册成功'
+                    });
+                    this.LoginForm.username = this.RegisterForm.username;
+                    this.LoginForm.password = this.RegisterForm.password;
+                    this.activeName = 'first';
+                  }
+                }
+              }
+          );
+    },
+    registerorder(){
+      this.request.get("http://localhost:9090/order/checkorder",{params:{orderId:this.takeininput}}).then(res=>
+          {
+            if(res==true){//输入订单id存在
+              //判断是否已经入库
+              this.request.get("http://localhost:9090/order/checkexist",{params:{orderId:this.takeininput,current_site:this.site_id}})
+                  .then(res=>
+                  {
+                    if(res==true){
+                      //订单已入库
+                      this.$message({
+                        type: 'warning',
+                        message: '该订单已入库'
+                      });
+                      this.takeininput="";
+                    }else{
+                      //订单未入库
+                      this.registerForm.orderId=this.takeininput;
+                      this.registerForm.currentSite=this.site_id;
+                      this.request.post("http://localhost:9090/order/newOrUpdateOrder",this.registerForm)
+                          .then(res=>
+                          {
+                            if(res==true){
+                              this.$message({
+                                type: 'success',
+                                message: '入库成功'
+                              });
+                            }
+                            this.getSiteOrder();
+                            this.takeininput="";
+                          })
+                    }
+                  })
+
+
+            }else{
+              this.$message({
+                type: 'warning',
+                message: '该订单ID不存在'
+              });
+              this.takeininput="";
+            }
+          })
+    },
     onSubmit() {
       this.$refs["ChangeFormRef"].validate(valid => {
         if (valid) {
@@ -704,8 +802,7 @@ export default {
         }
       });
     },
-    onExit()
-    {
+    onExit() {
       this.draw2=false;
       this.ChangeForm.username="";
       this.ChangeForm.password="";
@@ -717,8 +814,7 @@ export default {
         message: '已取消修改'
       });
     },
-    onPasswdChange()
-    {
+    onPasswdChange() {
       this.$refs["PasswdFormRef"].validate(valid => {
         if (valid) {
           this.$message({
@@ -732,8 +828,7 @@ export default {
         }
       });
     },
-    onExitPasswdChange()
-    {
+    onExitPasswdChange() {
       this.$message({
         type: 'info',
         message: '已取消修改'
@@ -748,15 +843,24 @@ export default {
       this.ChangeForm.permission=row.permission;
     },
     handleDispatch(index,row){
-      this.$confirm('是否已完成派送?', '提示', {
+      this.$confirm('是否确认派送?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() =>{
-          this.$message({
-            type: 'success',
-            message: '已成功派送'
-          });
+        this.dispatchForm.orderId=row.orderId;
+        this.request.post("http://localhost:9090/order/newOrUpdateOrder",this.dispatchForm)
+            .then(res=>
+            {
+              if(res==true){
+                this.$message({
+                  type: 'success',
+                  message: '派送成功'
+                });
+              }
+              this.getSiteOrder();
+              this.getSiteOrderDone();
+            })
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -788,10 +892,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '入库成功'
-        });
+        this.registerorder();
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -802,22 +903,29 @@ export default {
     },
     handleInfo(index, row) {
       this.draw2=true;
-      this.ChangeForm.orderId=row.orderId;
-      this.ChangeForm.origin=row.origin;
-      this.ChangeForm.book_time=row.book_time;
-      this.ChangeForm.dest=row.dest;
-      this.ChangeForm.current_site=row.current_site;
-      this.ChangeForm.goods=row.goods;
-      this.ChangeForm.done_time=row.done_time;
-      this.ChangeForm.pickup_method=row.pickup_method;
-      this.ChangeForm.postscript=row.postscript;
-      this.ChangeForm.receiver_name=row.receiver_name;
-      this.ChangeForm.receiver_phone=row.receiver_phone;
-      this.ChangeForm.receiver_uid=row.receiver_uid;
-      this.ChangeForm.send_time=row.send_time;
-      this.ChangeForm.sender_name=row.sender_name;
-      this.ChangeForm.sender_uid=row.sender_uid;
-      this.ChangeForm.sender_phone=row.sender_phone;
+      var orderId=row.orderId;
+      this.request.get("http://localhost:9090/order/getorder",{params:{orderId:orderId}})
+          .then(res=>
+          {
+            this.infoForm.orderId=res.orderId;
+            this.infoForm.origin=res.origin;
+            this.infoForm.book_time=res.bookTime;
+            this.infoForm.dest=res.dest;
+            this.infoForm.current_site=res.currentSite;
+            this.infoForm.goods=res.goods;
+            this.infoForm.done_time=res.doneTime;
+            this.infoForm.pickup_method=res.pickupMethod;
+            this.infoForm.postscript=res.postscript;
+            this.infoForm.receiver_name=res.receiverName;
+            this.infoForm.receiver_phone=res.receiverPhone;
+            this.infoForm.receiver_uid=res.receiverUid;
+            this.infoForm.send_time=res.sendTime;
+            this.infoForm.sender_name=res.senderName;
+            this.infoForm.sender_uid=res.senderUid;
+            this.infoForm.sender_phone=res.senderPhone;
+            this.infoForm.state=res.state;
+          })
+
 
     },
 

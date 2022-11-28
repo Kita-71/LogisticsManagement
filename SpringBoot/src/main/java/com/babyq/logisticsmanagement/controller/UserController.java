@@ -86,6 +86,13 @@ public class UserController {
         queryWrapper.like("username",username);
         return userService.getOne(queryWrapper);
     }
+    @GetMapping("/getone")
+    public User getoneUser(@RequestParam String username)
+    {
+        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("username",username);
+        return userService.getOne(queryWrapper);
+    }
 
     @GetMapping("/pagefilter")
     public IPage<User> getFilteredUserPaged(@RequestParam Integer pageNum, @RequestParam Integer pageSize, @RequestParam(defaultValue = "") String searchMode, @RequestParam(defaultValue = "") String search_input ){
