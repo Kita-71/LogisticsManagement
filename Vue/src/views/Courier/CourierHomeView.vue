@@ -9,7 +9,7 @@
       </el-aside>
       <el-main>
         <div class="block">
-          <el-image :src="src" alt=""  class="img">          </el-image>
+          <el-image :src="require('@/assets/main.jpg')" alt=""  class="img">          </el-image>
         </div>
 
       </el-main>
@@ -25,7 +25,6 @@ export default {
   components:{CourierAside,CourierHeader},
   data() {
     return {
-      src: 'https://i.postimg.cc/639TwgbG/v2-bc7e95b245188f8e1142c1b78bce1d8a-r.jpg'
     }
   }
 }

@@ -13,16 +13,29 @@
     <span class="times">{{ time }}</span>
     <div class="user" style="font-size: 15px; position: relative;  left: -150px; top: 20px; ">
       <i class="el-icon-s-custom" ></i>
-      <span>{{this.$store.state.courier.username}}</span>
+      <span>{{this.name}}</span>
     </div>
   </div>
 </template>
 
 <script>
+import request from "@/utils/request";
+
 export default {
+  created() {
+    request.get("http://localhost:9090/user/getone",{params:{username:this.$store.state.courier.username}}).then(res=>
+    {
+        var siteId=res.siteId;
+        request.get("http://localhost:9090/site/getSiteById",{params:{id:siteId}}).then(res=>
+            {
+              this.name=res.siteRegion+res.siteName;
+            })
+    })
+  },
   data() {
     return {
-      time: ""
+      time: "",
+      name:"",
     };
   },
   mounted() {

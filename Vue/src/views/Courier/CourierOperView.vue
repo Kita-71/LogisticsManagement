@@ -163,7 +163,7 @@
               <el-col :span="6">
                 <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
                   <el-breadcrumb-item :to="{ path: '/CourierHome' }">主页</el-breadcrumb-item>
-                  <el-breadcrumb-item>物流操作</el-breadcrumb-item>
+                  <el-breadcrumb-item>入库及派送处理</el-breadcrumb-item>
                 </el-breadcrumb>
               </el-col>
             </el-row>

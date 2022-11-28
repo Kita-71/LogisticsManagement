@@ -148,6 +148,26 @@
                   width="160">
               </el-table-column>
               <el-table-column
+                  prop="state"
+                  label="状态"
+                  width="160">
+                <template slot-scope="scope">
+                <el-tag v-if="scope.row.state=='reserve'"
+                  :type="'primary'"
+                  disable-transitions>待发出</el-tag>
+                  <el-tag v-else-if="scope.row.state=='in_transport'"
+                          :type="'info'"
+                          disable-transitions>运输中</el-tag>
+                  <el-tag v-else-if="scope.row.state=='pending_pickup'"
+                          :type="'warning'"
+                          disable-transitions>待派送</el-tag>
+                  <el-tag v-else-if="scope.row.state=='done'"
+                          :type="'success'"
+                          disable-transitions>已完成</el-tag>
+              </template>
+              </el-table-column>
+
+              <el-table-column
                   label="操作">
                 <template slot-scope="scope">
                   <el-button

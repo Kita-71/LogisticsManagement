@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.plaf.nimbus.State;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,12 +66,14 @@ public class OrderController {
                 queryWrapper.like("orderId",search_input);
             }
         }
-
+        queryWrapper.orderByAsc("state");
         return orderService.page(page,queryWrapper);
     }
 
     @PostMapping("/newOrUpdateOrder")
     public boolean newOrUpdateOrder(@RequestBody Order order){
+        if(order.getOrderId()==null)
+            order.setBookTime(LocalDateTime.now());
         return orderService.newOrUpdateOrder(order);
     }
 
@@ -130,6 +133,7 @@ public class OrderController {
                 queryWrapper.eq("receiver_phone",search_input);
             }
         }
+        queryWrapper.orderByAsc("state");
         return orderService.page(page,queryWrapper);
     }
     @GetMapping("/getsiteorder")

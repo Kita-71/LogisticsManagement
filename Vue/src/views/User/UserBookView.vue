@@ -484,7 +484,6 @@ export default {
             this.formData.senderUid=Number(this.userdata.userid);
             request.post("http://localhost:9090/order/newOrUpdateOrder", this.formData).then(res => {
               if (res) {
-                this.reset();
               }
             })}
           else if(this.value=='many')

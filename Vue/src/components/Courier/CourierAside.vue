@@ -10,15 +10,15 @@
 
     <el-menu-item index="/CourierGoods" class="mainMenu" >
       <img src="@/assets/Menu3.svg" class="MenuIcon">
-      <span slot="title">预约送货</span>
+      <span slot="title">待发货处理</span>
     </el-menu-item>
     <el-menu-item index="/CourierOper" class="mainMenu" >
       <img src="@/assets/Menu4.svg" class="MenuIcon">
-      <span slot="title">物流操作</span>
+      <span slot="title">入库及派送处理</span>
     </el-menu-item>
     <el-menu-item index="/CourierOrder" class="mainMenu" >
       <img src="@/assets/Menu1.svg" class="MenuIcon">
-      <span slot="title">物流订单管理</span>
+      <span slot="title">订单管理</span>
     </el-menu-item>
   </el-menu>
 </template>
