@@ -126,30 +126,32 @@
             >
               <el-table-column
                   prop="userid"
-                  label="id">
+                  label="id" width="100px">
               </el-table-column>
               <el-table-column
                   prop="username"
-                  label="用户名">
+                  label="用户名" width="200px">
               </el-table-column>
               <el-table-column
                   prop="nickname"
-                  label="昵称">
+                  label="昵称"width="200px">
               </el-table-column>
               <el-table-column
                   prop="phone"
-                  label="手机号">
+                  label="手机号"width="200px">
               </el-table-column>
               <el-table-column
                   prop="email"
-                  label="邮箱">
+                  label="邮箱"width="200px">
               </el-table-column>
               <el-table-column
                   prop="permission"
-                  label="角色">
+                  label="角色"
+                  width="200px">
               </el-table-column>
               <el-table-column
-                  label="操作">
+                  label="操作"
+                  width="360px">
                 <template slot-scope="scope">
                   <el-button
                       size="mini"

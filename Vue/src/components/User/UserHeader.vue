@@ -107,8 +107,7 @@ export default {
 }
 
 
-.user
-{
+.user {
   position: absolute;
   left: 80%;
   width: 20%;

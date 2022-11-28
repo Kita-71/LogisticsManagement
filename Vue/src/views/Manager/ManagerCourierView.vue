@@ -19,9 +19,14 @@
         <el-form ref="ChangeFormRef"
                  :model="InsertForm" :rules="ChangeFromRules" class="changeForm">
           <!-- 站点所在区域 -->
-          <el-form-item label="站点所在区域" :required="true" prop="siteRegion">
-            <el-input v-model="InsertForm.siteRegion" placeholder="站点所在区域" size="medium">
-            </el-input>
+          <el-form-item label="站点所在区域" :required="true">
+            <region-group
+                separator="-"
+                :town="true"
+                v-model="region"
+                @change="siteRegionChange"
+                class="regionBox"
+            />
           </el-form-item>
           <!-- 站点名称 -->
           <el-form-item label="站点名称" :required="true" prop="siteName">
@@ -66,9 +71,13 @@
             </el-input>
           </el-form-item>
           <!-- 站点所在区域 -->
-          <el-form-item label="站点所在区域" :required="true" prop="siteRegion">
-            <el-input v-model="ChangeForm.siteRegion" placeholder="站点所在区域" size="medium">
-            </el-input>
+          <el-form-item label="站点所在区域" :required="true" >
+            <region-group
+              :town="true"
+              v-model="region"
+              @change="siteRegionChange"
+              class="regionBox"
+          />
           </el-form-item>
           <!-- 站点名称 -->
           <el-form-item label="站点名称" :required="true" prop="siteName">
@@ -209,9 +218,10 @@
 import ManagerAside from "@/components/Manager/ManagerAside";
 import ManagerHeader from "@/components/Manager/ManagerHeader";
 import request from "@/utils/request";
+import { RegionGroup } from 'v-region'
 export default {
   name: "ManagerHome",
-  components:{ManagerAside,ManagerHeader},
+  components:{ManagerAside,ManagerHeader,RegionGroup },
   data() {
     return {
       //与后端对接时时把该项直接覆盖即可
@@ -280,12 +290,29 @@ export default {
       currentPage: 1,
       total:0,
       deleteSiteid:1,
+      region: {
+      },
+      siteRegionData:{}
     }
   },
   created(){
     this.getSiteTotal();
   },
   methods: {
+    siteRegionChange (data) {
+      if(data.province.value) {
+        this.siteRegionData=data.province.value;
+      }
+      if(data.city.value) {
+        this.siteRegionData=data.province.value+data.city.value;
+      }
+      if(data.area.value) {
+        this.siteRegionData=data.province.value+data.city.value+data.area.value;
+      }
+      if(data.town.value) {
+        this.siteRegionData=data.province.value+data.city.value+data.area.value+data.town.value;
+      }
+    },
     getSiteTotal(){
       this.request.get("http://localhost:9090/site/pagefilter",{params:{pageNum:this.currentPage,pageSize:this.page_size,searchMode: this.value,search_input: this.search_input}})
           .then(res=>
@@ -316,6 +343,7 @@ export default {
     onNew() {
       this.$refs["ChangeFormRef"].validate(valid => {
         if (valid) {
+          this.InsertForm.siteRegion=this.siteRegionData;
           request.post("http://localhost:9090/site/changeInfo",this.InsertForm).then(res=> {
             if (res)
             {
@@ -335,6 +363,7 @@ export default {
             }
           });
           this.draw=false;
+          this.siteRegionData="";
           this.InsertForm.siteRegion="";
           this.InsertForm.siteName="";
           this.InsertForm.sitePrincipleName="";
@@ -362,15 +391,16 @@ export default {
     onSubmit() {
       this.$refs["ChangeFormRef"].validate(valid => {
         if (valid) {
+          this.ChangeForm.siteRegion=this.siteRegionData;
           request.post("http://localhost:9090/site/changeInfo",this.ChangeForm).then(res=> {
             if (res)
             {
+              //修改成功，即刻修改
+              this.$router.go(0);
               this.$message({
                 type: 'success',
                 message: '修改成功'
               });
-              //修改成功，即刻修改
-              this.$router.go(0);
             }
             else
             {
@@ -381,6 +411,7 @@ export default {
             }
           });
           this.draw2=false;
+          this.siteRegionData="";
           this.ChangeForm.username="";
           this.ChangeForm.password="";
           this.ChangeForm.email="";

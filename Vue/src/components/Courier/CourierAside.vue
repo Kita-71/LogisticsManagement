@@ -7,10 +7,6 @@
       <img src="@/assets/Menu1.svg" class="MenuIcon">
       <span slot="title">主页</span>
     </el-menu-item>
-    <el-menu-item index="/CourierInfo" class="mainMenu" >
-      <img src="@/assets/Menu2.svg" class="MenuIcon">
-      <span slot="title">快递点信息管理</span>
-    </el-menu-item>
 
     <el-menu-item index="/CourierGoods" class="mainMenu" >
       <img src="@/assets/Menu3.svg" class="MenuIcon">
