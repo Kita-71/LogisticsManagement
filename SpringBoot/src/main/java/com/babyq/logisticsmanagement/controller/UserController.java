@@ -125,6 +125,7 @@ public class UserController {
                 queryWrapper.eq("id",search_input);
             }
         }
+        queryWrapper.ne("permission","admin");
         return userService.page(page,queryWrapper);
     }
 
