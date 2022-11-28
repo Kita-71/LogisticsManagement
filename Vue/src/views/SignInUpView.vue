@@ -55,7 +55,7 @@
             <el-form ref="loginFormRef" :model="LoginForm" :rules="LoginFromRules" class="login_form">
               <!-- 用戶名 -->
               <el-form-item prop="username" label="用户名" :required="true">
-                <el-input v-model="LoginForm.username" placeholder="4-6字符长度" size="medium">
+                <el-input v-model="LoginForm.username" placeholder="4-10字符长度" size="medium">
                 </el-input>
               </el-form-item>
               <!-- 密碼 -->
@@ -78,7 +78,7 @@
             <el-form ref="registerFormRef" :model="RegisterForm" :rules="RegisterFromRules" class="login_form">
               <!-- 用户名 -->
               <el-form-item prop="username" label="用户名" :required="true">
-                <el-input v-model="RegisterForm.username" placeholder="4-6个字符" size="medium">
+                <el-input v-model="RegisterForm.username" placeholder="4-10字符长度，不可修改" size="medium">
                 </el-input>
               </el-form-item>
               <!-- 手机号 -->
@@ -145,7 +145,7 @@ export default {
         // 验证用户名是否合法
         username: [
           {required: true, message: '请输入用户名', trigger: 'blur'},
-          {min: 4, max: 8, message: '长度在 4到 8个字符', trigger: 'blur'}
+          {min: 4, max: 10, message: '长度在 4到 10个字符', trigger: 'blur'}
         ],
         // 验证密码是否合法
         password: [
@@ -161,13 +161,16 @@ export default {
         phone: "",
         email: "",
         password: "",
-        repassword: ""
+        repassword: "",
+        nickname:"BabyQ新用户",
       },
       RegisterFromRules: {
         // 验证用户名是否合法
         username: [
           {required: true, message: '请输入用户名', trigger: 'blur'},
-          {min: 4, max: 8, message: '长度在 4到 8个字符', trigger: 'blur'}
+          {min: 4, max: 10, message: '长度在 4到 10个字符' +
+                '' +
+                '', trigger: 'blur'}
         ],
         phone: [
           {required: true, message: '请输入手机号', trigger: 'blur'},
@@ -275,6 +278,10 @@ export default {
                     console.log(require);
                     request.post("http://localhost:9090/user/checkAccess", obj).then(res => {
                       if (res["permission"] === true) {
+                        this.$message({
+                          type: 'success',
+                          message: '登录成功'
+                        });
                         this.$store.commit('user_login', this.LoginForm);
                         this.$router.replace('/UserHome');
                       } else {
@@ -286,6 +293,10 @@ export default {
                         }
                         request.post("http://localhost:9090/user/checkAccess", obj).then(res => {
                           if (res["permission"] === true) {
+                            this.$message({
+                              type: 'success',
+                              message: '登录成功'
+                            });
                             this.$store.commit('courier_login', this.LoginForm);
                             this.$router.replace('/CourierHome');
                           } else {
@@ -297,6 +308,10 @@ export default {
                             }
                             request.post("http://localhost:9090/user/checkAccess", obj).then(res => {
                               if (res["permission"] === true) {
+                                this.$message({
+                                  type: 'success',
+                                  message: '登录成功'
+                                });
                                 this.$store.commit('admin_login', this.LoginForm);
                                 this.$router.replace('/ManagerHome');
                               } else {
@@ -380,12 +395,24 @@ export default {
             } else {
               const path = this.$route.query.redirect;
               if (require === "commonUser") {
+                this.$message({
+                  type: 'success',
+                  message: '登录成功'
+                });
                 this.$store.commit('user_login', this.LoginForm);
                 this.$router.replace({path: path === '/Sign' || path === undefined ? '/UserHome' : path});
               } else if (require === "deliveryStaff") {
+                this.$message({
+                  type: 'success',
+                  message: '登录成功'
+                });
                 this.$store.commit('courier_login', this.LoginForm);
                 this.$router.replace({path: path === '/Sign' || path === undefined ? '/CourierHome' : path});
               } else if (require === "admin") {
+                this.$message({
+                  type: 'success',
+                  message: '登录成功'
+                });
                 this.$store.commit('admin_login', this.LoginForm);
                 this.$router.replace({path: path === '/Sign' || path === undefined ? '/ManagerHome' : path});
               }
@@ -399,16 +426,33 @@ export default {
     },
 
     signUp() {
+
       this.$refs["registerFormRef"].validate(valid => {
         if (valid) {
-          console.log("success submit!!");
-          this.$message({
-            type: 'success',
-            message: '注册成功'
-          });
-          this.LoginForm.username = this.RegisterForm.username;
-          this.LoginForm.password = this.RegisterForm.password;
-          this.activeName = 'first';
+          request.post("http://localhost:9090/user/signUp",this.RegisterForm).then(res=>
+              {
+                 if(res["user_exist"]==true)
+                 {
+                   this.$message({
+                     type: 'waring',
+                     message: '该用户已存在'
+                   });
+                 }
+                 else
+                 {
+                      if(res["signup_success"]==true)
+                      {
+                        this.$message({
+                          type: 'success',
+                          message: '注册成功'
+                        });
+                        this.LoginForm.username = this.RegisterForm.username;
+                        this.LoginForm.password = this.RegisterForm.password;
+                        this.activeName = 'first';
+                      }
+                 }
+              }
+          );
         } else {
           this.DialogC = true;
           console.log("error submit!!");
