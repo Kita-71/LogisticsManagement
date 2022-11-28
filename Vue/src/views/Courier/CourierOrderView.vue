@@ -25,71 +25,67 @@
           </el-form-item>
           <!-- 站点所在区域 -->
           <el-form-item label="物品名" :required="true" prop="siteRegion">
-            <el-input v-model="ChangeForm.siteRegion" placeholder="站点所在区域" size="medium">
+            <el-input v-model="ChangeForm.goods" placeholder="站点所在区域" size="medium">
             </el-input>
           </el-form-item>
           <!-- 站点名称 -->
           <el-form-item label="发件人" :required="true" prop="siteName">
-            <el-input v-model="ChangeForm.siteName" placeholder="站点名称" size="medium">
+            <el-input v-model="ChangeForm.sender_name" placeholder="站点名称" size="medium">
             </el-input>
           </el-form-item>
           <!-- 站点负责人姓名 -->
           <el-form-item label="发件人电话" :required="true" prop="sitePrincipalName">
-            <el-input v-model="ChangeForm.sitePrincipalName" placeholder="站点负责人名称" size="medium">
+            <el-input v-model="ChangeForm.sender_phone" placeholder="站点负责人名称" size="medium">
             </el-input>
           </el-form-item>
           <!-- 站点负责人地址 -->
           <el-form-item label="收件人" :required="true" prop="sitePrincipalPhone">
-            <el-input v-model="ChangeForm.sitePrincipalPhone" placeholder="站点负责人手机号" size="medium">
+            <el-input v-model="ChangeForm.receiver_name" placeholder="站点负责人手机号" size="medium">
             </el-input>
           </el-form-item>
           <!-- 站点用户Id -->
           <el-form-item label="收件人电话" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="收件人电话" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
+            <el-input v-model="ChangeForm.receiver_phone" placeholder="站点账号Id" size="medium" :disabled="false">
             </el-input>
           </el-form-item>
           <el-form-item label="收件地址" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
+            <el-input v-model="ChangeForm.dest" placeholder="站点账号Id" size="medium" :disabled="false">
             </el-input>
           </el-form-item>
           <el-form-item label="目前位置" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
+            <el-input v-model="ChangeForm.current_site" placeholder="站点账号Id" size="medium" :disabled="false">
             </el-input>
           </el-form-item>
           <el-form-item label="状态" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
+            <el-input v-model="ChangeForm.state" placeholder="站点账号Id" size="medium" :disabled="false">
             </el-input>
           </el-form-item>
           <el-form-item label="取件方式" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
+            <el-input v-model="ChangeForm.pickup_method" placeholder="站点账号Id" size="medium" :disabled="false">
             </el-input>
           </el-form-item>
           <el-form-item label="预约时间" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
+            <el-input v-model="ChangeForm.book_time" placeholder="站点账号Id" size="medium" :disabled="false">
             </el-input>
           </el-form-item>
           <el-form-item label="发货时间" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
+            <el-input v-model="ChangeForm.send_time" placeholder="站点账号Id" size="medium" :disabled="false">
             </el-input>
           </el-form-item>
           <el-form-item label="抵达时间" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
+            <el-input v-model="ChangeForm.done_time" placeholder="站点账号Id" size="medium" :disabled="false">
             </el-input>
           </el-form-item>
           <el-form-item label="备注" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
+            <el-input v-model="ChangeForm.postscript" placeholder="站点账号Id" size="medium" :disabled="false">
             </el-input>
           </el-form-item>
           <el-form-item label="发货人uid" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
+            <el-input v-model="ChangeForm.sender_uid" placeholder="站点账号Id" size="medium" :disabled="false">
             </el-input>
           </el-form-item>
           <el-form-item label="收货人uid" :required="true" prop="siteUserId">
-            <el-input v-model="ChangeForm.siteUserId" placeholder="站点账号Id" size="medium" :disabled="false">
+            <el-input v-model="ChangeForm.receiver_uid" placeholder="站点账号Id" size="medium" :disabled="false">
             </el-input>
           </el-form-item>
           <!-- 权限-->
@@ -227,7 +223,7 @@ export default {
         receiver_phone:"",
         current_site:"",
         state:"",
-        pickup_methon:"",
+        pickup_method:"",
         book_time:"",
         send_time:"",
         done_time:"",
@@ -352,7 +348,7 @@ export default {
           this.ChangeForm.receiver_phone="";
           this.ChangeForm.current_site="";
           this.ChangeForm.state="";
-          this.ChangeForm.pickup_methon="";
+          this.ChangeForm.pickup_method="";
           this.ChangeForm.book_time="";
           this.ChangeForm.send_time="";
           this.ChangeForm.done_time="";
@@ -382,7 +378,7 @@ export default {
       this.ChangeForm.receiver_phone="";
       this.ChangeForm.current_site="";
       this.ChangeForm.state="";
-      this.ChangeForm.pickup_methon="";
+      this.ChangeForm.pickup_method="";
       this.ChangeForm.book_time="";
       this.ChangeForm.send_time="";
       this.ChangeForm.done_time="";
@@ -427,7 +423,7 @@ export default {
       this.ChangeForm.receiver_phone="";
       this.ChangeForm.current_site="";
       this.ChangeForm.state="";
-      this.ChangeForm.pickup_methon="";
+      this.ChangeForm.pickup_method="";
       this.ChangeForm.book_time="";
       this.ChangeForm.send_time="";
       this.ChangeForm.done_time="";
@@ -448,7 +444,7 @@ export default {
       this.ChangeForm.receiver_phone="";
       this.ChangeForm.current_site="";
       this.ChangeForm.state="";
-      this.ChangeForm.pickup_methon="";
+      this.ChangeForm.pickup_method="";
       this.ChangeForm.book_time="";
       this.ChangeForm.send_time="";
       this.ChangeForm.done_time="";
@@ -459,23 +455,31 @@ export default {
     handleEdit(index, row) {
       this.draw2=true;
       /**/
-      this.ChangeForm.orderId=row.orderId;
-      this.ChangeForm.goods=row.goods;
-      this.ChangeForm.origin="";
-      this.ChangeForm.sender_name="";
-      this.ChangeForm.sender_phone="";
-      this.ChangeForm.dest="";
-      this.ChangeForm.receiver_name="";
-      this.ChangeForm.receiver_phone="";
-      this.ChangeForm.current_site="";
-      this.ChangeForm.state="";
-      this.ChangeForm.pickup_methon="";
-      this.ChangeForm.book_time="";
-      this.ChangeForm.send_time="";
-      this.ChangeForm.done_time="";
-      this.ChangeForm.postscript="";
-      this.ChangeForm.sender_uid="";
-      this.ChangeForm.receiver_uid="";
+      var orderId=row.orderId;
+      this.request.get("http://localhost:9090/order/getorder",{params:{orderId:orderId}})
+          .then(res=>
+          {
+
+            this.ChangeForm.orderId=res.orderId;
+            this.ChangeForm.goods=res.goods;
+            this.ChangeForm.origin=res.origin;
+            this.ChangeForm.sender_name=res.senderName;
+            this.ChangeForm.sender_phone=res.senderPhone;
+            this.ChangeForm.dest=res.dest;
+            this.ChangeForm.receiver_name=res.receiverName;
+            this.ChangeForm.receiver_phone=res.receiverPhone;
+            this.ChangeForm.current_site=res.currentSite;
+            this.ChangeForm.state=res.state;
+            this.ChangeForm.pickup_method=res.pickupMethod;
+            this.ChangeForm.book_time=res.bookTime;
+            this.ChangeForm.send_time=res.send_time;
+            this.ChangeForm.done_time=res.doneTime;
+            this.ChangeForm.postscript=res.postscript;
+            this.ChangeForm.sender_uid=res.senderUid;
+            this.ChangeForm.receiver_uid=res.receiverUid;
+
+          })
+
 
     },
     handleDelete(index,row){
