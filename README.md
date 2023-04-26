@@ -1,12 +1,11 @@
 # COURSE_Logistics_Management
 软件工程课程作业
 # 数据库表项
-![](https://s2.loli.net/2023/04/26/Wdw7AaYfizBtXN5.png)
-
+![](https://s2.loli.net/2023/04/26/sTmnNtS1yMZebBL.png)
 # 成果
+![](https://s2.loli.net/2023/04/26/Wdw7AaYfizBtXN5.png)
 ![](https://s2.loli.net/2023/04/26/BzsG1yal8mx7ouU.png)
 ![](https://s2.loli.net/2023/04/26/ZdjaAI4Eo5k3iOG.png)
-![](https://s2.loli.net/2023/04/26/sTmnNtS1yMZebBL.png)
 ![](https://s2.loli.net/2023/04/26/k5SePIusphqLYaX.png)
 ![](https://s2.loli.net/2023/04/26/26bDFI1QHBozrnG.jpg)
 ![](https://s2.loli.net/2023/04/26/mgF92cCqpDxkWsy.png)
